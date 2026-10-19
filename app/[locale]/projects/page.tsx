@@ -44,7 +44,7 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
                     alt={cover.alt[locale]}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105 select-none"
+                    className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-105 select-none"
                     draggable={false}
                     quality={70}
                   />

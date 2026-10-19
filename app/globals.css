@@ -5,7 +5,8 @@
  * --bg          : #070707  — 메인 배경 (Artti의 순수 검정 계승)
  * --bg-surface  : #0e0e0e  — 카드/서피스 배경
  * --text        : #ede8e0  — 본문 텍스트 (차가운 흰색 대신 따뜻한 오프화이트)
- * --text-muted  : #7a7570  — 부차적 텍스트 (날짜, 라벨 등)
+ * --text-muted  : #8a857f  — 부차적 텍스트 (날짜, 라벨 등). bg 대비 5.51:1 / surface 5.28:1 (WCAG AA)
+ *                            (이전 #7a7570 은 4.42:1 로 AA 미달 → 2026-10-19 변경)
  * --accent      : #b8956a  — 강조색 (도자기의 흙빛에서 따온 앰버 골드)
  * --border      : #1c1c1c  — 구분선
  * --nav-width   : 220px    — 데스크톱 좌측 네비게이션 너비
@@ -19,6 +20,9 @@
  * - fadeUp  : 아래에서 위로 fade (카드, 텍스트 등장)
  * - fadeIn  : 단순 투명도 전환
  * - artwork-card hover : 어두운 그라디언트 + 작품 정보 슬라이드 업
+ * - hero-in / hero-frag : 홈 Hero 텍스트·이미지 등장 (CSS 전용, JS 불필요)
+ * - hero-float          : 홈 Hero 부유 이미지 상하 움직임
+ * - prefers-reduced-motion: reduce → 위 애니메이션·전환 모두 정지
  */
 @import "tailwindcss";
 
@@ -26,7 +30,7 @@
   --bg: #070707;
   --bg-surface: #0e0e0e;
   --text: #ede8e0;
-  --text-muted: #7a7570;
+  --text-muted: #8a857f;
   --accent: #b8956a;
   --border: #1c1c1c;
   --nav-width: 220px;
@@ -179,4 +183,53 @@ img {
 .artwork-card:hover .artwork-info {
   transform: translateY(0);
   opacity: 1;
+}
+
+/* ── Home Hero ───────────────────────────────────────── */
+/* 등장: 텍스트는 아래에서 위로, 이미지는 opacity 0 → 0.35 */
+@keyframes heroIn {
+  from { opacity: 0; translate: 0 14px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+@keyframes heroFragIn {
+  from { opacity: 0; }
+  to   { opacity: 0.35; }
+}
+
+/* 부유: transform(rotate)과 겹치지 않도록 translate 속성 사용 */
+@keyframes heroFloat {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -10px; }
+}
+
+.hero-in {
+  animation: heroIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-frag {
+  opacity: 0.35;
+  animation: heroFragIn 1.4s ease both;
+}
+
+.hero-float {
+  animation: heroFloat 10s ease-in-out infinite;
+}
+
+/* ── Reduced motion ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .hero-in,
+  .hero-frag,
+  .hero-float,
+  .animate-fade-up,
+  .animate-fade-in {
+    animation: none;
+  }
+
+  .artwork-card::before,
+  .artwork-card .artwork-info {
+    transition: none;
+  }
 }

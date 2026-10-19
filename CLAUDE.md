@@ -20,7 +20,7 @@
 
 - 기존 다크 톤 유지
   - 배경 `--bg #070707` / 서피스 `--bg-surface #0e0e0e`
-  - 본문 `--text #ede8e0` / 보조 `--text-muted #7a7570`
+  - 본문 `--text #ede8e0` / 보조 `--text-muted #8a857f` (배경 대비 5.51:1, WCAG AA)
   - 강조 앰버 `--accent #b8956a` / 구분선 `--border #1c1c1c`
 - 색·폰트는 `app/globals.css` 토큰만 사용. 컴포넌트에 색상값 하드코딩 금지
 - 폰트: Cormorant Garamond(제목) · Inter(본문) · Nanum Myeongjo(한글)

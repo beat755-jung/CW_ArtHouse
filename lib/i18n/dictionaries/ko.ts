@@ -34,11 +34,35 @@ export const ko = {
     backHome: "홈으로",
   },
   home: {
+    // Hero — H1 시안 C (2026-10-19 선택)
     eyebrow: "Mini House — Design · Build",
-    subtitle: "미니하우스 설계 · 제작 · 판매",
-    accent: "Jung Chang-Won",
+    titleLine1: "미니하우스,",
+    // 둘째 줄은 의미 단위 덩어리 — 좁은 화면에서는 덩어리 사이에서만 줄바꿈
+    titleLine2: ["설계·제작·판매까지", "한 곳에서"],
+    subtitle: "주택 마당의 별채부터 농장의 휴게 공간까지, 직접 지은 집을 전합니다",
+    ctaPrimary: "상담·견적 문의",
+    ctaSecondary: "제작 과정 보기",
+    renderNote: "일부 이미지는 콘셉트 렌더입니다",
     scroll: "Scroll",
-    projectsHeading: "프로젝트",
+    // 핵심 정보 바
+    keyFactsHeading: "핵심 정보",
+    keyFacts: {
+      structure: "구조 방식",
+      baseArea: "기본 면적",
+      constructionPeriod: "공사 기간",
+      warranty: "보증",
+    },
+    // 제작 공정 요약
+    processEyebrow: "Process",
+    processHeading: "제작 공정",
+    processAll: "전체 과정 보기",
+    processScrollLabel: "제작 공정 단계 (가로로 넘겨 보기)",
+    // 대표 프로젝트
+    projectsEyebrow: "Projects",
+    projectsHeading: "대표 프로젝트",
+    // 문의 유도
+    contactHeading: "마당의 별채, 농장의 쉼터를 계획 중이신가요?",
+    contactBody: "주택 마당의 별채, 농장의 휴게 공간 — 쉬고 머무는 작은 집을 함께 계획해 보세요.",
   },
   process: {
     eyebrow: "Process",

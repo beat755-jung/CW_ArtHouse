@@ -44,7 +44,7 @@ export default function MasonryGallery({ images, locale = "ko" }: Props) {
                 width={0}
                 height={0}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="w-full h-auto transition-transform duration-700 group-hover:scale-105 select-none"
+                className="w-full h-auto transition-transform duration-700 motion-safe:group-hover:scale-105 select-none"
                 draggable={false}
                 onContextMenu={(e) => e.preventDefault()}
                 quality={70}

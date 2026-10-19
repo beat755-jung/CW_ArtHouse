@@ -219,15 +219,40 @@ export const projects: Project[] = [
 const findImage = (src: string): ProjectImage | null =>
   [...p1Exterior, ...p1Process, ...p1Interior].find((img) => img.src === src) ?? null;
 
+// description: 사진에 보이는 작업 기준 한 줄 초안 (2026-10-19 사용자 승인, 추후 회사 공정 설명으로 업데이트)
 export const processSteps: ProcessStep[] = [
   { code: "foundation", order: 1, name: { ko: "기초", en: "Foundation" }, description: null, image: null, qcPoints: [] },
-  { code: "framing", order: 2, name: { ko: "골조", en: "Framing" }, description: null, image: findImage(`${P1}/process/ing-10.jpg`), qcPoints: [] },
+  {
+    code: "framing", order: 2, name: { ko: "골조", en: "Framing" },
+    description: { ko: "바닥 프레임과 벽체 골조를 짭니다", en: "Framing the floor and walls" },
+    image: findImage(`${P1}/process/ing-10.jpg`), qcPoints: [],
+  },
   { code: "roof", order: 3, name: { ko: "지붕", en: "Roof" }, description: null, image: null, qcPoints: [] },
-  { code: "insulation-waterproofing", order: 4, name: { ko: "단열·방수", en: "Insulation & Waterproofing" }, description: null, image: findImage(`${P1}/process/ing-16.jpg`), qcPoints: [] },
-  { code: "windows", order: 5, name: { ko: "창호", en: "Windows & Doors" }, description: null, image: findImage(`${P1}/exterior/ing-02.jpg`), qcPoints: [] },
-  { code: "exterior", order: 6, name: { ko: "외장", en: "Exterior Cladding" }, description: null, image: findImage(`${P1}/exterior/ing-08.jpg`), qcPoints: [] },
-  { code: "mep", order: 7, name: { ko: "설비", en: "Building Services" }, description: null, image: findImage(`${P1}/process/ing-17.jpg`), qcPoints: [] },
-  { code: "interior", order: 8, name: { ko: "내장", en: "Interior Finishing" }, description: null, image: findImage(`${P1}/process/ing-18.jpg`), qcPoints: [] },
+  {
+    code: "insulation-waterproofing", order: 4, name: { ko: "단열·방수", en: "Insulation & Waterproofing" },
+    description: { ko: "창 둘레 틈을 채우고 단열합니다", en: "Sealing gaps and insulating" },
+    image: findImage(`${P1}/process/ing-16.jpg`), qcPoints: [],
+  },
+  {
+    code: "windows", order: 5, name: { ko: "창호", en: "Windows & Doors" },
+    description: { ko: "창과 출입문을 설치합니다", en: "Installing windows and doors" },
+    image: findImage(`${P1}/exterior/ing-02.jpg`), qcPoints: [],
+  },
+  {
+    code: "exterior", order: 6, name: { ko: "외장", en: "Exterior Cladding" },
+    description: { ko: "외벽 패널을 세웁니다", en: "Raising the exterior panels" },
+    image: findImage(`${P1}/exterior/ing-08.jpg`), qcPoints: [],
+  },
+  {
+    code: "mep", order: 7, name: { ko: "설비", en: "Building Services" },
+    description: { ko: "전기 배관과 배선을 깝니다", en: "Running electrical conduit and wiring" },
+    image: findImage(`${P1}/process/ing-17.jpg`), qcPoints: [],
+  },
+  {
+    code: "interior", order: 8, name: { ko: "내장", en: "Interior Finishing" },
+    description: { ko: "다락과 실내 칸막이를 만듭니다", en: "Building the loft and partitions" },
+    image: findImage(`${P1}/process/ing-18.jpg`), qcPoints: [],
+  },
   { code: "completion", order: 9, name: { ko: "준공", en: "Completion" }, description: null, image: null, qcPoints: [] },
 ];
 
@@ -239,6 +264,14 @@ export function getProjectBySlug(slug: string): Project | undefined {
 
 export function getFeaturedProjects(): Project[] {
   return projects.filter((p) => p.featured);
+}
+
+/** 홈 공정 요약용: 대표 사진과 한 줄 설명이 모두 있는 단계 (순서 유지) */
+export function getProcessHighlights(): (ProcessStep & { image: ProjectImage; description: I18nText })[] {
+  return processSteps.filter(
+    (s): s is ProcessStep & { image: ProjectImage; description: I18nText } =>
+      s.image !== null && s.description !== null,
+  );
 }
 
 /** 대표 이미지: 첫 번째 실사 외관 → 첫 번째 외관 → null */
