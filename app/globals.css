@@ -1,0 +1,179 @@
+/**
+ * globals.css — 전역 스타일 정의
+ *
+ * [디자인 시스템 (CSS 변수)]
+ * --bg          : #070707  — 메인 배경 (Artti의 순수 검정 계승)
+ * --bg-surface  : #0e0e0e  — 카드/서피스 배경
+ * --text        : #ede8e0  — 본문 텍스트 (차가운 흰색 대신 따뜻한 오프화이트)
+ * --text-muted  : #7a7570  — 부차적 텍스트 (날짜, 라벨 등)
+ * --accent      : #b8956a  — 강조색 (도자기의 흙빛에서 따온 앰버 골드)
+ * --border      : #1c1c1c  — 구분선
+ * --nav-width   : 220px    — 데스크톱 좌측 네비게이션 너비
+ *
+ * [이미지 보호]
+ * - img 태그 전역: user-drag:none / user-select:none / pointer-events:none
+ * - .img-protected::after : 이미지 위 투명 오버레이 (클릭 흡수)
+ * - GlobalProtection.tsx와 함께 3중 보호 구조 형성
+ *
+ * [애니메이션]
+ * - fadeUp  : 아래에서 위로 fade (카드, 텍스트 등장)
+ * - fadeIn  : 단순 투명도 전환
+ * - artwork-card hover : 어두운 그라디언트 + 작품 정보 슬라이드 업
+ */
+@import "tailwindcss";
+
+:root {
+  --bg: #070707;
+  --bg-surface: #0e0e0e;
+  --text: #ede8e0;
+  --text-muted: #7a7570;
+  --accent: #b8956a;
+  --border: #1c1c1c;
+  --nav-width: 220px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--bg-surface);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-inter);
+  --font-korean: 'Nanum Myeongjo', 'Noto Serif KR', 'Batang', Georgia, serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Image Protection ───────────────────────────────── */
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.img-protected {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.img-protected::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: default;
+  pointer-events: all;
+}
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+
+/* ── Selection ───────────────────────────────────────── */
+::selection { background: rgba(184,149,106,0.25); color: var(--text); }
+
+/* ── Typography helpers ──────────────────────────────── */
+.font-display {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+.font-korean {
+  font-family: 'Nanum Myeongjo', 'Noto Serif KR', 'Batang', Georgia, serif;
+}
+
+/* ── Page layout with nav offset ────────────────────── */
+.page-content {
+  margin-left: var(--nav-width);
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    margin-left: 0;
+    padding-top: 64px;
+  }
+}
+
+/* ── Fade-in animation ───────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.2s ease both;
+}
+
+/* ── Artwork hover glow ──────────────────────────────── */
+.artwork-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.artwork-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(7,7,7,0.85) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.artwork-card:hover::before {
+  opacity: 1;
+}
+
+.artwork-card .artwork-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 1.25rem;
+  transform: translateY(8px);
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.artwork-card:hover .artwork-info {
+  transform: translateY(0);
+  opacity: 1;
+}
