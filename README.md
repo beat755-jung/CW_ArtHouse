@@ -122,47 +122,58 @@ npm install
 
 ## 프로젝트 구조
 
-```
+```text
 CW_ArtHouse/
 │
-├── app/                          Next.js App Router 페이지
-│   ├── layout.tsx                루트 레이아웃 (폰트·전역 보호·내비게이션)
-│   ├── globals.css               디자인 토큰·이미지 보호·애니메이션 정의
-│   ├── page.tsx                  홈 — Hero + Featured Works
-│   ├── exhibition/
-│   │   ├── page.tsx              전시 목록 (연도 타임라인)
-│   │   └── [slug]/
-│   │       ├── page.tsx          전시 상세 (서버 컴포넌트)
-│   │       └── ExhibitionGallery.tsx  갤러리 + 라이트박스 (클라이언트)
-│   ├── artist/
-│   │   └── page.tsx              작품 아카이브 (카테고리 탭 + 마소나리)
-│   └── about/
-│       └── page.tsx              작가 소개 · 연락처
+├── app/                              Next.js App Router
+│   ├── [locale]/                     언어별 경로 (/ko 기본, /en)
+│   │   ├── layout.tsx                루트 레이아웃 (html lang·폰트·내비게이션·메타데이터, ko/en 정적 생성)
+│   │   ├── page.tsx                  홈 — Hero + Featured Projects
+│   │   ├── process/page.tsx          제작 과정 (공정 9단계)
+│   │   ├── projects/
+│   │   │   ├── page.tsx              프로젝트 목록
+│   │   │   └── [slug]/page.tsx       프로젝트 상세 (사양표)
+│   │   ├── about/page.tsx            회사 소개
+│   │   ├── contact/page.tsx          상담·견적 문의
+│   │   └── not-found.tsx             언어 세그먼트 안 404 (notFound() 호출 시)
+│   ├── global-not-found.tsx          매칭되지 않는 URL 전역 404 (ko/en 병기)
+│   ├── globals.css                   디자인 토큰·폰트 순서·이미지 보호·애니메이션
+│   └── icon.svg                      파비콘 (임시 CW 모노그램)
 │
 ├── components/
-│   ├── Navigation.tsx            좌측 사이드바 (데스크톱) / 햄버거 (모바일)
-│   ├── GlobalProtection.tsx      전역 우클릭·드래그 차단 (null 렌더)
-│   ├── ProtectedImage.tsx        저작권 보호 이미지 래퍼
-│   └── ArtworkLightbox.tsx       전체화면 이미지 라이트박스
+│   ├── Navigation.tsx                좌측 사이드바 (데스크톱) / 햄버거 (모바일)
+│   ├── LanguageSwitcher.tsx          언어 전환 KO · EN (사이드바 하단)
+│   ├── PageHeader.tsx                하위 페이지 공통 머리말
+│   ├── MasonryGallery.tsx            마소나리 그리드 + 라이트박스 (렌더 이미지 표기)
+│   ├── Lightbox.tsx                  전체화면 이미지 라이트박스
+│   ├── ProtectedImage.tsx            우클릭·드래그 차단 이미지 래퍼
+│   ├── GlobalProtection.tsx          전역 우클릭·드래그 차단 (null 렌더)
+│   └── home/Hero.tsx                 홈 Hero (부유 이미지 애니메이션)
 │
 ├── lib/
-│   └── artworks.ts               작품·전시 데이터 단일 출처 (여기서만 수정)
+│   ├── projects.ts                   프로젝트·공정 데이터 단일 출처 (모르는 값은 null → [확인 필요])
+│   ├── fonts.ts                      한글 폰트 정의 (Noto Serif KR · Noto Sans KR)
+│   └── i18n/
+│       ├── config.ts                 지원 언어·기본 언어·경로 헬퍼
+│       ├── dictionaries.ts           사전 로더 (서버 전용)
+│       └── dictionaries/
+│           ├── ko.ts                 한국어 화면 문구 (Dictionary 타입 기준)
+│           └── en.ts                 영어 화면 문구 (키 누락 시 빌드 오류)
 │
 ├── public/
-│   └── artworks/                 작품 이미지 (시리즈별 폴더 구조)
-│       ├── birds-of-prey/
-│       ├── ceramic-home-sweet-home/
-│       ├── ceramic-sea-leather/
-│       ├── ceramic-see-and-saw/
-│       ├── ceramic-stars/
-│       ├── individual/
-│       ├── masked-up/
-│       ├── saic-portfolio/
-│       ├── scribbles-on-the-wall/
-│       ├── tooth-plate/
-│       └── ugly-duckling/
+│   └── projects/
+│       └── prototype-01/             이미지 파일명 = 인벤토리 ID (ing-05.jpg 등)
+│           ├── exterior/             외관 — 제작 현장 실사 + 콘셉트 렌더 (14장)
+│           ├── process/              제작 공정 실사 (11장)
+│           └── interior/             실내 분위기 샘플 렌더 (8장, 추후 교체)
 │
-└── next.config.ts                이미지 최적화 설정 (WebP/AVIF 자동 변환)
+├── _archive/                         게시 불가 이미지 (public 밖, 사이트 미제공 · 3장)
+├── docs/
+│   └── image-inventory.md            이미지 분류·추천·부족 컷 목록
+│
+├── CLAUDE.md                         작업·콘텐츠 규칙 (AGENTS.md 포함)
+├── AGENTS.md                         Next.js 16 주의사항
+└── next.config.ts                    이미지 최적화 · "/" → "/ko" 리다이렉트 · globalNotFound
 ```
 
 ---
