@@ -2,50 +2,51 @@
  * app/page.tsx — 홈 페이지 (클라이언트 컴포넌트)
  *
  * [Hero 섹션]
- * - Artti 원작의 분절된 신체 이미지 배치에서 영감받아,
- *   실제 작품 6점을 각기 다른 위치·각도·딜레이로 배경에 부유시킵니다.
+ * - 미니하우스 이미지 6점을 각기 다른 위치·각도·딜레이로 배경에 부유시킵니다.
  * - 이미지 opacity 35% + radial-gradient 비네트로 중앙 텍스트 가독성 확보
  * - 페이지 진입 100ms 후 visible=true → CSS transition으로 순차 등장
  *
- * [Featured Works 섹션]
- * - lib/artworks.ts 의 featured:true 작품 최대 6개 표시
- * - artwork-card hover: 어두운 오버레이 + 작품명 슬라이드 업
+ * [Featured 섹션]
+ * - lib/projects.ts 의 featured:true 프로젝트 표시
+ * - 값이 없는 항목은 "[확인 필요]"로 표시 (t() 헬퍼)
  *
  * [heroFragments 이미지 선택 기준]
- * - 시리즈별 대표 이미지 각 1장, 화면 모서리·가장자리에 배치하여
- *   Artti 특유의 '파편화된 구성' 미학을 재현합니다.
+ * - docs/image-inventory.md 4-1절 Hero 후보 (실사 5점 + 인테리어 분위기 샘플 1점)
+ * - out-08(휴대폰 UI 포함), in-09(창밖 아파트)는 크롭 후 추가 예정
  */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getFeaturedArtworks } from "@/lib/artworks";
+import { getFeaturedProjects, getCoverImage, t, PROJECT_TYPE_LABEL } from "@/lib/projects";
 
-// Six featured images to float in the background like Artti's fragmented body
+const P1 = "/projects/prototype-01";
+
+// Six images floating in the background
 const heroFragments = [
   {
-    src: "/artist/2024_year_a/scribbles-on-the-wall/1231_HYEYOON-54.jpg",
+    src: `${P1}/exterior/ing-05.jpg`,
     style: { top: "8%", left: "3%", width: "22vw", rotate: "-3deg", delay: 0.4 },
   },
   {
-    src: "/artist/2025_year_a/2025.03.04_Pond leathers_ceramic-sea-leather/1231_HYEYOON-11.jpg",
+    src: `${P1}/exterior/ing-08.jpg`,
     style: { top: "15%", right: "4%", width: "18vw", rotate: "2deg", delay: 0.7 },
   },
   {
-    src: "/artist/2025_year_a/2025.01.10_birds-of-prey/1231_HYEYOON-113.jpg",
+    src: `${P1}/exterior/ing-02.jpg`,
     style: { bottom: "18%", left: "2%", width: "20vw", rotate: "1.5deg", delay: 1.0 },
   },
   {
-    src: "/artist/2025_year_a/2025.02.13_Stars-in-our-palm/1231_HYEYOON-25.jpg",
+    src: `${P1}/process/ing-18.jpg`,
     style: { bottom: "10%", right: "5%", width: "16vw", rotate: "-2deg", delay: 0.9 },
   },
   {
-    src: "/artist/2025_year_a/2025.01.06_ugly-duckling/1231_HYEYOON-130.jpg",
+    src: `${P1}/process/ing-11.jpg`,
     style: { top: "52%", left: "6%", width: "14vw", rotate: "3deg", delay: 1.2 },
   },
   {
-    src: "/artist/2025_year_a/2025.01.19_SEE-and-SAW_ceramic/1231_HYEYOON-93.jpg",
+    src: `${P1}/interior/in-07.jpg`,
     style: { top: "38%", right: "2%", width: "15vw", rotate: "-1.5deg", delay: 1.1 },
   },
 ];
@@ -61,13 +62,13 @@ export default function HomePage() {
     };
   }, []);
 
-  const featured = getFeaturedArtworks().slice(0, 6);
+  const featured = getFeaturedProjects().slice(0, 6);
 
   return (
     <>
       {/* ── Hero Section ────────────────────────────────── */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--bg)]">
-        {/* Floating image fragments (Artti-inspired layered composition) */}
+        {/* Floating image fragments */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden>
           {heroFragments.map((frag, i) => (
             <div
@@ -125,7 +126,7 @@ export default function HomePage() {
               transition: "opacity 1s ease 0.2s, transform 1s ease 0.2s",
             }}
           >
-            Artist Portfolio
+            Mini House — Design · Build
           </p>
 
           <h1
@@ -136,7 +137,7 @@ export default function HomePage() {
               transition: "opacity 1.1s ease 0.45s, transform 1.1s ease 0.45s",
             }}
           >
-            Hyeyoon Jung
+            CW_ArtHouse
           </h1>
 
           <p
@@ -147,7 +148,7 @@ export default function HomePage() {
               transition: "opacity 1s ease 0.58s, transform 1s ease 0.58s",
             }}
           >
-            정혜윤
+            미니하우스 설계 · 제작 · 판매
           </p>
 
           <p
@@ -158,7 +159,7 @@ export default function HomePage() {
               transition: "opacity 1.1s ease 0.72s, transform 1.1s ease 0.72s",
             }}
           >
-            Lilly
+            Jung Chang-Won
           </p>
 
           <div
@@ -168,27 +169,6 @@ export default function HomePage() {
               transition: "opacity 1s ease 1s",
             }}
           >
-            <Link
-              href="/exhibition"
-              className="text-xs tracking-[0.25em] uppercase text-[var(--text-muted)] hover:text-[var(--text)] transition-colors border-b border-[var(--border)] hover:border-[var(--text-muted)] pb-1"
-            >
-              Exhibition
-            </Link>
-            <span className="w-px h-4 bg-[var(--border)]" />
-            <Link
-              href="/artist"
-              className="text-xs tracking-[0.25em] uppercase text-[var(--text-muted)] hover:text-[var(--text)] transition-colors border-b border-[var(--border)] hover:border-[var(--text-muted)] pb-1"
-            >
-              Works
-            </Link>
-            <span className="w-px h-4 bg-[var(--border)]" />
-            <Link
-              href="/press"
-              className="text-xs tracking-[0.25em] uppercase text-[var(--text-muted)] hover:text-[var(--text)] transition-colors border-b border-[var(--border)] hover:border-[var(--text-muted)] pb-1"
-            >
-              Press
-            </Link>
-            <span className="w-px h-4 bg-[var(--border)]" />
             <Link
               href="/about"
               className="text-xs tracking-[0.25em] uppercase text-[var(--text-muted)] hover:text-[var(--text)] transition-colors border-b border-[var(--border)] hover:border-[var(--text-muted)] pb-1"
@@ -214,72 +194,62 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Featured Works ───────────────────────────────── */}
+      {/* ── Featured Projects ────────────────────────────── */}
       <section className="px-8 py-24 max-w-6xl mx-auto">
         <header className="flex items-end justify-between mb-12">
           <h2 className="font-display text-3xl tracking-wide text-[var(--text)]">
-            Selected Works
+            Projects
           </h2>
-          <Link
-            href="/artist"
-            className="text-xs tracking-[0.2em] uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
-          >
-            View all →
-          </Link>
         </header>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {featured.map((artwork, i) => (
-            <Link
-              key={artwork.id}
-              href={`/artist?series=${artwork.seriesSlug}`}
-              className="artwork-card group block"
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              <div className="relative aspect-[4/5] overflow-hidden bg-[var(--bg-surface)]">
-                <Image
-                  src={artwork.coverImage}
-                  alt={artwork.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105 select-none"
-                  draggable={false}
-                  onContextMenu={(e) => e.preventDefault()}
-                  quality={70}
-                  loading="lazy"
-                />
-                <div
-                  className="absolute inset-0 z-10"
-                  onContextMenu={(e) => e.preventDefault()}
-                  aria-hidden
-                />
-              </div>
-              <div className="artwork-info">
-                <p className="font-display text-sm text-white/90 leading-tight">
-                  {artwork.title}
-                </p>
-                <p className="text-[10px] tracking-widest uppercase text-white/50 mt-0.5">
-                  {artwork.medium} · {artwork.year}
-                </p>
-              </div>
-            </Link>
-          ))}
+          {featured.map((project, i) => {
+            const cover = getCoverImage(project);
+            return (
+              <article
+                key={project.slug}
+                className="artwork-card group block"
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                <div className="relative aspect-[4/5] overflow-hidden bg-[var(--bg-surface)]">
+                  {cover && (
+                    <Image
+                      src={cover.src}
+                      alt={cover.alt.ko}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105 select-none"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      quality={70}
+                      loading="lazy"
+                    />
+                  )}
+                  <div
+                    className="absolute inset-0 z-10"
+                    onContextMenu={(e) => e.preventDefault()}
+                    aria-hidden
+                  />
+                </div>
+                <div className="artwork-info">
+                  <p className="font-display text-sm text-white/90 leading-tight">
+                    {t(project.name)}
+                  </p>
+                  <p className="text-[10px] tracking-widest uppercase text-white/50 mt-0.5">
+                    {t(project.type ? PROJECT_TYPE_LABEL[project.type] : null)}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
       {/* ── Footer ───────────────────────────────────────── */}
       <footer className="border-t border-[var(--border)] px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="font-display text-sm text-[var(--text-muted)]">
-          © {new Date().getFullYear()} Hyeyoon Jung (Lilly). All rights reserved.
+          © {new Date().getFullYear()} CW_ArtHouse. All rights reserved.
         </p>
-        <a
-          href="https://www.instagram.com/hyeyoonlillyjung"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs tracking-[0.2em] uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
-        >
-          @hyeyoonlillyjung
-        </a>
       </footer>
     </>
   );

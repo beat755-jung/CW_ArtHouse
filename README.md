@@ -1,7 +1,10 @@
-# Hyeyoon Jung (Lilly) — Artist Portfolio
+# CW_ArtHouse
 
-작가 **Jung Hyeyoon (Lilly)**의 개인 포트폴리오 웹사이트입니다.  
+미니하우스를 설계·제작·판매하는 회사 **CW_ArtHouse**(대표 정창원, Jung Chang-Won)의 홈페이지입니다.  
 `Next.js 16` + `Tailwind CSS 4` + `TypeScript` 기반으로 제작되었습니다.
+
+> 작가 포트폴리오(Lilly_ArtWorld) 코드에서 전환 중입니다. 아래 본문 중 작가 사이트 기준 설명은 문서화 단계에서 정리할 예정입니다.  
+> 작업 규칙은 [CLAUDE.md](CLAUDE.md), 이미지 현황은 [docs/image-inventory.md](docs/image-inventory.md)를 참고하세요.
 
 ---
 
@@ -23,7 +26,7 @@ Node.js가 없으면 → [nodejs.org](https://nodejs.org) 에서 LTS 버전 다�
 ### Step 1 — 프로젝트 폴더로 이동
 
 ```powershell
-cd "e:\Art_HY\Lilly_ArtWorld\lilly-portfolio"
+cd "D:\MyRepos\CW_ArtHouse"
 ```
 
 ### Step 2 — 패키지 설치 (최초 1회만)
@@ -120,7 +123,7 @@ npm install
 ## 프로젝트 구조
 
 ```
-lilly-portfolio/
+CW_ArtHouse/
 │
 ├── app/                          Next.js App Router 페이지
 │   ├── layout.tsx                루트 레이아웃 (폰트·전역 보호·내비게이션)
@@ -278,4 +281,4 @@ npm run build
 
 ---
 
-© Hyeyoon Jung (Lilly). All rights reserved.
+© CW_ArtHouse. All rights reserved.

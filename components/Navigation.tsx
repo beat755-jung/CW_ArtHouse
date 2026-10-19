@@ -2,17 +2,15 @@
  * components/Navigation.tsx — 전역 네비게이션 (클라이언트 컴포넌트)
  *
  * [데스크톱: 좌측 고정 사이드바]
- * - Artti 원작의 세로 고정 메뉴 구조를 현대적으로 재해석
- * - 상단: 작가명(Hyeyoon Jung / Lilly) — 홈 링크
- * - 중앙: Exhibition / Artist / About 링크
- *   - 현재 경로 일치 시 amber 점(●) 왼쪽에 표시
+ * - 상단: 사이트명(CW_ArtHouse) — 홈 링크
+ * - 중앙: navLinks 링크 (현재 경로 일치 시 amber 점(●) 왼쪽에 표시)
  * - 하단: 저작권 연도 표기
  * - 너비: CSS 변수 --nav-width (220px), globals.css에서 page-content와 연동
  *
  * [모바일: 상단 고정 바 + 오버레이 메뉴]
  * - 스크롤 40px 이후 배경 배경색 전환 (투명 → #070707)
  * - 햄버거 아이콘: 3선 → X 애니메이션
- * - 메뉴 오픈 시 전체화면 오버레이, 라우트 이동 시 자동 닫힘
+ * - 메뉴 오픈 시 전체화면 오버레이, 링크 클릭 시 닫힘
  */
 "use client";
 
@@ -21,9 +19,6 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const navLinks = [
-  { href: "/exhibition", label: "Exhibition" },
-  { href: "/artist", label: "Works" },
-  { href: "/press", label: "Press" },
   { href: "/about", label: "About" },
 ];
 
@@ -38,9 +33,7 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
@@ -50,14 +43,13 @@ export default function Navigation() {
         className="hidden md:flex fixed left-0 top-0 h-full flex-col justify-between px-8 py-10 z-50"
         style={{ width: "var(--nav-width)", borderRight: "1px solid var(--border)" }}
       >
-        {/* Logo / Artist name */}
+        {/* Logo / Site name */}
         <Link href="/" className="group block">
-          <span className="font-display block text-xs tracking-[0.25em] text-[var(--text-muted)] uppercase mb-1 transition-colors group-hover:text-[var(--accent)]">
-            Hyeyoon Jung
+          <span className="font-display block text-base tracking-[0.15em] text-[var(--text)] mb-1 transition-colors group-hover:text-[var(--accent)]">
+            CW_ArtHouse
           </span>
-          <span className="font-korean block text-sm leading-snug tracking-wide text-[var(--text-muted)] transition-colors group-hover:text-[var(--accent)]">
-            정혜윤
-            <span className="font-display italic text-[var(--accent)] ml-2">· Lilly</span>
+          <span className="font-korean block text-xs leading-snug tracking-wide text-[var(--text-muted)] transition-colors group-hover:text-[var(--accent)]">
+            미니하우스 설계 · 제작
           </span>
         </Link>
 
@@ -91,7 +83,7 @@ export default function Navigation() {
         {/* Footer info */}
         <div className="text-[10px] tracking-widest text-[var(--text-muted)] uppercase leading-relaxed">
           <p>© {new Date().getFullYear()}</p>
-          <p>Hyeyoon Jung</p>
+          <p>CW_ArtHouse</p>
         </div>
       </nav>
 
@@ -104,8 +96,8 @@ export default function Navigation() {
             : "bg-transparent",
         ].join(" ")}
       >
-        <Link href="/" className="font-display text-xl tracking-wide">
-          Lilly
+        <Link href="/" onClick={closeMenu} className="font-display text-xl tracking-wide">
+          CW_ArtHouse
         </Link>
 
         <button
@@ -144,14 +136,12 @@ export default function Navigation() {
             <Link
               key={href}
               href={href}
+              onClick={closeMenu}
               className="font-display text-3xl tracking-widest text-[var(--text)] hover:text-[var(--accent)] transition-colors"
             >
               {label}
             </Link>
           ))}
-          <p className="text-xs tracking-widest text-[var(--text-muted)] uppercase mt-8">
-            @hyeyoonlillyjung
-          </p>
         </div>
       )}
     </>

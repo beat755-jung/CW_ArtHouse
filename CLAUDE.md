@@ -53,8 +53,10 @@
 
 ## 이미지 자산
 
-- `public/house_out/` — 외관 도면·렌더 (8장)
-- `public/house_in/`  — 내부 **분위기 샘플** 렌더 (10장). 실제 제품과 구성이 다르며 추후 교체 예정.
-  현재는 분위기 참고용으로 그대로 사용한다.
-- `public/house_ing/` — 제작 현장 사진 (18장)
-- `public/artist/`, `public/exhibition/` — 이전 작가 사이트 이미지 (제거 예정)
+- 데이터 단일 출처: `lib/projects.ts` (Project · ProcessStep). 모르는 값은 `null` → 화면에 `[확인 필요]` / `[To be confirmed]`
+- 이미지 경로: `public/projects/{slug}/exterior | process | interior / {인벤토리 ID}.jpg`
+  - 파일명 ID(`ing-05`, `out-08`, `in-07` …)는 `docs/image-inventory.md`와 같다.
+  - `ing-*` 제작 현장 실사, `out-*` 외관 콘셉트 렌더, `in-*` 내부 **분위기 샘플** 렌더
+  - `in-*`는 실제 제품과 구성이 다르며 추후 교체 예정. 현재는 분위기 참고용으로 그대로 사용한다.
+- 게시 불가 이미지는 `public` 밖 `_archive/`에 둔다 (`public/` 안 파일은 배포 시 누구나 접근 가능).
+  - `out-07` 중복, `in-01` SketchUp 파일명 노출, `in-10` 저작권 확인 전

@@ -27,6 +27,17 @@
 
 ## 1. 파일 ID 매핑
 
+**경로 변경 (2026-10-19, 3단계)**: 원본 파일은 인벤토리 ID를 소문자 파일명으로 바꿔 아래로 옮겼습니다. 아래 표의 "파일명 앞부분"은 원본 이름입니다.
+
+| 새 경로 | 포함 ID |
+|---|---|
+| `public/projects/prototype-01/exterior/` | ING-01·02·04~08, OUT-01~06·08 |
+| `public/projects/prototype-01/process/` | ING-03, ING-09~18 |
+| `public/projects/prototype-01/interior/` | IN-02~09 |
+| `_archive/` (public 밖, 사이트 미제공) | OUT-07 (중복), IN-01 (파일명 노출), IN-10 (저작권 확인 전) |
+
+예: ING-05 → `public/projects/prototype-01/exterior/ing-05.jpg`
+
 | ID | 파일명 앞부분 | 해상도 | 내용 |
 |---|---|---|---|
 | OUT-01 | `1791274404788_…` | 2389×1071 | 지붕 평면 일부 + 정면도 (크롭) |

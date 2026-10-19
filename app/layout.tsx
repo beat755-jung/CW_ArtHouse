@@ -9,7 +9,10 @@
  * - .page-content    : 사이드바 너비만큼 좌측 여백 확보 (globals.css 참고)
  *
  * [메타데이터]
- * - SEO title/description + OpenGraph 기본값 설정
+ * - title.template: 하위 페이지 title 뒤에 " | CW_ArtHouse" 를 붙임 (title.default 필수)
+ * - description + OpenGraph 기본값 설정
+ * - robots noindex: 사이트 공개 전까지 유지 ([확인 필요] 항목 정리 후 제거)
+ * - 파비콘: app/icon.svg (임시 CW 모노그램)
  */
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
@@ -31,12 +34,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Hyeyoon Jung (Lilly) — Artist",
-  description:
-    "Portfolio of Hyeyoon Jung (Lilly), ceramic artist and painter based at SAIC, Chicago.",
+  title: {
+    default: "CW_ArtHouse",
+    template: "%s | CW_ArtHouse",
+  },
+  description: "CW_ArtHouse — 미니하우스 설계·제작·판매 / Mini house design, build and sales.",
   openGraph: {
-    title: "Hyeyoon Jung (Lilly)",
-    description: "Artist Portfolio",
+    title: "CW_ArtHouse",
+    description: "미니하우스 설계·제작·판매 / Mini house design, build and sales.",
+    siteName: "CW_ArtHouse",
+    locale: "ko_KR",
+    alternateLocale: ["en_US"],
     type: "website",
   },
 };
@@ -45,7 +53,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
+    <html lang="ko" className={`${cormorant.variable} ${inter.variable}`}>
       <head>
         <meta name="robots" content="noindex, nofollow" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
