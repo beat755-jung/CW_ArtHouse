@@ -110,13 +110,21 @@ npm install
 
 ## 사이트맵
 
+한국어 기본(`/ko`), 영어 병행(`/en`). 아래 `[locale]` 자리에 `ko` 또는 `en`이 들어갑니다.
+
+```text
+/                            → /ko 로 이동 (307, next.config.ts redirects)
+/[locale]                    홈              — 다크 Hero + 부유하는 미니하우스 이미지 + 프로젝트 카드
+/[locale]/process            제작 과정       — 공정 9단계 목록 (임시)
+/[locale]/projects           프로젝트 목록   — 프로젝트 카드 → 상세 링크 (임시)
+/[locale]/projects/[slug]    프로젝트 상세   — 사양표, 미확인 값은 [확인 필요] / [To be confirmed] (임시)
+/[locale]/about              회사 소개       — 대표 정창원 (Jung Chang-Won) · 연혁·주소·연락처 [확인 필요]
+/[locale]/contact            상담·견적 문의  — 준비 중 (임시)
+그 밖의 URL                  404             — app/global-not-found.tsx (ko/en 병기)
 ```
-/                   홈           — 다크 히어로 + 부유하는 작품 이미지 + Featured Works
-/exhibition         전시 목록    — 연도별 타임라인
-/exhibition/[slug]  전시 상세    — 마소나리 이미지 그리드 + 라이트박스
-/artist             작품 아카이브 — 카테고리 탭 필터 + 전체 마소나리 갤러리
-/about              작가 소개    — 스테이트먼트 · 학력 · Instagram · SAIC 주소
-```
+
+사이드바 메뉴 순서는 고객 동선(무엇을 만드는지 → 어떻게 만드는지 → 프로젝트 → 회사 → 문의)을 따릅니다:
+로고(홈) → 제작 과정 → 프로젝트 → 회사 소개 → 상담·견적, 하단에 언어 전환 `KO · EN`.
 
 ---
 
