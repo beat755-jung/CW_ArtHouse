@@ -49,7 +49,10 @@
 
 - 한국어/영어 이중 언어. 사용자에게 보이는 모든 텍스트는 ko/en을 함께 작성한다.
 - 표기: 회사 `CW_ArtHouse`(밑줄 포함, 확정), 대표 `Jung Chang-Won`
-- 구현 방식(경로 분리 vs 토글)은 별도 단계에서 결정한다.
+- 구현 방식: `app/[locale]/` 경로 분리 (`/ko` 기본, `/en`), 외부 i18n 라이브러리 없음. `/` → `/ko` 는 `next.config.ts` redirects
+  - 화면 고정 문구(메뉴·버튼·제목): `lib/i18n/dictionaries/ko.ts`·`en.ts` (en 은 `Dictionary` 타입 → 키 누락 시 빌드 오류)
+  - 프로젝트·공정 데이터: `lib/projects.ts` 의 `I18nText`
+- 폰트: 영문 Cormorant Garamond·Inter + 한글 Noto Serif KR·Noto Sans KR (`next/font`, 한글은 분할 파일·preload 없음)
 
 ## 이미지 자산
 

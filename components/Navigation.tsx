@@ -1,10 +1,14 @@
 /**
  * components/Navigation.tsx — 전역 네비게이션 (클라이언트 컴포넌트)
  *
+ * [메뉴 순서 — 고객 동선]
+ * - 로고(무엇을 만드는 회사인지) → 제작 과정 → 프로젝트 → 회사 소개 → 상담·견적
+ * - 문구는 app/[locale]/layout.tsx 에서 사전(dict.nav)으로 전달받는다.
+ *
  * [데스크톱: 좌측 고정 사이드바]
- * - 상단: 사이트명(CW_ArtHouse) — 홈 링크
- * - 중앙: navLinks 링크 (현재 경로 일치 시 amber 점(●) 왼쪽에 표시)
- * - 하단: 저작권 연도 표기
+ * - 상단: 사이트명(CW_ArtHouse) + 한 줄 소개 — 홈 링크
+ * - 중앙: 메뉴 (현재 경로 일치 시 amber 점(●) 왼쪽에 표시)
+ * - 하단: 언어 전환(KO · EN) + 저작권 연도
  * - 너비: CSS 변수 --nav-width (220px), globals.css에서 page-content와 연동
  *
  * [모바일: 상단 고정 바 + 오버레이 메뉴]
@@ -17,12 +21,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { localePath, type Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/dictionaries/ko";
 
-const navLinks = [
-  { href: "/about", label: "About" },
-];
+interface Props {
+  locale: Locale;
+  nav: Dictionary["nav"];
+  languageLabel: string;
+}
 
-export default function Navigation() {
+export default function Navigation({ locale, nav, languageLabel }: Props) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -35,21 +44,31 @@ export default function Navigation() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  const navLinks = [
+    { href: localePath(locale, "/process"), label: nav.process },
+    { href: localePath(locale, "/projects"), label: nav.projects },
+    { href: localePath(locale, "/about"), label: nav.about },
+    { href: localePath(locale, "/contact"), label: nav.contact },
+  ];
+
+  // 영어 메뉴는 대문자·넓은 자간, 한국어 메뉴는 자간을 좁게
+  const menuText = locale === "en" ? "uppercase tracking-[0.15em]" : "tracking-[0.05em]";
+
   return (
     <>
       {/* ── Desktop Left Sidebar ─────────────────────────── */}
       <nav
-        aria-label="Main navigation"
+        aria-label={nav.label}
         className="hidden md:flex fixed left-0 top-0 h-full flex-col justify-between px-8 py-10 z-50"
         style={{ width: "var(--nav-width)", borderRight: "1px solid var(--border)" }}
       >
         {/* Logo / Site name */}
-        <Link href="/" className="group block">
+        <Link href={localePath(locale)} className="group block">
           <span className="font-display block text-base tracking-[0.15em] text-[var(--text)] mb-1 transition-colors group-hover:text-[var(--accent)]">
             CW_ArtHouse
           </span>
           <span className="font-korean block text-xs leading-snug tracking-wide text-[var(--text-muted)] transition-colors group-hover:text-[var(--accent)]">
-            미니하우스 설계 · 제작
+            {nav.tagline}
           </span>
         </Link>
 
@@ -61,8 +80,10 @@ export default function Navigation() {
               <li key={href}>
                 <Link
                   href={href}
+                  aria-current={active ? "page" : undefined}
                   className={[
-                    "relative text-sm tracking-[0.15em] uppercase transition-colors duration-300",
+                    "relative text-sm transition-colors duration-300",
+                    menuText,
                     active
                       ? "text-[var(--text)]"
                       : "text-[var(--text-muted)] hover:text-[var(--text)]",
@@ -80,10 +101,13 @@ export default function Navigation() {
           })}
         </ul>
 
-        {/* Footer info */}
-        <div className="text-[10px] tracking-widest text-[var(--text-muted)] uppercase leading-relaxed">
-          <p>© {new Date().getFullYear()}</p>
-          <p>CW_ArtHouse</p>
+        {/* Footer: language + copyright */}
+        <div className="flex flex-col gap-5">
+          <LanguageSwitcher locale={locale} label={languageLabel} />
+          <div className="text-[10px] tracking-widest text-[var(--text-muted)] uppercase leading-relaxed">
+            <p>© {new Date().getFullYear()}</p>
+            <p>CW_ArtHouse</p>
+          </div>
         </div>
       </nav>
 
@@ -96,13 +120,14 @@ export default function Navigation() {
             : "bg-transparent",
         ].join(" ")}
       >
-        <Link href="/" onClick={closeMenu} className="font-display text-xl tracking-wide">
+        <Link href={localePath(locale)} onClick={closeMenu} className="font-display text-xl tracking-wide">
           CW_ArtHouse
         </Link>
 
         <button
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-label={menuOpen ? nav.closeMenu : nav.openMenu}
+          aria-expanded={menuOpen}
           className="flex flex-col gap-1.5 p-2 -mr-2"
         >
           <span
@@ -137,11 +162,17 @@ export default function Navigation() {
               key={href}
               href={href}
               onClick={closeMenu}
-              className="font-display text-3xl tracking-widest text-[var(--text)] hover:text-[var(--accent)] transition-colors"
+              className={[
+                "font-display text-3xl text-[var(--text)] hover:text-[var(--accent)] transition-colors",
+                locale === "en" ? "tracking-widest" : "tracking-wide",
+              ].join(" ")}
             >
               {label}
             </Link>
           ))}
+          <div className="mt-8">
+            <LanguageSwitcher locale={locale} label={languageLabel} onNavigate={closeMenu} />
+          </div>
         </div>
       )}
     </>

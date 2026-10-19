@@ -39,9 +39,9 @@
   --color-muted: var(--text-muted);
   --color-accent: var(--accent);
   --color-border: var(--border);
-  --font-display: var(--font-cormorant);
-  --font-body: var(--font-inter);
-  --font-korean: 'Nanum Myeongjo', 'Noto Serif KR', 'Batang', Georgia, serif;
+  --font-display: var(--font-cormorant, Georgia), var(--font-noto-serif-kr, serif), serif;
+  --font-body: var(--font-inter, sans-serif), var(--font-noto-sans-kr, sans-serif), sans-serif;
+  --font-korean: var(--font-cormorant, Georgia), var(--font-noto-serif-kr, serif), serif;
 }
 
 *, *::before, *::after {
@@ -57,7 +57,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-inter, sans-serif), var(--font-noto-sans-kr, sans-serif), sans-serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -98,12 +98,15 @@ img {
 ::selection { background: rgba(184,149,106,0.25); color: var(--text); }
 
 /* ── Typography helpers ──────────────────────────────── */
+/* 영문 글자는 앞 폰트(Cormorant / Inter), 한글 글자는 뒤 폰트(Noto Serif KR / Noto Sans KR) */
 .font-display {
-  font-family: var(--font-cormorant), Georgia, serif;
+  font-family: var(--font-cormorant, Georgia), var(--font-noto-serif-kr, serif), serif;
 }
 
+/* 한글 제목·부제용 — Hangul 은 Noto Serif KR (Light 300 권장) */
 .font-korean {
-  font-family: 'Nanum Myeongjo', 'Noto Serif KR', 'Batang', Georgia, serif;
+  font-family: var(--font-cormorant, Georgia), var(--font-noto-serif-kr, serif), serif;
+  font-weight: 300;
 }
 
 /* ── Page layout with nav offset ────────────────────── */

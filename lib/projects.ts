@@ -23,7 +23,9 @@
 
 // ── 공통 타입 · 표시 헬퍼 ──────────────────────────────────────────
 
-export type Locale = "ko" | "en";
+import type { Locale } from "@/lib/i18n/config";
+
+export type { Locale };
 
 export interface I18nText {
   ko: string;
