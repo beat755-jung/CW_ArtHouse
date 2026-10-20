@@ -1,8 +1,8 @@
 /**
  * components/home/ProcessTimeline.tsx — 제작 공정 요약 (서버 컴포넌트)
  *
- * - lib/projects.ts getProcessHighlights(): 대표 사진 + 한 줄 설명이 있는 단계 (현재 6단계)
- * - 데스크톱(lg) 6열 가로 타임라인, 그 이하는 가로 스크롤(scroll-snap)
+ * - lib/projects.ts getProcessHighlights(): 대표 사진 + 한 줄 설명이 있는 단계 (현재 7단계 — 기초는 사진 대기)
+ * - xl(1280px+) 한 줄 7열 가로 타임라인, 그 이하는 가로 스크롤(scroll-snap)
  * - 이미지 lazy 로딩 (기본값)
  * - 전체 9단계는 /[locale]/process
  */
@@ -42,10 +42,10 @@ export default function ProcessTimeline({ locale, home }: Props) {
       <ol
         aria-label={home.processScrollLabel}
         tabIndex={0}
-        className="list-none m-0 p-0 flex lg:grid lg:grid-cols-6 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none pb-4 lg:pb-0 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--accent)]"
+        className="list-none m-0 p-0 flex xl:grid xl:grid-cols-7 gap-4 overflow-x-auto xl:overflow-visible snap-x snap-mandatory xl:snap-none pb-4 xl:pb-0 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--accent)]"
       >
         {steps.map((step, i) => (
-          <li key={step.code} className="snap-start shrink-0 w-[72%] sm:w-[40%] md:w-[30%] lg:w-auto">
+          <li key={step.code} className="snap-start shrink-0 w-[72%] sm:w-[40%] md:w-[30%] lg:w-[23%] xl:w-auto">
             <div className="flex items-center gap-3 mb-3" aria-hidden>
               <span className="font-display text-xl text-[var(--accent)]">
                 {String(i + 1).padStart(2, "0")}
@@ -57,7 +57,7 @@ export default function ProcessTimeline({ locale, home }: Props) {
                 src={step.image.src}
                 alt={step.image.alt[locale]}
                 fill
-                sizes="(max-width: 640px) 72vw, (max-width: 1024px) 30vw, 16vw"
+                sizes="(max-width: 640px) 72vw, (max-width: 1279px) 30vw, 14vw"
                 className="object-cover select-none"
                 draggable={false}
               />

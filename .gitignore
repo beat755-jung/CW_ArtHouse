@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 이미지 고해상도 원본 (로컬 보관 전용 — 사이트에는 public/ 의 1920px 사본 사용)
+/_originals/
