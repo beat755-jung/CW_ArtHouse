@@ -171,11 +171,12 @@ CW_ArtHouse/
 ├── public/
 │   └── projects/
 │       └── prototype-01/             이미지 파일명 = 인벤토리 ID (ing-05.jpg 등)
-│           ├── exterior/             외관 — 제작 현장 실사 + 콘셉트 렌더 (14장)
-│           ├── process/              제작 공정 실사 (11장)
-│           └── interior/             실내 분위기 샘플 렌더 (8장, 추후 교체)
+│           ├── exterior/             완성 외관(준공 후 추가) + 외관 콘셉트 렌더 (현재 렌더 6장)
+│           ├── process/              제작 과정 실사 전부 (83장, view: 외부 54 / 내부 29)
+│           └── interior/             완성 실내(준공 후 추가) + 실내 분위기 샘플 렌더 (12장, 추후 교체)
 │
-├── _archive/                         게시 불가 이미지 (public 밖, 사이트 미제공 · 3장)
+├── _archive/                         게시 불가 이미지 (public 밖, 사이트 미제공 · 4장)
+├── _originals/                       고해상도 원본 (git 제외, 로컬 전용)
 ├── docs/
 │   └── image-inventory.md            이미지 분류·추천·부족 컷 목록
 │

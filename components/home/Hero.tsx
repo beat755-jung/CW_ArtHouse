@@ -8,7 +8,7 @@
  * - 왼쪽 위에서 시계 방향: 콘셉트(out-08) → 외관 제작(ing-05·08·02) → 실내 공정(ing-18·11)
  *   → 완성 분위기(in-07·09). "짓는 과정이 있는 집"으로 읽히도록 배치
  * - 모바일(< md)에서는 4장(out-08·ing-05·ing-18·in-07)만 상·하단에 작게 표시
- * - out-08: 3:2 프레임 + 가운데 정렬로 휴대폰 UI(상태바·버튼)가 잘려 보이지 않음
+ * - out-08: 사용자가 렌더 부분만 잘라 교체한 out-08-render-view.jpg (826×565, 휴대폰 UI 없음) — 3:2 프레임
  * - in-09 : 3:4 프레임 + 오른쪽 정렬로 창밖 아파트가 보이지 않음
  * - 렌더와 실사가 섞여 있으므로 하단에 "일부 이미지는 콘셉트 렌더" 표기 (CLAUDE.md)
  *
@@ -54,25 +54,25 @@ interface Fragment {
 const fragments: Fragment[] = [
   // ① 콘셉트 렌더 (야간)
   {
-    src: `${P1}/exterior/out-08.jpg`, ratio: "3/2", position: "center",
+    src: `${P1}/exterior/out-08-render-view.jpg`, ratio: "3/2", position: "center",
     className: "top-2 left-[4%] w-[36vw] md:top-[6%] md:left-[3%] md:w-[19vw]",
     rotate: -2, delay: 0.15, float: 9, mobile: true,
   },
   // ② 외관 제작 — 견인부 쪽 끝
   {
-    src: `${P1}/exterior/ing-05.jpg`, ratio: "4/3", position: "center",
+    src: `${P1}/process/ing-05.jpg`, ratio: "4/3", position: "center",
     className: "top-2 right-[4%] w-[36vw] md:top-[5%] md:right-[4%] md:w-[21vw]",
     rotate: 2, delay: 0.3, float: 11, mobile: true,
   },
   // ③ 외관 제작 — 측면 입면
   {
-    src: `${P1}/exterior/ing-08.jpg`, ratio: "4/3", position: "center",
+    src: `${P1}/process/ing-08.jpg`, ratio: "4/3", position: "center",
     className: "hidden md:block md:top-[34%] md:right-[2%] md:w-[15vw]",
     rotate: -1.5, delay: 0.45, float: 10, mobile: false,
   },
   // ④ 창호·출입문
   {
-    src: `${P1}/exterior/ing-02.jpg`, ratio: "4/3", position: "center",
+    src: `${P1}/process/ing-02.jpg`, ratio: "4/3", position: "center",
     className: "hidden md:block md:top-[57%] md:right-[8%] md:w-[13vw]",
     rotate: 1.5, delay: 0.6, float: 12, mobile: false,
   },

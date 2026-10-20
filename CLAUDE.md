@@ -57,9 +57,14 @@
 ## 이미지 자산
 
 - 데이터 단일 출처: `lib/projects.ts` (Project · ProcessStep). 모르는 값은 `null` → 화면에 `[확인 필요]` / `[To be confirmed]`
-- 이미지 경로: `public/projects/{slug}/exterior | process | interior / {인벤토리 ID}.jpg`
+- 이미지 경로: `public/projects/{slug}/exterior | process | interior / {인벤토리 ID}[-설명].jpg`
+  - 파일명은 인벤토리 ID로 시작한다. 설명을 덧붙여도 된다 (예: `out-03-leftside-view.jpg`)
+  - **폴더는 사이트에서의 용도 기준** (찍힌 대상 기준 아님)
+    - `exterior/`: 완성(준공) 외관 사진 + 외관 콘셉트 렌더(`out-*`)
+    - `process/`: 제작 과정 실사(`ing-*`) 전부. 외부·내부 촬영 시점은 데이터의 `view: "exterior" | "interior"`로 구분
+    - `interior/`: 완성(준공) 실내 사진 + 실내 **분위기 샘플** 렌더(`in-*`)
   - 파일명 ID(`ing-05`, `out-08`, `in-07` …)는 `docs/image-inventory.md`와 같다.
-  - `ing-*` 제작 현장 실사, `out-*` 외관 콘셉트 렌더, `in-*` 내부 **분위기 샘플** 렌더
+  - 프로젝트 대표 이미지는 `Project.cover`로 직접 지정한다 (렌더가 대표 이미지가 되지 않도록)
   - `in-*`는 실제 제품과 구성이 다르며 추후 교체 예정. 현재는 분위기 참고용으로 그대로 사용한다.
 - 게시 불가 이미지는 `public` 밖 `_archive/`에 둔다 (`public/` 안 파일은 배포 시 누구나 접근 가능).
   - `out-07` 중복, `in-01` SketchUp 파일명 노출, `in-10` 저작권 확인 전, `ing-19` 작업자 노출(동의 확인 전)

@@ -17,7 +17,7 @@ import { hasLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { t, type I18nText } from "@/lib/projects";
 
-const coverSrc = "/projects/prototype-01/exterior/ing-05.jpg";
+const coverSrc = "/projects/prototype-01/process/ing-05.jpg";
 
 const sections: { label: I18nText; value: I18nText | null }[] = [
   { label: { ko: "회사 소개", en: "Company" }, value: null },
