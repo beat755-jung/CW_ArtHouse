@@ -38,8 +38,13 @@ export default function Navigation({ locale, nav, languageLabel }: Props) {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
+    // 앵커(#roof 등)나 새로고침으로 이미 스크롤된 위치에서 열려도 첫 프레임에 배경 적용
+    const frame = requestAnimationFrame(onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
@@ -114,7 +119,7 @@ export default function Navigation({ locale, nav, languageLabel }: Props) {
       {/* ── Mobile Top Bar ──────────────────────────────── */}
       <header
         className={[
-          "md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 h-16 transition-all duration-300",
+          "md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 h-16 motion-safe:transition-colors motion-safe:duration-300",
           scrolled || menuOpen
             ? "bg-[var(--bg)] border-b border-[var(--border)]"
             : "bg-transparent",

@@ -4,7 +4,7 @@
  * - lib/projects.ts getProcessHighlights(): 대표 사진 + 한 줄 설명이 있는 단계 (현재 7단계 — 기초는 사진 대기)
  * - xl(1280px+) 한 줄 7열 가로 타임라인, 그 이하는 가로 스크롤(scroll-snap)
  * - 이미지 lazy 로딩 (기본값)
- * - 전체 9단계는 /[locale]/process
+ * - 전체 9단계는 /[locale]/process — 각 카드는 해당 단계 섹션(#코드)으로 연결
  */
 import Image from "next/image";
 import Link from "next/link";
@@ -46,6 +46,8 @@ export default function ProcessTimeline({ locale, home }: Props) {
       >
         {steps.map((step, i) => (
           <li key={step.code} className="snap-start shrink-0 w-[72%] sm:w-[40%] md:w-[30%] lg:w-[23%] xl:w-auto">
+            {/* 카드 → /process 의 해당 단계 섹션 */}
+            <Link href={`${localePath(locale, "/process")}#${step.code}`} className="group block">
             <div className="flex items-center gap-3 mb-3" aria-hidden>
               <span className="font-display text-xl text-[var(--accent)]">
                 {String(i + 1).padStart(2, "0")}
@@ -62,10 +64,11 @@ export default function ProcessTimeline({ locale, home }: Props) {
                 draggable={false}
               />
             </div>
-            <h3 className="font-korean text-lg text-[var(--text)]">{step.name[locale]}</h3>
+            <h3 className="font-korean text-lg text-[var(--text)] group-hover:text-[var(--accent)] transition-colors [word-break:keep-all]">{step.name[locale]}</h3>
             <p className="mt-1 text-sm leading-relaxed text-[var(--text-muted)] [word-break:keep-all]">
-              {step.description[locale]}
+              {step.summary[locale]}
             </p>
+            </Link>
           </li>
         ))}
       </ol>
