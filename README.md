@@ -170,11 +170,14 @@ CW_ArtHouse/
 │       ├── AnnotatedImage.tsx        번호 마커 주석 사진 (?annotate=1 좌표 찾기, 개발 전용)
 │       ├── EvidenceLink.tsx          근거 사진 ID → 라이트박스 열기
 │       └── PhotoPlaceholder.tsx      "사진 준비 중" 자리
+│   (projects/DrawingViewer.tsx       도면 SVG 확대·이동 보기 — 상세 페이지)
 │
 ├── lib/
 │   ├── projects.ts                   프로젝트·공정 데이터 단일 출처 (모르는 값은 null → [확인 필요])
 │   ├── company.ts                    회사 핵심 정보 (모두 null → [확인 필요])
 │   ├── annotations.ts                사진 주석 마커 좌표 (이미지 ID별 %)
+│   ├── image-map.json                이미지 대응표 (인벤토리 ID ↔ 원본 ↔ 결과물)
+│   ├── drawings.ts                   도면 파일 찾기 (서버 전용)
 │   ├── fonts.ts                      한글 폰트 정의 (Noto Serif KR · Noto Sans KR)
 │   └── i18n/
 │       ├── config.ts                 지원 언어·기본 언어·경로 헬퍼
@@ -184,16 +187,18 @@ CW_ArtHouse/
 │           └── en.ts                 영어 화면 문구 (키 누락 시 빌드 오류)
 │
 ├── public/
-│   └── projects/
-│       └── prototype-01/             이미지 파일명 = 인벤토리 ID (ing-05.jpg 등)
-│           ├── exterior/             완성 외관(준공 후 추가) + 외관 콘셉트 렌더 (현재 렌더 6장)
-│           ├── process/              제작 과정 실사 전부 (83장, view: 외부 54 / 내부 29)
-│           └── interior/             완성 실내(준공 후 추가) + 실내 분위기 샘플 렌더 (12장, 추후 교체)
+│   ├── images/                       사이트 이미지 결과물 — npm run images 가 생성 (직접 수정 금지)
+│   │   ├── exterior/                 외관 콘셉트 렌더 6장 (exterior-{뷰}-{번호}.jpg)
+│   │   ├── process/                  제작 과정 실사 83장 (process-{공정}-{번호}.jpg)
+│   │   └── interior/                 실내 분위기 샘플 렌더 12장 (interior-{공간}-{번호}.jpg)
+│   └── drawings/{slug}/              도면 SVG (plan · elevation · section) — 없으면 "도면 준비 중"
 │
+├── assets-src/                       이미지 원본 (git 제외, 로컬 전용 · 절대 수정 금지)
+├── scripts/process-images.mjs        이미지 처리: 방향·메타데이터 제거·2400px·약한 톤 보정·리포트
 ├── _archive/                         게시 불가 이미지 (public 밖, 사이트 미제공 · 4장)
-├── _originals/                       고해상도 원본 (git 제외, 로컬 전용)
 ├── docs/
-│   └── image-inventory.md            이미지 분류·추천·부족 컷 목록
+│   ├── image-inventory.md            이미지 분류·추천·부족 컷 목록·ID ↔ 파일명 대응표
+│   └── image-report.md               이미지 처리 리포트 (npm run images 가 생성)
 │
 ├── CLAUDE.md                         작업·콘텐츠 규칙 (AGENTS.md 포함)
 ├── AGENTS.md                         Next.js 16 주의사항

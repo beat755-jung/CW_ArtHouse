@@ -68,8 +68,12 @@
 ## 이미지 자산
 
 - 데이터 단일 출처: `lib/projects.ts` (Project · ProcessStep). 모르는 값은 `null` → 화면에 `[확인 필요]` / `[To be confirmed]`
-- 이미지 경로: `public/projects/{slug}/exterior | process | interior / {인벤토리 ID}[-설명].jpg`
-  - 파일명은 인벤토리 ID로 시작한다. 설명을 덧붙여도 된다 (예: `out-03-leftside-view.jpg`)
+- **원본은 절대 수정하지 않는다.** 원본 `assets-src/house_out · house_ing · house_in/{ID}.jpg` (git 제외, 로컬 전용)
+- 결과물 `public/images/{exterior|process|interior}/{구분}-{공정·공간}-{번호}.jpg` — `npm run images`로만 만든다 (`scripts/process-images.mjs`)
+  - EXIF 회전 반영 · EXIF/GPS/ICC 제거 · 긴 변 2400px 이하(확대 없음) · JPEG 82
+  - 톤 보정은 실사만, 화이트밸런스 ±6% · 노출 ±0.25EV 이내. 렌더는 보정 안 함. 결과는 `docs/image-report.md`
+  - 전후 비교: `npm run images -- --compare` → `scripts/out/compare/` (git 제외)
+- **데이터 키는 인벤토리 ID** (`ing-23` 등). 대응표 `lib/image-map.json` — 코드에서는 `imageSrc("ing-23")`, 역방향은 `imageId(src)`
   - **폴더는 사이트에서의 용도 기준** (찍힌 대상 기준 아님)
     - `exterior/`: 완성(준공) 외관 사진 + 외관 콘셉트 렌더(`out-*`)
     - `process/`: 제작 과정 실사(`ing-*`) 전부. 외부·내부 촬영 시점은 데이터의 `view: "exterior" | "interior"`로 구분
@@ -79,10 +83,15 @@
   - `in-*`는 실제 제품과 구성이 다르며 추후 교체 예정. 현재는 분위기 참고용으로 그대로 사용한다.
 - 게시 불가 이미지는 `public` 밖 `_archive/`에 둔다 (`public/` 안 파일은 배포 시 누구나 접근 가능).
   - `out-07` 중복, `in-01` SketchUp 파일명 노출, `in-10` 저작권 확인 전, `ing-19` 작업자 노출(동의 확인 전)
-- `public/` 사진은 긴 변 1920px 사본(카메라 메타데이터 제거). 고해상도 원본은 `_originals/` (git 제외, 로컬 전용)
-- 새 이미지 추가 시: 기존 이미지와 중복 확인 → 촬영 시각 순으로 다음 ID 부여 → `lib/projects.ts`·`docs/image-inventory.md` 함께 갱신
+- 새 이미지 추가 시: 기존 이미지와 중복 확인 → 촬영 시각 순으로 다음 ID 부여 → 원본을 `assets-src/`에 넣고 `lib/image-map.json`에 항목 추가 → `npm run images` → `lib/projects.ts`·`docs/image-inventory.md` 갱신
+  - 대체 텍스트(ko/en)는 사진에 보이는 것만 쓴다 ("설치 전", "장착 전"처럼 상태를 추정하는 말 금지)
   - 촬영일은 `lib/projects.ts`의 `SHOT_DATES`에 추가 (화면에는 "사진 기록일"로만 표시 — 공사 기간으로 쓰지 않는다)
   - 공정 사진은 `step` 태그를 달면 `/process` 해당 단계에 자동 표시. 채운 컷은 그 단계의 `pendingShots`에서 지운다
+
+## 도면 (`/projects/[slug]`)
+
+- 파일 위치 `public/drawings/{slug}/plan.svg · elevation.svg · section.svg` — 있으면 `DrawingViewer` 탭에 표시, 없으면 "도면 준비 중"
+- 하단 "개념도이며 실제 치수와 다를 수 있습니다" 문구 유지. 도면 속 치수·면적을 데이터로 옮겨 적지 않는다
 
 ## 제작 과정 페이지 (`/process`)
 

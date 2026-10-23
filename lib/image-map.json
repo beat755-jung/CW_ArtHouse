@@ -1,0 +1,1015 @@
+{
+  "$comment": "scripts/process-images.mjs 와 lib/projects.ts 가 함께 쓰는 이미지 대응표. id = 인벤토리 ID (데이터 키), source = assets-src/ 기준 원본, output = public/images/ 기준 결과물",
+  "images": [
+    {
+      "id": "out-04",
+      "kind": "render",
+      "category": "exterior",
+      "group": "back",
+      "date": null,
+      "source": "house_out/out-04-back-view.jpg",
+      "output": "exterior/exterior-back-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "out-02",
+      "kind": "render",
+      "category": "exterior",
+      "group": "front",
+      "date": null,
+      "source": "house_out/out-02-front-view.jpg",
+      "output": "exterior/exterior-front-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "out-03",
+      "kind": "render",
+      "category": "exterior",
+      "group": "left",
+      "date": null,
+      "source": "house_out/out-03-leftside-view.jpg",
+      "output": "exterior/exterior-left-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "out-08",
+      "kind": "render",
+      "category": "exterior",
+      "group": "night",
+      "date": null,
+      "source": "house_out/out-08-render-view.jpg",
+      "output": "exterior/exterior-night-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "out-05",
+      "kind": "render",
+      "category": "exterior",
+      "group": "perspective",
+      "date": null,
+      "source": "house_out/out-05-perspective-view.jpg",
+      "output": "exterior/exterior-perspective-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "out-01",
+      "kind": "render",
+      "category": "exterior",
+      "group": "top",
+      "date": null,
+      "source": "house_out/out-01-top-roof-view.jpg",
+      "output": "exterior/exterior-top-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-03",
+      "kind": "render",
+      "category": "interior",
+      "group": "bathroom",
+      "date": null,
+      "source": "house_in/in-03.jpg",
+      "output": "interior/interior-bathroom-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-04",
+      "kind": "render",
+      "category": "interior",
+      "group": "bedroom",
+      "date": null,
+      "source": "house_in/in-04.jpg",
+      "output": "interior/interior-bedroom-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-08",
+      "kind": "render",
+      "category": "interior",
+      "group": "bedroom",
+      "date": null,
+      "source": "house_in/in-08.jpg",
+      "output": "interior/interior-bedroom-02.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-11",
+      "kind": "render",
+      "category": "interior",
+      "group": "bedroom",
+      "date": null,
+      "source": "house_in/in-11.jpg",
+      "output": "interior/interior-bedroom-03.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-13",
+      "kind": "render",
+      "category": "interior",
+      "group": "corridor",
+      "date": null,
+      "source": "house_in/in-13.jpg",
+      "output": "interior/interior-corridor-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-02",
+      "kind": "render",
+      "category": "interior",
+      "group": "cutaway",
+      "date": null,
+      "source": "house_in/in-02.jpg",
+      "output": "interior/interior-cutaway-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-05",
+      "kind": "render",
+      "category": "interior",
+      "group": "entrance",
+      "date": null,
+      "source": "house_in/in-05.jpg",
+      "output": "interior/interior-entrance-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-09",
+      "kind": "render",
+      "category": "interior",
+      "group": "kitchen",
+      "date": null,
+      "source": "house_in/in-09.jpg",
+      "output": "interior/interior-kitchen-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-12",
+      "kind": "render",
+      "category": "interior",
+      "group": "laundry",
+      "date": null,
+      "source": "house_in/in-12.jpg",
+      "output": "interior/interior-laundry-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-06",
+      "kind": "render",
+      "category": "interior",
+      "group": "living",
+      "date": null,
+      "source": "house_in/in-06.jpg",
+      "output": "interior/interior-living-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-07",
+      "kind": "render",
+      "category": "interior",
+      "group": "living",
+      "date": null,
+      "source": "house_in/in-07.jpg",
+      "output": "interior/interior-living-02.jpg",
+      "portrait": false
+    },
+    {
+      "id": "in-14",
+      "kind": "render",
+      "category": "interior",
+      "group": "storage",
+      "date": null,
+      "source": "house_in/in-14.jpg",
+      "output": "interior/interior-storage-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-32",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-07",
+      "source": "house_ing/ing-32.jpg",
+      "output": "process/process-exterior-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-33",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-08",
+      "source": "house_ing/ing-33.jpg",
+      "output": "process/process-exterior-02.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-34",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-08",
+      "source": "house_ing/ing-34.jpg",
+      "output": "process/process-exterior-03.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-47",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-47.jpg",
+      "output": "process/process-exterior-04.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-48",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-48.jpg",
+      "output": "process/process-exterior-05.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-50",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-50.jpg",
+      "output": "process/process-exterior-06.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-51",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-51.jpg",
+      "output": "process/process-exterior-07.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-52",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-52.jpg",
+      "output": "process/process-exterior-08.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-53",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-53.jpg",
+      "output": "process/process-exterior-09.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-56",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-56.jpg",
+      "output": "process/process-exterior-10.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-57",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-57.jpg",
+      "output": "process/process-exterior-11.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-58",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-58.jpg",
+      "output": "process/process-exterior-12.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-60",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-60.jpg",
+      "output": "process/process-exterior-13.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-61",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-61.jpg",
+      "output": "process/process-exterior-14.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-62",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-62.jpg",
+      "output": "process/process-exterior-15.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-63",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-63.jpg",
+      "output": "process/process-exterior-16.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-64",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-64.jpg",
+      "output": "process/process-exterior-17.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-65",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-65.jpg",
+      "output": "process/process-exterior-18.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-66",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-66.jpg",
+      "output": "process/process-exterior-19.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-67",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-67.jpg",
+      "output": "process/process-exterior-20.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-68",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-68.jpg",
+      "output": "process/process-exterior-21.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-69",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-69.jpg",
+      "output": "process/process-exterior-22.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-70",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-70.jpg",
+      "output": "process/process-exterior-23.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-71",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-71.jpg",
+      "output": "process/process-exterior-24.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-75",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-75.jpg",
+      "output": "process/process-exterior-25.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-76",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-76.jpg",
+      "output": "process/process-exterior-26.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-01",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-01.jpg",
+      "output": "process/process-exterior-27.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-04",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-04.jpg",
+      "output": "process/process-exterior-28.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-05",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-05.jpg",
+      "output": "process/process-exterior-29.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-06",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-06.jpg",
+      "output": "process/process-exterior-30.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-07",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-07.jpg",
+      "output": "process/process-exterior-31.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-08",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-08.jpg",
+      "output": "process/process-exterior-32.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-82",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-82.jpg",
+      "output": "process/process-exterior-33.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-83",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-83.jpg",
+      "output": "process/process-exterior-34.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-84",
+      "kind": "photo",
+      "category": "process",
+      "group": "exterior",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-84.jpg",
+      "output": "process/process-exterior-35.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-03",
+      "kind": "photo",
+      "category": "process",
+      "group": "foundation",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-03.jpg",
+      "output": "process/process-foundation-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-20",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-08-11",
+      "source": "house_ing/ing-20.jpg",
+      "output": "process/process-framing-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-21",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-08-11",
+      "source": "house_ing/ing-21.jpg",
+      "output": "process/process-framing-02.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-22",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-08-11",
+      "source": "house_ing/ing-22.jpg",
+      "output": "process/process-framing-03.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-23",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-08-11",
+      "source": "house_ing/ing-23.jpg",
+      "output": "process/process-framing-04.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-39",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-39.jpg",
+      "output": "process/process-framing-05.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-40",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-40.jpg",
+      "output": "process/process-framing-06.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-41",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-41.jpg",
+      "output": "process/process-framing-07.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-42",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-42.jpg",
+      "output": "process/process-framing-08.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-43",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-43.jpg",
+      "output": "process/process-framing-09.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-45",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-45.jpg",
+      "output": "process/process-framing-10.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-46",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-46.jpg",
+      "output": "process/process-framing-11.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-10",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-10.jpg",
+      "output": "process/process-framing-12.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-13",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-13.jpg",
+      "output": "process/process-framing-13.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-15",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-15.jpg",
+      "output": "process/process-framing-14.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-54",
+      "kind": "photo",
+      "category": "process",
+      "group": "framing",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-54.jpg",
+      "output": "process/process-framing-15.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-44",
+      "kind": "photo",
+      "category": "process",
+      "group": "insulation",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-44.jpg",
+      "output": "process/process-insulation-01.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-11",
+      "kind": "photo",
+      "category": "process",
+      "group": "insulation",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-11.jpg",
+      "output": "process/process-insulation-02.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-16",
+      "kind": "photo",
+      "category": "process",
+      "group": "insulation",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-16.jpg",
+      "output": "process/process-insulation-03.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-55",
+      "kind": "photo",
+      "category": "process",
+      "group": "insulation",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-55.jpg",
+      "output": "process/process-insulation-04.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-09",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-09.jpg",
+      "output": "process/process-interior-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-12",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-12.jpg",
+      "output": "process/process-interior-02.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-14",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-14.jpg",
+      "output": "process/process-interior-03.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-18",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-18.jpg",
+      "output": "process/process-interior-04.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-77",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-77.jpg",
+      "output": "process/process-interior-05.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-78",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-78.jpg",
+      "output": "process/process-interior-06.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-79",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-79.jpg",
+      "output": "process/process-interior-07.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-80",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-80.jpg",
+      "output": "process/process-interior-08.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-81",
+      "kind": "photo",
+      "category": "process",
+      "group": "interior",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-81.jpg",
+      "output": "process/process-interior-09.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-37",
+      "kind": "photo",
+      "category": "process",
+      "group": "mep",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-37.jpg",
+      "output": "process/process-mep-01.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-38",
+      "kind": "photo",
+      "category": "process",
+      "group": "mep",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-38.jpg",
+      "output": "process/process-mep-02.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-17",
+      "kind": "photo",
+      "category": "process",
+      "group": "mep",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-17.jpg",
+      "output": "process/process-mep-03.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-24",
+      "kind": "photo",
+      "category": "process",
+      "group": "roof",
+      "date": "2026-08-25",
+      "source": "house_ing/ing-24.jpg",
+      "output": "process/process-roof-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-25",
+      "kind": "photo",
+      "category": "process",
+      "group": "roof",
+      "date": "2026-08-25",
+      "source": "house_ing/ing-25.jpg",
+      "output": "process/process-roof-02.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-26",
+      "kind": "photo",
+      "category": "process",
+      "group": "roof",
+      "date": "2026-08-25",
+      "source": "house_ing/ing-26.jpg",
+      "output": "process/process-roof-03.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-27",
+      "kind": "photo",
+      "category": "process",
+      "group": "roof",
+      "date": "2026-08-25",
+      "source": "house_ing/ing-27.jpg",
+      "output": "process/process-roof-04.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-28",
+      "kind": "photo",
+      "category": "process",
+      "group": "roof",
+      "date": "2026-08-25",
+      "source": "house_ing/ing-28.jpg",
+      "output": "process/process-roof-05.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-29",
+      "kind": "photo",
+      "category": "process",
+      "group": "roof",
+      "date": "2026-08-25",
+      "source": "house_ing/ing-29.jpg",
+      "output": "process/process-roof-06.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-30",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-09-07",
+      "source": "house_ing/ing-30.jpg",
+      "output": "process/process-windows-01.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-31",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-09-07",
+      "source": "house_ing/ing-31.jpg",
+      "output": "process/process-windows-02.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-35",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-35.jpg",
+      "output": "process/process-windows-03.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-36",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-36.jpg",
+      "output": "process/process-windows-04.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-49",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-09-12",
+      "source": "house_ing/ing-49.jpg",
+      "output": "process/process-windows-05.jpg",
+      "portrait": true
+    },
+    {
+      "id": "ing-59",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-59.jpg",
+      "output": "process/process-windows-06.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-72",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-72.jpg",
+      "output": "process/process-windows-07.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-73",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-73.jpg",
+      "output": "process/process-windows-08.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-74",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-10-02",
+      "source": "house_ing/ing-74.jpg",
+      "output": "process/process-windows-09.jpg",
+      "portrait": false
+    },
+    {
+      "id": "ing-02",
+      "kind": "photo",
+      "category": "process",
+      "group": "windows",
+      "date": "2026-10-06",
+      "source": "house_ing/ing-02.jpg",
+      "output": "process/process-windows-10.jpg",
+      "portrait": false
+    }
+  ]
+}

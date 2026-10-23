@@ -23,9 +23,9 @@ import PageHeader from "@/components/PageHeader";
 import { companyInfo, procedureSteps } from "@/lib/company";
 import { hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { t, UNCONFIRMED } from "@/lib/projects";
+import { imageSrc, t, UNCONFIRMED } from "@/lib/projects";
 
-const coverSrc = "/projects/prototype-01/process/ing-05.jpg";
+const coverSrc = imageSrc("ing-05");
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/about">): Promise<Metadata> {
   const { locale } = await params;

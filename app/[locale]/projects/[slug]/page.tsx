@@ -4,7 +4,7 @@
  * [구성]
  * 1. 대표 외관 이미지 — 콘텐츠 전체 폭 (제작 과정 사진이면 "제작 중" 표기)
  * 2. 사양표 — 연면적·구조·기초·외장재·지붕재·단열·창호·난방·공사 기간·위치 (없으면 [확인 필요])
- * 3. 평면도 — Project.floorPlan 이 있으면 표시, 없으면 "평면도 준비 중" 자리
+ * 3. 도면 — components/projects/DrawingViewer (public/drawings/{slug}/plan|elevation|section.svg, 없으면 "도면 준비 중")
  * 4. 갤러리 탭 — 외관 / 제작 과정 / 내부 (MasonryGallery·Lightbox 재사용, 렌더·분위기 예시 표기)
  * 5. 이 프로젝트의 공정 — components/home/ProcessTimeline 재사용 (project 지정)
  * 6. CTA "이 모델로 상담하기" → /[locale]/contact?model={slug}
@@ -19,9 +19,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CtaLink from "@/components/CtaLink";
 import ProcessTimeline from "@/components/home/ProcessTimeline";
-import FloorPlan from "@/components/projects/FloorPlan";
+import DrawingViewer from "@/components/projects/DrawingViewer";
 import ProjectGallery from "@/components/projects/ProjectGallery";
 import { hasLocale, localePath } from "@/lib/i18n/config";
+import { getDrawings } from "@/lib/drawings";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import {
   formatArea,
@@ -168,13 +169,22 @@ export default async function ProjectDetailPage({ params }: PageProps<"/[locale]
             </dl>
           </section>
 
-          {/* 3. 평면도 */}
+          {/* 3. 도면 */}
           <section aria-labelledby="plan-heading" className="mb-20">
-            <SectionHeading id="plan-heading">{d.floorPlanHeading}</SectionHeading>
-            <FloorPlan
-              src={project.floorPlan}
-              alt={`${name} — ${d.floorPlanHeading}`}
-              labels={{ floorPlanPending: d.floorPlanPending, floorPlanPendingDetail: d.floorPlanPendingDetail }}
+            <SectionHeading id="plan-heading">{d.drawingsHeading}</SectionHeading>
+            <DrawingViewer
+              title={name}
+              drawings={getDrawings(project.slug)}
+              labels={{
+                tabs: d.drawingTabs,
+                tabsLabel: d.drawingsTabsLabel,
+                pending: d.drawingPending,
+                note: d.drawingNote,
+                zoomIn: d.drawingZoomIn,
+                zoomOut: d.drawingZoomOut,
+                reset: d.drawingReset,
+                hint: d.drawingHint,
+              }}
             />
           </section>
 

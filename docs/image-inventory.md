@@ -413,3 +413,116 @@ ING 문서에서 쓰는 방향 기준은 다음과 같습니다.
 - 외장 단계 비교: 펼친 상태 ING-65 (10-02) / 접은 상태 ING-06 (10-06)
 - 새로 확인된 표기 [확인]: ING-44 패널 측면 **'PIR PANEL'**, ING-16 롤 단열재 **'HIMONETECH'**. 표기 인용만 하며 성능·두께는 [확인 필요]
 - 사진 주석 좌표는 `lib/annotations.ts` (10% 격자 오버레이로 확인)
+
+### 7-6. 이미지 처리 파이프라인과 파일명 변경 (2026-10-23)
+
+- 원본: `assets-src/house_out · house_ing · house_in/` (**git 제외, 로컬 전용**) — 이전 `_originals/` 와 `public/projects/` 의 원본을 옮김
+- 결과물: `public/images/{exterior,process,interior}/{구분}-{공정·공간}-{번호}.jpg` — `npm run images` (scripts/process-images.mjs)
+  - EXIF 회전 반영 · EXIF/GPS/ICC 제거(결과 0건 검증) · 긴 변 2400px 이하(확대 없음) · JPEG 82
+  - 실사만 화이트밸런스 ±6% · 노출 ±0.25EV 이내 보정, 렌더는 보정 안 함. 사진별 값은 `docs/image-report.md`
+- **인벤토리 ID는 데이터 키로 유지**. 대응표: `lib/image-map.json` (코드에서는 `imageSrc("ing-23")`)
+- 대체 텍스트 수정(추정 표현 제거): ING-03 "장착 전 타이어" → "벽에 기대 놓은 타이어", ING-31 "설치 전 창호 부품" → "바닥에 놓인 창호 부품", 주석 ING-24 "벽 패널을 달기 전의 골조" → "벽 패널이 없는 골조"
+
+| ID | 결과 파일 (public/images/) | 원본 (assets-src/) | 구분 |
+|---|---|---|---|
+| IN-02 | `interior/interior-cutaway-01.jpg` | `house_in/in-02.jpg` | 렌더 |
+| IN-03 | `interior/interior-bathroom-01.jpg` | `house_in/in-03.jpg` | 렌더 |
+| IN-04 | `interior/interior-bedroom-01.jpg` | `house_in/in-04.jpg` | 렌더 |
+| IN-05 | `interior/interior-entrance-01.jpg` | `house_in/in-05.jpg` | 렌더 |
+| IN-06 | `interior/interior-living-01.jpg` | `house_in/in-06.jpg` | 렌더 |
+| IN-07 | `interior/interior-living-02.jpg` | `house_in/in-07.jpg` | 렌더 |
+| IN-08 | `interior/interior-bedroom-02.jpg` | `house_in/in-08.jpg` | 렌더 |
+| IN-09 | `interior/interior-kitchen-01.jpg` | `house_in/in-09.jpg` | 렌더 |
+| IN-11 | `interior/interior-bedroom-03.jpg` | `house_in/in-11.jpg` | 렌더 |
+| IN-12 | `interior/interior-laundry-01.jpg` | `house_in/in-12.jpg` | 렌더 |
+| IN-13 | `interior/interior-corridor-01.jpg` | `house_in/in-13.jpg` | 렌더 |
+| IN-14 | `interior/interior-storage-01.jpg` | `house_in/in-14.jpg` | 렌더 |
+| ING-01 | `process/process-exterior-27.jpg` | `house_ing/ing-01.jpg` | 실사 |
+| ING-02 | `process/process-windows-10.jpg` | `house_ing/ing-02.jpg` | 실사 |
+| ING-03 | `process/process-foundation-01.jpg` | `house_ing/ing-03.jpg` | 실사 |
+| ING-04 | `process/process-exterior-28.jpg` | `house_ing/ing-04.jpg` | 실사 |
+| ING-05 | `process/process-exterior-29.jpg` | `house_ing/ing-05.jpg` | 실사 |
+| ING-06 | `process/process-exterior-30.jpg` | `house_ing/ing-06.jpg` | 실사 |
+| ING-07 | `process/process-exterior-31.jpg` | `house_ing/ing-07.jpg` | 실사 |
+| ING-08 | `process/process-exterior-32.jpg` | `house_ing/ing-08.jpg` | 실사 |
+| ING-09 | `process/process-interior-01.jpg` | `house_ing/ing-09.jpg` | 실사 |
+| ING-10 | `process/process-framing-12.jpg` | `house_ing/ing-10.jpg` | 실사 |
+| ING-11 | `process/process-insulation-02.jpg` | `house_ing/ing-11.jpg` | 실사 |
+| ING-12 | `process/process-interior-02.jpg` | `house_ing/ing-12.jpg` | 실사 |
+| ING-13 | `process/process-framing-13.jpg` | `house_ing/ing-13.jpg` | 실사 |
+| ING-14 | `process/process-interior-03.jpg` | `house_ing/ing-14.jpg` | 실사 |
+| ING-15 | `process/process-framing-14.jpg` | `house_ing/ing-15.jpg` | 실사 |
+| ING-16 | `process/process-insulation-03.jpg` | `house_ing/ing-16.jpg` | 실사 |
+| ING-17 | `process/process-mep-03.jpg` | `house_ing/ing-17.jpg` | 실사 |
+| ING-18 | `process/process-interior-04.jpg` | `house_ing/ing-18.jpg` | 실사 |
+| ING-20 | `process/process-framing-01.jpg` | `house_ing/ing-20.jpg` | 실사 |
+| ING-21 | `process/process-framing-02.jpg` | `house_ing/ing-21.jpg` | 실사 |
+| ING-22 | `process/process-framing-03.jpg` | `house_ing/ing-22.jpg` | 실사 |
+| ING-23 | `process/process-framing-04.jpg` | `house_ing/ing-23.jpg` | 실사 |
+| ING-24 | `process/process-roof-01.jpg` | `house_ing/ing-24.jpg` | 실사 |
+| ING-25 | `process/process-roof-02.jpg` | `house_ing/ing-25.jpg` | 실사 |
+| ING-26 | `process/process-roof-03.jpg` | `house_ing/ing-26.jpg` | 실사 |
+| ING-27 | `process/process-roof-04.jpg` | `house_ing/ing-27.jpg` | 실사 |
+| ING-28 | `process/process-roof-05.jpg` | `house_ing/ing-28.jpg` | 실사 |
+| ING-29 | `process/process-roof-06.jpg` | `house_ing/ing-29.jpg` | 실사 |
+| ING-30 | `process/process-windows-01.jpg` | `house_ing/ing-30.jpg` | 실사 |
+| ING-31 | `process/process-windows-02.jpg` | `house_ing/ing-31.jpg` | 실사 |
+| ING-32 | `process/process-exterior-01.jpg` | `house_ing/ing-32.jpg` | 실사 |
+| ING-33 | `process/process-exterior-02.jpg` | `house_ing/ing-33.jpg` | 실사 |
+| ING-34 | `process/process-exterior-03.jpg` | `house_ing/ing-34.jpg` | 실사 |
+| ING-35 | `process/process-windows-03.jpg` | `house_ing/ing-35.jpg` | 실사 |
+| ING-36 | `process/process-windows-04.jpg` | `house_ing/ing-36.jpg` | 실사 |
+| ING-37 | `process/process-mep-01.jpg` | `house_ing/ing-37.jpg` | 실사 |
+| ING-38 | `process/process-mep-02.jpg` | `house_ing/ing-38.jpg` | 실사 |
+| ING-39 | `process/process-framing-05.jpg` | `house_ing/ing-39.jpg` | 실사 |
+| ING-40 | `process/process-framing-06.jpg` | `house_ing/ing-40.jpg` | 실사 |
+| ING-41 | `process/process-framing-07.jpg` | `house_ing/ing-41.jpg` | 실사 |
+| ING-42 | `process/process-framing-08.jpg` | `house_ing/ing-42.jpg` | 실사 |
+| ING-43 | `process/process-framing-09.jpg` | `house_ing/ing-43.jpg` | 실사 |
+| ING-44 | `process/process-insulation-01.jpg` | `house_ing/ing-44.jpg` | 실사 |
+| ING-45 | `process/process-framing-10.jpg` | `house_ing/ing-45.jpg` | 실사 |
+| ING-46 | `process/process-framing-11.jpg` | `house_ing/ing-46.jpg` | 실사 |
+| ING-47 | `process/process-exterior-04.jpg` | `house_ing/ing-47.jpg` | 실사 |
+| ING-48 | `process/process-exterior-05.jpg` | `house_ing/ing-48.jpg` | 실사 |
+| ING-49 | `process/process-windows-05.jpg` | `house_ing/ing-49.jpg` | 실사 |
+| ING-50 | `process/process-exterior-06.jpg` | `house_ing/ing-50.jpg` | 실사 |
+| ING-51 | `process/process-exterior-07.jpg` | `house_ing/ing-51.jpg` | 실사 |
+| ING-52 | `process/process-exterior-08.jpg` | `house_ing/ing-52.jpg` | 실사 |
+| ING-53 | `process/process-exterior-09.jpg` | `house_ing/ing-53.jpg` | 실사 |
+| ING-54 | `process/process-framing-15.jpg` | `house_ing/ing-54.jpg` | 실사 |
+| ING-55 | `process/process-insulation-04.jpg` | `house_ing/ing-55.jpg` | 실사 |
+| ING-56 | `process/process-exterior-10.jpg` | `house_ing/ing-56.jpg` | 실사 |
+| ING-57 | `process/process-exterior-11.jpg` | `house_ing/ing-57.jpg` | 실사 |
+| ING-58 | `process/process-exterior-12.jpg` | `house_ing/ing-58.jpg` | 실사 |
+| ING-59 | `process/process-windows-06.jpg` | `house_ing/ing-59.jpg` | 실사 |
+| ING-60 | `process/process-exterior-13.jpg` | `house_ing/ing-60.jpg` | 실사 |
+| ING-61 | `process/process-exterior-14.jpg` | `house_ing/ing-61.jpg` | 실사 |
+| ING-62 | `process/process-exterior-15.jpg` | `house_ing/ing-62.jpg` | 실사 |
+| ING-63 | `process/process-exterior-16.jpg` | `house_ing/ing-63.jpg` | 실사 |
+| ING-64 | `process/process-exterior-17.jpg` | `house_ing/ing-64.jpg` | 실사 |
+| ING-65 | `process/process-exterior-18.jpg` | `house_ing/ing-65.jpg` | 실사 |
+| ING-66 | `process/process-exterior-19.jpg` | `house_ing/ing-66.jpg` | 실사 |
+| ING-67 | `process/process-exterior-20.jpg` | `house_ing/ing-67.jpg` | 실사 |
+| ING-68 | `process/process-exterior-21.jpg` | `house_ing/ing-68.jpg` | 실사 |
+| ING-69 | `process/process-exterior-22.jpg` | `house_ing/ing-69.jpg` | 실사 |
+| ING-70 | `process/process-exterior-23.jpg` | `house_ing/ing-70.jpg` | 실사 |
+| ING-71 | `process/process-exterior-24.jpg` | `house_ing/ing-71.jpg` | 실사 |
+| ING-72 | `process/process-windows-07.jpg` | `house_ing/ing-72.jpg` | 실사 |
+| ING-73 | `process/process-windows-08.jpg` | `house_ing/ing-73.jpg` | 실사 |
+| ING-74 | `process/process-windows-09.jpg` | `house_ing/ing-74.jpg` | 실사 |
+| ING-75 | `process/process-exterior-25.jpg` | `house_ing/ing-75.jpg` | 실사 |
+| ING-76 | `process/process-exterior-26.jpg` | `house_ing/ing-76.jpg` | 실사 |
+| ING-77 | `process/process-interior-05.jpg` | `house_ing/ing-77.jpg` | 실사 |
+| ING-78 | `process/process-interior-06.jpg` | `house_ing/ing-78.jpg` | 실사 |
+| ING-79 | `process/process-interior-07.jpg` | `house_ing/ing-79.jpg` | 실사 |
+| ING-80 | `process/process-interior-08.jpg` | `house_ing/ing-80.jpg` | 실사 |
+| ING-81 | `process/process-interior-09.jpg` | `house_ing/ing-81.jpg` | 실사 |
+| ING-82 | `process/process-exterior-33.jpg` | `house_ing/ing-82.jpg` | 실사 |
+| ING-83 | `process/process-exterior-34.jpg` | `house_ing/ing-83.jpg` | 실사 |
+| ING-84 | `process/process-exterior-35.jpg` | `house_ing/ing-84.jpg` | 실사 |
+| OUT-01 | `exterior/exterior-top-01.jpg` | `house_out/out-01-top-roof-view.jpg` | 렌더 |
+| OUT-02 | `exterior/exterior-front-01.jpg` | `house_out/out-02-front-view.jpg` | 렌더 |
+| OUT-03 | `exterior/exterior-left-01.jpg` | `house_out/out-03-leftside-view.jpg` | 렌더 |
+| OUT-04 | `exterior/exterior-back-01.jpg` | `house_out/out-04-back-view.jpg` | 렌더 |
+| OUT-05 | `exterior/exterior-perspective-01.jpg` | `house_out/out-05-perspective-view.jpg` | 렌더 |
+| OUT-08 | `exterior/exterior-night-01.jpg` | `house_out/out-08-render-view.jpg` | 렌더 |

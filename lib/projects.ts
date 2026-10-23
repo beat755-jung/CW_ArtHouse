@@ -11,25 +11,31 @@
  * - 이미지는 kind 로 실사(photo)와 렌더(render)를 구분한다.
  *
  * [이미지 경로 규칙 — 폴더는 "사이트에서의 용도" 기준]
- * - public/projects/{slug}/exterior | process | interior / {인벤토리 ID}.jpg
+ * - 결과물: public/images/{exterior|process|interior}/{구분}-{공정·공간}-{번호}.jpg — npm run images 가 생성
+ * - 원본: assets-src/house_{out|ing|in}/ (git 제외, 로컬 전용). 대응표: lib/image-map.json
+ * - 데이터 키는 인벤토리 ID — imageSrc("ing-23") 로 경로를 얻고, imageId(src) 로 ID 를 얻는다
  *   - exterior: 완성(준공) 외관 사진 + 외관 콘셉트 렌더
  *   - process : 제작 과정 실사 전부 (외부·내부 시점은 view 로 구분)
  *   - interior: 완성(준공) 실내 사진 + 실내 분위기 렌더
- * - 파일명은 인벤토리 ID(ing-05, out-08, in-07 …)로 시작한다 (docs/image-inventory.md 와 같음).
- *   설명을 덧붙여도 된다: out-03-leftside-view.jpg
+ * - 인벤토리 ID(ing-05, out-08, in-07 …)는 docs/image-inventory.md 와 같다.
  * - 게시 불가 이미지는 public 밖의 _archive/ 에 둔다.
  *
- * [프로젝트 추가 방법]
- * 1. public/projects/{새-slug}/ 아래에 exterior, process, interior 폴더를 만들고 이미지 복사
- * 2. projects 배열에 Project 객체 추가 (모르는 값은 null, cover 로 대표 이미지 지정)
+ * [이미지·프로젝트 추가 방법]
+ * 1. 원본을 assets-src/house_{out|ing|in}/{ID}.jpg 로 넣고 lib/image-map.json 에 항목 추가 → npm run images
+ * 2. 아래 목록에 photo/outside/inside/render(imageSrc("ID"), …) 로 등록, projects 배열에 Project 추가 (모르는 값은 null)
  * 3. featured: true 설정 시 홈 Featured 섹션에 표시
  */
 
 // ── 공통 타입 · 표시 헬퍼 ──────────────────────────────────────────
 
 import type { Locale } from "@/lib/i18n/config";
+import imageMap from "@/lib/image-map.json";
 
 export type { Locale };
+
+// 이미지 대응표 (scripts/process-images.mjs 와 공유) — 인벤토리 ID ↔ public/images/ 결과물 경로
+const ID_TO_SRC: Record<string, string> = Object.fromEntries(imageMap.images.map((i) => [i.id, `/images/${i.output}`]));
+const SRC_TO_ID: Record<string, string> = Object.fromEntries(imageMap.images.map((i) => [`/images/${i.output}`, i.id]));
 
 export interface I18nText {
   ko: string;
@@ -128,8 +134,6 @@ export interface Project {
     process: ProjectImage[];
     interior: ProjectImage[];
   };
-  /** 평면도 경로 (.svg 개념 평면도 또는 이미지). null 이면 상세 페이지에 "평면도 준비 중" 자리 */
-  floorPlan: string | null;
   featured: boolean;
 }
 
@@ -174,10 +178,19 @@ export interface ProcessStep {
 
 // ── 이미지 헬퍼 ───────────────────────────────────────────────────
 
-/** 이미지 경로 → 인벤토리 ID ("/…/process/ing-05.jpg" → "ing-05", "out-03-leftside-view.jpg" → "out-03") */
+/** 이미지 경로 → 인벤토리 ID ("/images/process/process-framing-04.jpg" → "ing-23"). 대응표에 없으면 파일명에서 추출 */
 export function imageId(src: string): string {
+  const mapped = SRC_TO_ID[src];
+  if (mapped) return mapped;
   const file = src.split("/").pop() ?? "";
   return file.match(/^(ing|out|in)-\d{2}/)?.[0] ?? file.replace(/\.jpg$/, "");
+}
+
+/** 인벤토리 ID → 사이트 이미지 경로 (lib/image-map.json). 없는 ID 는 빌드 오류 */
+export function imageSrc(id: string): string {
+  const src = ID_TO_SRC[id];
+  if (!src) throw new Error(`[projects] lib/image-map.json 에 이미지 ID "${id}" 가 없습니다`);
+  return src;
 }
 
 const ingRange = (from: number, to: number) =>
@@ -230,130 +243,130 @@ const render = (src: string, ko: string, en: string): ProjectImage => ({
 
 // ── prototype-01 이미지 (docs/image-inventory.md 기준) ─────────────
 
-const P1 = "/projects/prototype-01";
+
 
 // 완성 외관 사진은 준공 후 추가. 현재는 콘셉트 렌더만
 // 2026-10-20 사용자가 렌더 시트에서 뷰별로 다시 잘라 교체 (가로 390~883px — 큰 확대 표시는 피할 것)
 const p1Exterior: ProjectImage[] = [
-  render(`${P1}/exterior/out-01-top-roof-view.jpg`, "콘셉트 렌더 — 지붕 평면도", "Concept render — top (roof) view"),
-  render(`${P1}/exterior/out-02-front-view.jpg`, "콘셉트 렌더 — 정면도", "Concept render — front view"),
-  render(`${P1}/exterior/out-03-leftside-view.jpg`, "콘셉트 렌더 — 좌측면도 (슬라이드아웃)", "Concept render — left side view (slide-out)"),
-  render(`${P1}/exterior/out-04-back-view.jpg`, "콘셉트 렌더 — 후면도", "Concept render — back view"),
-  render(`${P1}/exterior/out-05-perspective-view.jpg`, "콘셉트 렌더 — 투시도", "Concept render — perspective view"),
-  render(`${P1}/exterior/out-08-render-view.jpg`, "콘셉트 렌더 — 야간 투시도", "Concept render — night perspective"),
+  render(imageSrc("out-01"), "콘셉트 렌더 — 지붕 평면도", "Concept render — top (roof) view"),
+  render(imageSrc("out-02"), "콘셉트 렌더 — 정면도", "Concept render — front view"),
+  render(imageSrc("out-03"), "콘셉트 렌더 — 좌측면도 (슬라이드아웃)", "Concept render — left side view (slide-out)"),
+  render(imageSrc("out-04"), "콘셉트 렌더 — 후면도", "Concept render — back view"),
+  render(imageSrc("out-05"), "콘셉트 렌더 — 투시도", "Concept render — perspective view"),
+  render(imageSrc("out-08"), "콘셉트 렌더 — 야간 투시도", "Concept render — night perspective"),
 ];
 
 // 제작 과정 실사 — 촬영일 순 (EXIF 원본 기준, docs/image-inventory.md 7절)
 // ing-19(2026-07-24, 섀시 조립 — 작업자 노출)는 동의 확인 전까지 _archive/ 보관, 목록 제외
 const p1Process: ProjectImage[] = [
   // 2026-08-11 — 강재 골조
-  outside(`${P1}/process/ing-20.jpg`, "강재 골조 — 섀시 위에 선 벽·지붕 골조", "Steel frame — wall and roof framing on the chassis", "framing"),
-  outside(`${P1}/process/ing-21.jpg`, "강재 골조 — 견인부 쪽에서 본 모습", "Steel frame — seen from the towing end", "framing"),
-  outside(`${P1}/process/ing-22.jpg`, "강재 골조 — 측면 사선", "Steel frame — oblique side view", "framing"),
-  outside(`${P1}/process/ing-23.jpg`, "강재 골조 — 측면 입면", "Steel frame — side elevation", "framing"),
+  outside(imageSrc("ing-20"), "강재 골조 — 섀시 위에 선 벽·지붕 골조", "Steel frame — wall and roof framing on the chassis", "framing"),
+  outside(imageSrc("ing-21"), "강재 골조 — 견인부 쪽에서 본 모습", "Steel frame — seen from the towing end", "framing"),
+  outside(imageSrc("ing-22"), "강재 골조 — 측면 사선", "Steel frame — oblique side view", "framing"),
+  outside(imageSrc("ing-23"), "강재 골조 — 측면 입면", "Steel frame — side elevation", "framing"),
   // 2026-08-25 — 지붕 패널
-  outside(`${P1}/process/ing-24.jpg`, "지붕 패널 설치와 샌드위치 패널 자재", "Roof panels installed, sandwich panels stacked nearby", "roof"),
-  outside(`${P1}/process/ing-25.jpg`, "지붕 패널이 얹힌 골조와 패널 자재", "Frame with roof panels and stacked panels", "roof"),
-  outside(`${P1}/process/ing-26.jpg`, "지붕 패널이 얹힌 골조 — 측면", "Frame with roof panels — side view", "roof"),
-  outside(`${P1}/process/ing-27.jpg`, "지붕 패널이 얹힌 골조 — 사선", "Frame with roof panels — oblique view", "roof"),
-  outside(`${P1}/process/ing-28.jpg`, "지붕 패널이 얹힌 골조 — 돌출부 쪽", "Frame with roof panels — bump-out side", "roof"),
-  outside(`${P1}/process/ing-29.jpg`, "지붕 패널이 얹힌 골조 — 측면 입면", "Frame with roof panels — side elevation", "roof"),
+  outside(imageSrc("ing-24"), "지붕 패널 설치와 샌드위치 패널 자재", "Roof panels installed, sandwich panels stacked nearby", "roof"),
+  outside(imageSrc("ing-25"), "지붕 패널이 얹힌 골조와 패널 자재", "Frame with roof panels and stacked panels", "roof"),
+  outside(imageSrc("ing-26"), "지붕 패널이 얹힌 골조 — 측면", "Frame with roof panels — side view", "roof"),
+  outside(imageSrc("ing-27"), "지붕 패널이 얹힌 골조 — 사선", "Frame with roof panels — oblique view", "roof"),
+  outside(imageSrc("ing-28"), "지붕 패널이 얹힌 골조 — 돌출부 쪽", "Frame with roof panels — bump-out side", "roof"),
+  outside(imageSrc("ing-29"), "지붕 패널이 얹힌 골조 — 측면 입면", "Frame with roof panels — side elevation", "roof"),
   // 2026-09-07~08 — 벽 패널·창호 설치
-  outside(`${P1}/process/ing-30.jpg`, "벽 패널과 창호 설치 — 출입문과 창", "Wall panels and windows fitted — entrance door and windows", "windows"),
-  outside(`${P1}/process/ing-31.jpg`, "출입문과 창, 설치 전 창호 부품", "Entrance door and windows, window units waiting to be fitted", "windows"),
-  outside(`${P1}/process/ing-32.jpg`, "벽 패널과 창호 설치 — 견인부 쪽 끝과 A측 돌출부", "Wall panels and windows — towing end and side A bump-out", "exterior"),
-  outside(`${P1}/process/ing-33.jpg`, "작업장 마당의 전경", "Wide view in the workshop yard", "exterior"),
-  outside(`${P1}/process/ing-34.jpg`, "작업장 마당 전경 — 산을 배경으로", "Wide view of the yard with hills behind", "exterior"),
+  outside(imageSrc("ing-30"), "벽 패널과 창호 설치 — 출입문과 창", "Wall panels and windows fitted — entrance door and windows", "windows"),
+  outside(imageSrc("ing-31"), "출입문과 창, 바닥에 놓인 창호 부품", "Entrance door and windows, window units on the ground", "windows"),
+  outside(imageSrc("ing-32"), "벽 패널과 창호 설치 — 견인부 쪽 끝과 A측 돌출부", "Wall panels and windows — towing end and side A bump-out", "exterior"),
+  outside(imageSrc("ing-33"), "작업장 마당의 전경", "Wide view in the workshop yard", "exterior"),
+  outside(imageSrc("ing-34"), "작업장 마당 전경 — 산을 배경으로", "Wide view of the yard with hills behind", "exterior"),
   // 2026-09-12 — 세로 사진 (실내)
-  inside(`${P1}/process/ing-35.jpg`, "A측 돌출부 실내 — 미서기창과 바닥 프레임", "Side A bump-out interior — sliding window and floor frame", "windows"),
-  inside(`${P1}/process/ing-36.jpg`, "A측 돌출부 실내 — 미서기창과 바닥 자재", "Side A bump-out interior — sliding window and floor materials", "windows"),
-  inside(`${P1}/process/ing-37.jpg`, "실내 강재 스터드와 전선관 — 다락 쪽", "Interior steel studs and conduit — toward the loft end", "mep"),
-  inside(`${P1}/process/ing-38.jpg`, "다락 쪽 실내 골조와 전선관", "Loft-end interior framing and conduit", "mep"),
-  inside(`${P1}/process/ing-39.jpg`, "실내 골조와 열린 바닥 프레임", "Interior framing and open floor frame", "framing"),
-  inside(`${P1}/process/ing-40.jpg`, "B측 돌출부 실내 — 창과 바닥 프레임", "Side B bump-out interior — windows and floor frame", "framing"),
-  inside(`${P1}/process/ing-41.jpg`, "B측 돌출부 실내 — 창 세 개", "Side B bump-out interior — three windows", "framing"),
-  inside(`${P1}/process/ing-42.jpg`, "B측 돌출부 실내 — 창과 벽 스터드", "Side B bump-out interior — windows and wall studs", "framing"),
-  inside(`${P1}/process/ing-43.jpg`, "실내 창호와 벽 스터드", "Interior window and wall studs", "framing"),
-  inside(`${P1}/process/ing-44.jpg`, "패널 이음부 실링과 창 둘레 — 근접", "Close-up of a panel joint seal and window surround", "insulation-waterproofing"),
-  inside(`${P1}/process/ing-45.jpg`, "다락 쪽 강재 골조와 창", "Loft-end steel framing and window", "framing"),
-  inside(`${P1}/process/ing-46.jpg`, "바닥 프레임 위에 놓인 판재", "Boards laid on the floor frame", "framing"),
+  inside(imageSrc("ing-35"), "A측 돌출부 실내 — 미서기창과 바닥 프레임", "Side A bump-out interior — sliding window and floor frame", "windows"),
+  inside(imageSrc("ing-36"), "A측 돌출부 실내 — 미서기창과 바닥 자재", "Side A bump-out interior — sliding window and floor materials", "windows"),
+  inside(imageSrc("ing-37"), "실내 강재 스터드와 전선관 — 다락 쪽", "Interior steel studs and conduit — toward the loft end", "mep"),
+  inside(imageSrc("ing-38"), "다락 쪽 실내 골조와 전선관", "Loft-end interior framing and conduit", "mep"),
+  inside(imageSrc("ing-39"), "실내 골조와 열린 바닥 프레임", "Interior framing and open floor frame", "framing"),
+  inside(imageSrc("ing-40"), "B측 돌출부 실내 — 창과 바닥 프레임", "Side B bump-out interior — windows and floor frame", "framing"),
+  inside(imageSrc("ing-41"), "B측 돌출부 실내 — 창 세 개", "Side B bump-out interior — three windows", "framing"),
+  inside(imageSrc("ing-42"), "B측 돌출부 실내 — 창과 벽 스터드", "Side B bump-out interior — windows and wall studs", "framing"),
+  inside(imageSrc("ing-43"), "실내 창호와 벽 스터드", "Interior window and wall studs", "framing"),
+  inside(imageSrc("ing-44"), "패널 이음부 실링과 창 둘레 — 근접", "Close-up of a panel joint seal and window surround", "insulation-waterproofing"),
+  inside(imageSrc("ing-45"), "다락 쪽 강재 골조와 창", "Loft-end steel framing and window", "framing"),
+  inside(imageSrc("ing-46"), "바닥 프레임 위에 놓인 판재", "Boards laid on the floor frame", "framing"),
   // 2026-09-12 — 세로 사진 (외부)
-  outside(`${P1}/process/ing-47.jpg`, "외관 — 끝벽과 측면의 창", "Exterior — windows on the end wall and side", "exterior"),
-  outside(`${P1}/process/ing-48.jpg`, "외관 — 돌출부 모서리와 창", "Exterior — bump-out corner and window", "exterior"),
-  outside(`${P1}/process/ing-49.jpg`, "외관 — A측 미서기창", "Exterior — side A sliding window", "windows"),
-  outside(`${P1}/process/ing-50.jpg`, "외관 — 견인부 쪽 끝과 A측 돌출부", "Exterior — towing end and side A bump-out", "exterior"),
-  outside(`${P1}/process/ing-51.jpg`, "외관 — 견인부 쪽 끝과 A측 돌출부 (다른 구도)", "Exterior — towing end and side A bump-out (another angle)", "exterior"),
-  outside(`${P1}/process/ing-52.jpg`, "외관 — 공장 건물을 배경으로", "Exterior — with the factory building behind", "exterior"),
-  outside(`${P1}/process/ing-53.jpg`, "외관 — 공장 건물을 배경으로 (다른 구도)", "Exterior — with the factory building behind (another angle)", "exterior"),
+  outside(imageSrc("ing-47"), "외관 — 끝벽과 측면의 창", "Exterior — windows on the end wall and side", "exterior"),
+  outside(imageSrc("ing-48"), "외관 — 돌출부 모서리와 창", "Exterior — bump-out corner and window", "exterior"),
+  outside(imageSrc("ing-49"), "외관 — A측 미서기창", "Exterior — side A sliding window", "windows"),
+  outside(imageSrc("ing-50"), "외관 — 견인부 쪽 끝과 A측 돌출부", "Exterior — towing end and side A bump-out", "exterior"),
+  outside(imageSrc("ing-51"), "외관 — 견인부 쪽 끝과 A측 돌출부 (다른 구도)", "Exterior — towing end and side A bump-out (another angle)", "exterior"),
+  outside(imageSrc("ing-52"), "외관 — 공장 건물을 배경으로", "Exterior — with the factory building behind", "exterior"),
+  outside(imageSrc("ing-53"), "외관 — 공장 건물을 배경으로 (다른 구도)", "Exterior — with the factory building behind (another angle)", "exterior"),
   // 2026-10-02 — 실내
-  inside(`${P1}/process/ing-09.jpg`, "실내 — 다락, 사다리, 칸막이", "Interior — loft, ladder and partition", "interior"),
-  inside(`${P1}/process/ing-10.jpg`, "B측 돌출부 — 바닥 프레임과 벽 스터드", "Side B bump-out — floor frame and wall studs", "framing"),
-  inside(`${P1}/process/ing-11.jpg`, "A측 돌출부 — 미서기창과 창 주변 폼 충진", "Side A bump-out — sliding window with foam-filled surround", "insulation-waterproofing"),
-  inside(`${P1}/process/ing-12.jpg`, "A측 돌출부와 다락 쪽 실내", "Side A bump-out and loft end", "interior"),
-  inside(`${P1}/process/ing-13.jpg`, "중앙 통로 — 양측 돌출부 바닥", "Central aisle — floors of both bump-outs", "framing"),
-  inside(`${P1}/process/ing-14.jpg`, "반대쪽 끝에서 본 다락 쪽 실내", "Looking toward the loft end", "interior"),
-  inside(`${P1}/process/ing-15.jpg`, "B측 돌출부 — 바닥 프레임과 자재", "Side B bump-out — floor frame and materials", "framing"),
-  inside(`${P1}/process/ing-16.jpg`, "A측 돌출부 — 창 주변 폼 충진과 롤 단열재", "Side A bump-out — foam-filled window surround and insulation roll", "insulation-waterproofing"),
-  inside(`${P1}/process/ing-17.jpg`, "천장 전선관 다발", "Bundled electrical conduit at the ceiling", "mep"),
-  inside(`${P1}/process/ing-18.jpg`, "다락, 사다리, 목재 스터드와 칸막이 판재", "Loft, ladder, timber studs and partition boards", "interior"),
-  inside(`${P1}/process/ing-54.jpg`, "B측 돌출부 실내 — 창 세 개와 바닥 프레임", "Side B bump-out interior — three windows and floor frame", "framing"),
-  inside(`${P1}/process/ing-55.jpg`, "A측 돌출부 실내 — 미서기창과 롤 단열재", "Side A bump-out interior — sliding window and insulation roll", "insulation-waterproofing"),
-  inside(`${P1}/process/ing-77.jpg`, "실내 — 칸막이 보드와 작은 방 출입부", "Interior — partition boards and a small room doorway", "interior"),
-  inside(`${P1}/process/ing-78.jpg`, "실내 — KNAUF 보드 칸막이와 다락 틀", "Interior — KNAUF board partition and loft frame", "interior"),
-  inside(`${P1}/process/ing-79.jpg`, "다락 쪽 — 다락 틀과 칸막이", "Loft end — loft frame and partition", "interior"),
-  inside(`${P1}/process/ing-80.jpg`, "다락 플랫폼과 상부 창", "Loft platform and upper windows", "interior"),
-  inside(`${P1}/process/ing-81.jpg`, "다락 아래 공간과 사다리", "Space under the loft with a stepladder", "interior"),
+  inside(imageSrc("ing-09"), "실내 — 다락, 사다리, 칸막이", "Interior — loft, ladder and partition", "interior"),
+  inside(imageSrc("ing-10"), "B측 돌출부 — 바닥 프레임과 벽 스터드", "Side B bump-out — floor frame and wall studs", "framing"),
+  inside(imageSrc("ing-11"), "A측 돌출부 — 미서기창과 창 주변 폼 충진", "Side A bump-out — sliding window with foam-filled surround", "insulation-waterproofing"),
+  inside(imageSrc("ing-12"), "A측 돌출부와 다락 쪽 실내", "Side A bump-out and loft end", "interior"),
+  inside(imageSrc("ing-13"), "중앙 통로 — 양측 돌출부 바닥", "Central aisle — floors of both bump-outs", "framing"),
+  inside(imageSrc("ing-14"), "반대쪽 끝에서 본 다락 쪽 실내", "Looking toward the loft end", "interior"),
+  inside(imageSrc("ing-15"), "B측 돌출부 — 바닥 프레임과 자재", "Side B bump-out — floor frame and materials", "framing"),
+  inside(imageSrc("ing-16"), "A측 돌출부 — 창 주변 폼 충진과 롤 단열재", "Side A bump-out — foam-filled window surround and insulation roll", "insulation-waterproofing"),
+  inside(imageSrc("ing-17"), "천장 전선관 다발", "Bundled electrical conduit at the ceiling", "mep"),
+  inside(imageSrc("ing-18"), "다락, 사다리, 목재 스터드와 칸막이 판재", "Loft, ladder, timber studs and partition boards", "interior"),
+  inside(imageSrc("ing-54"), "B측 돌출부 실내 — 창 세 개와 바닥 프레임", "Side B bump-out interior — three windows and floor frame", "framing"),
+  inside(imageSrc("ing-55"), "A측 돌출부 실내 — 미서기창과 롤 단열재", "Side A bump-out interior — sliding window and insulation roll", "insulation-waterproofing"),
+  inside(imageSrc("ing-77"), "실내 — 칸막이 보드와 작은 방 출입부", "Interior — partition boards and a small room doorway", "interior"),
+  inside(imageSrc("ing-78"), "실내 — KNAUF 보드 칸막이와 다락 틀", "Interior — KNAUF board partition and loft frame", "interior"),
+  inside(imageSrc("ing-79"), "다락 쪽 — 다락 틀과 칸막이", "Loft end — loft frame and partition", "interior"),
+  inside(imageSrc("ing-80"), "다락 플랫폼과 상부 창", "Loft platform and upper windows", "interior"),
+  inside(imageSrc("ing-81"), "다락 아래 공간과 사다리", "Space under the loft with a stepladder", "interior"),
   // 2026-10-02 — 외부 (돌출부 펼친 상태)
-  outside(`${P1}/process/ing-56.jpg`, "외관 — 끝벽 상부 창 두 개", "Exterior — two upper windows on the end wall", "exterior"),
-  outside(`${P1}/process/ing-57.jpg`, "외관 — 끝벽과 돌출부", "Exterior — end wall and bump-out", "exterior"),
-  outside(`${P1}/process/ing-58.jpg`, "외관 — 끝벽 모서리와 출입문 쪽", "Exterior — end-wall corner and entrance side", "exterior"),
-  outside(`${P1}/process/ing-59.jpg`, "외관 — 양개 출입문과 프로젝트창", "Exterior — double entrance door and awning windows", "windows"),
-  outside(`${P1}/process/ing-60.jpg`, "외관 — 출입문과 돌출부", "Exterior — entrance door and bump-out", "exterior"),
-  outside(`${P1}/process/ing-61.jpg`, "외관 — 출입문 쪽 정면", "Exterior — entrance door, frontal", "exterior"),
-  outside(`${P1}/process/ing-62.jpg`, "외관 — A측 미서기창과 출입문", "Exterior — side A sliding window and entrance door", "exterior"),
-  outside(`${P1}/process/ing-63.jpg`, "외관 — A측 돌출부 입면 (펼친 상태)", "Exterior — side A bump-out elevation (extended)", "exterior"),
-  outside(`${P1}/process/ing-64.jpg`, "외관 — A측 사선, 돌출부 펼친 상태", "Exterior — side A oblique, bump-out extended", "exterior"),
-  outside(`${P1}/process/ing-65.jpg`, "외관 — 견인부 쪽 끝과 A측, 돌출부 펼친 상태", "Exterior — towing end and side A, bump-out extended", "exterior"),
-  outside(`${P1}/process/ing-66.jpg`, "외관 — 견인부 쪽 끝과 A측", "Exterior — towing end and side A", "exterior"),
-  outside(`${P1}/process/ing-67.jpg`, "외관 — 견인부 쪽 끝, 역광", "Exterior — towing end, backlit", "exterior"),
-  outside(`${P1}/process/ing-68.jpg`, "외관 — 견인부 쪽 끝 정면", "Exterior — towing end, frontal", "exterior"),
-  outside(`${P1}/process/ing-69.jpg`, "외관 — 견인부 쪽 끝과 B측", "Exterior — towing end and side B", "exterior"),
-  outside(`${P1}/process/ing-70.jpg`, "외관 — B측 사선과 수납 해치", "Exterior — side B oblique and storage hatch", "exterior"),
-  outside(`${P1}/process/ing-71.jpg`, "외관 — B측 돌출부와 견인부 쪽 끝", "Exterior — side B bump-out and towing end", "exterior"),
-  outside(`${P1}/process/ing-72.jpg`, "창 둘레 실링과 수납 해치 — 근접", "Close-up of a window seal and storage hatch", "windows"),
-  outside(`${P1}/process/ing-73.jpg`, "B측 창 — 근접", "Side B windows — close-up", "windows"),
-  outside(`${P1}/process/ing-74.jpg`, "B측 창과 프로젝트창 — 근접", "Side B windows and awning window — close-up", "windows"),
-  outside(`${P1}/process/ing-75.jpg`, "외관 — B측 돌출부와 창", "Exterior — side B bump-out and windows", "exterior"),
-  outside(`${P1}/process/ing-76.jpg`, "외관 — 모서리와 창, 사다리", "Exterior — corner with windows and a ladder", "exterior"),
+  outside(imageSrc("ing-56"), "외관 — 끝벽 상부 창 두 개", "Exterior — two upper windows on the end wall", "exterior"),
+  outside(imageSrc("ing-57"), "외관 — 끝벽과 돌출부", "Exterior — end wall and bump-out", "exterior"),
+  outside(imageSrc("ing-58"), "외관 — 끝벽 모서리와 출입문 쪽", "Exterior — end-wall corner and entrance side", "exterior"),
+  outside(imageSrc("ing-59"), "외관 — 양개 출입문과 프로젝트창", "Exterior — double entrance door and awning windows", "windows"),
+  outside(imageSrc("ing-60"), "외관 — 출입문과 돌출부", "Exterior — entrance door and bump-out", "exterior"),
+  outside(imageSrc("ing-61"), "외관 — 출입문 쪽 정면", "Exterior — entrance door, frontal", "exterior"),
+  outside(imageSrc("ing-62"), "외관 — A측 미서기창과 출입문", "Exterior — side A sliding window and entrance door", "exterior"),
+  outside(imageSrc("ing-63"), "외관 — A측 돌출부 입면 (펼친 상태)", "Exterior — side A bump-out elevation (extended)", "exterior"),
+  outside(imageSrc("ing-64"), "외관 — A측 사선, 돌출부 펼친 상태", "Exterior — side A oblique, bump-out extended", "exterior"),
+  outside(imageSrc("ing-65"), "외관 — 견인부 쪽 끝과 A측, 돌출부 펼친 상태", "Exterior — towing end and side A, bump-out extended", "exterior"),
+  outside(imageSrc("ing-66"), "외관 — 견인부 쪽 끝과 A측", "Exterior — towing end and side A", "exterior"),
+  outside(imageSrc("ing-67"), "외관 — 견인부 쪽 끝, 역광", "Exterior — towing end, backlit", "exterior"),
+  outside(imageSrc("ing-68"), "외관 — 견인부 쪽 끝 정면", "Exterior — towing end, frontal", "exterior"),
+  outside(imageSrc("ing-69"), "외관 — 견인부 쪽 끝과 B측", "Exterior — towing end and side B", "exterior"),
+  outside(imageSrc("ing-70"), "외관 — B측 사선과 수납 해치", "Exterior — side B oblique and storage hatch", "exterior"),
+  outside(imageSrc("ing-71"), "외관 — B측 돌출부와 견인부 쪽 끝", "Exterior — side B bump-out and towing end", "exterior"),
+  outside(imageSrc("ing-72"), "창 둘레 실링과 수납 해치 — 근접", "Close-up of a window seal and storage hatch", "windows"),
+  outside(imageSrc("ing-73"), "B측 창 — 근접", "Side B windows — close-up", "windows"),
+  outside(imageSrc("ing-74"), "B측 창과 프로젝트창 — 근접", "Side B windows and awning window — close-up", "windows"),
+  outside(imageSrc("ing-75"), "외관 — B측 돌출부와 창", "Exterior — side B bump-out and windows", "exterior"),
+  outside(imageSrc("ing-76"), "외관 — 모서리와 창, 사다리", "Exterior — corner with windows and a ladder", "exterior"),
   // 2026-10-06 — 외부 (돌출부 접힌 상태)
-  outside(`${P1}/process/ing-01.jpg`, "제작 중인 외관 — 견인부 쪽 끝과 B측면", "Exterior under construction — towing end and side B", "exterior"),
-  outside(`${P1}/process/ing-02.jpg`, "제작 중인 외관 — A측면 출입문과 창호", "Exterior under construction — side A entrance door and windows", "windows"),
-  outside(`${P1}/process/ing-03.jpg`, "하부 섀시 레일과 받침, 장착 전 타이어", "Chassis rail and supports, tyres not yet fitted", "foundation"),
-  outside(`${P1}/process/ing-04.jpg`, "제작 중인 외관 — B측면과 열린 수납 해치", "Exterior under construction — side B with open storage hatch", "exterior"),
-  outside(`${P1}/process/ing-05.jpg`, "제작 중인 외관 — 견인부 쪽 끝과 B측면", "Exterior under construction — towing end and side B, hills behind", "exterior"),
-  outside(`${P1}/process/ing-06.jpg`, "제작 중인 외관 — 견인부 쪽 끝과 A측면", "Exterior under construction — towing end and side A", "exterior"),
-  outside(`${P1}/process/ing-07.jpg`, "제작 중인 외관 — A측면 사선", "Exterior under construction — side A, oblique view", "exterior"),
-  outside(`${P1}/process/ing-08.jpg`, "제작 중인 외관 — A측면 입면", "Exterior under construction — side A elevation", "exterior"),
-  outside(`${P1}/process/ing-82.jpg`, "외관 — 견인부 쪽 끝 정면", "Exterior — towing end, frontal", "exterior"),
-  outside(`${P1}/process/ing-83.jpg`, "외관 — 견인부 쪽 끝과 B측, 돌출부 접힌 상태", "Exterior — towing end and side B, bump-out retracted", "exterior"),
-  outside(`${P1}/process/ing-84.jpg`, "외관 — 출입문 쪽과 출입문", "Exterior — entrance side and door", "exterior"),
+  outside(imageSrc("ing-01"), "제작 중인 외관 — 견인부 쪽 끝과 B측면", "Exterior under construction — towing end and side B", "exterior"),
+  outside(imageSrc("ing-02"), "제작 중인 외관 — A측면 출입문과 창호", "Exterior under construction — side A entrance door and windows", "windows"),
+  outside(imageSrc("ing-03"), "하부 섀시 레일과 받침, 벽에 기대 놓은 타이어", "Chassis rail and supports, tyres leaning against the wall", "foundation"),
+  outside(imageSrc("ing-04"), "제작 중인 외관 — B측면과 열린 수납 해치", "Exterior under construction — side B with open storage hatch", "exterior"),
+  outside(imageSrc("ing-05"), "제작 중인 외관 — 견인부 쪽 끝과 B측면", "Exterior under construction — towing end and side B, hills behind", "exterior"),
+  outside(imageSrc("ing-06"), "제작 중인 외관 — 견인부 쪽 끝과 A측면", "Exterior under construction — towing end and side A", "exterior"),
+  outside(imageSrc("ing-07"), "제작 중인 외관 — A측면 사선", "Exterior under construction — side A, oblique view", "exterior"),
+  outside(imageSrc("ing-08"), "제작 중인 외관 — A측면 입면", "Exterior under construction — side A elevation", "exterior"),
+  outside(imageSrc("ing-82"), "외관 — 견인부 쪽 끝 정면", "Exterior — towing end, frontal", "exterior"),
+  outside(imageSrc("ing-83"), "외관 — 견인부 쪽 끝과 B측, 돌출부 접힌 상태", "Exterior — towing end and side B, bump-out retracted", "exterior"),
+  outside(imageSrc("ing-84"), "외관 — 출입문 쪽과 출입문", "Exterior — entrance side and door", "exterior"),
 ];
 
 // house_in 분위기 샘플 — 실제 제품과 구성이 다르며 추후 교체 예정
 const p1Interior: ProjectImage[] = [
-  render(`${P1}/interior/in-02.jpg`, "인테리어 분위기 예시 — 아이소메트릭 단면", "Interior mood sample — isometric cutaway"),
-  render(`${P1}/interior/in-03.jpg`, "인테리어 분위기 예시 — 욕실", "Interior mood sample — bathroom"),
-  render(`${P1}/interior/in-04.jpg`, "인테리어 분위기 예시 — 침실", "Interior mood sample — bedroom"),
-  render(`${P1}/interior/in-05.jpg`, "인테리어 분위기 예시 — 현관에서 본 거실", "Interior mood sample — living area from the entrance"),
-  render(`${P1}/interior/in-06.jpg`, "인테리어 분위기 예시 — 거실 TV벽", "Interior mood sample — living room media wall"),
-  render(`${P1}/interior/in-07.jpg`, "인테리어 분위기 예시 — 거실", "Interior mood sample — living room"),
-  render(`${P1}/interior/in-08.jpg`, "인테리어 분위기 예시 — 침실", "Interior mood sample — bedroom"),
-  render(`${P1}/interior/in-09.jpg`, "인테리어 분위기 예시 — 주방", "Interior mood sample — kitchen"),
+  render(imageSrc("in-02"), "인테리어 분위기 예시 — 아이소메트릭 단면", "Interior mood sample — isometric cutaway"),
+  render(imageSrc("in-03"), "인테리어 분위기 예시 — 욕실", "Interior mood sample — bathroom"),
+  render(imageSrc("in-04"), "인테리어 분위기 예시 — 침실", "Interior mood sample — bedroom"),
+  render(imageSrc("in-05"), "인테리어 분위기 예시 — 현관에서 본 거실", "Interior mood sample — living area from the entrance"),
+  render(imageSrc("in-06"), "인테리어 분위기 예시 — 거실 TV벽", "Interior mood sample — living room media wall"),
+  render(imageSrc("in-07"), "인테리어 분위기 예시 — 거실", "Interior mood sample — living room"),
+  render(imageSrc("in-08"), "인테리어 분위기 예시 — 침실", "Interior mood sample — bedroom"),
+  render(imageSrc("in-09"), "인테리어 분위기 예시 — 주방", "Interior mood sample — kitchen"),
   // in-11~14: 같은 SketchUp 모델의 추가 씬 (창밖 아파트 — 사용 시 크롭 주의)
-  render(`${P1}/interior/in-11.jpg`, "인테리어 분위기 예시 — 안방", "Interior mood sample — master bedroom"),
-  render(`${P1}/interior/in-12.jpg`, "인테리어 분위기 예시 — 세탁 공간", "Interior mood sample — laundry space"),
-  render(`${P1}/interior/in-13.jpg`, "인테리어 분위기 예시 — 발코니 복도", "Interior mood sample — balcony corridor"),
-  render(`${P1}/interior/in-14.jpg`, "인테리어 분위기 예시 — 수납 선반", "Interior mood sample — storage shelves"),
+  render(imageSrc("in-11"), "인테리어 분위기 예시 — 안방", "Interior mood sample — master bedroom"),
+  render(imageSrc("in-12"), "인테리어 분위기 예시 — 세탁 공간", "Interior mood sample — laundry space"),
+  render(imageSrc("in-13"), "인테리어 분위기 예시 — 발코니 복도", "Interior mood sample — balcony corridor"),
+  render(imageSrc("in-14"), "인테리어 분위기 예시 — 수납 선반", "Interior mood sample — storage shelves"),
 ];
 
 const findImage = (src: string): ProjectImage | null =>
@@ -380,13 +393,12 @@ export const projects: Project[] = [
       constructionPeriod: null,
     },
     // 대표 이미지: 제작 중 외관 실사 (준공 사진이 생기면 교체)
-    cover: findImage(`${P1}/process/ing-05.jpg`),
+    cover: findImage(imageSrc("ing-05")),
     images: {
       exterior: p1Exterior,
       process: p1Process,
       interior: p1Interior,
     },
-    floorPlan: null,
     featured: true,
   },
 ];

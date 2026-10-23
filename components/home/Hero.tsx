@@ -30,8 +30,9 @@ import Image from "next/image";
 import CtaLink from "@/components/CtaLink";
 import { localePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries/ko";
+import { imageSrc } from "@/lib/projects";
 
-const P1 = "/projects/prototype-01";
+
 
 interface Fragment {
   src: string;
@@ -54,49 +55,49 @@ interface Fragment {
 const fragments: Fragment[] = [
   // ① 콘셉트 렌더 (야간)
   {
-    src: `${P1}/exterior/out-08-render-view.jpg`, ratio: "3/2", position: "center",
+    src: imageSrc("out-08"), ratio: "3/2", position: "center",
     className: "top-2 left-[4%] w-[36vw] md:top-[6%] md:left-[3%] md:w-[19vw]",
     rotate: -2, delay: 0.15, float: 9, mobile: true,
   },
   // ② 외관 제작 — 견인부 쪽 끝
   {
-    src: `${P1}/process/ing-05.jpg`, ratio: "4/3", position: "center",
+    src: imageSrc("ing-05"), ratio: "4/3", position: "center",
     className: "top-2 right-[4%] w-[36vw] md:top-[5%] md:right-[4%] md:w-[21vw]",
     rotate: 2, delay: 0.3, float: 11, mobile: true,
   },
   // ③ 외관 제작 — 측면 입면
   {
-    src: `${P1}/process/ing-08.jpg`, ratio: "4/3", position: "center",
+    src: imageSrc("ing-08"), ratio: "4/3", position: "center",
     className: "hidden md:block md:top-[34%] md:right-[2%] md:w-[15vw]",
     rotate: -1.5, delay: 0.45, float: 10, mobile: false,
   },
   // ④ 창호·출입문
   {
-    src: `${P1}/process/ing-02.jpg`, ratio: "4/3", position: "center",
+    src: imageSrc("ing-02"), ratio: "4/3", position: "center",
     className: "hidden md:block md:top-[57%] md:right-[8%] md:w-[13vw]",
     rotate: 1.5, delay: 0.6, float: 12, mobile: false,
   },
   // ⑤ 실내 공정 — 다락
   {
-    src: `${P1}/process/ing-18.jpg`, ratio: "4/3", position: "center",
+    src: imageSrc("ing-18"), ratio: "4/3", position: "center",
     className: "bottom-2 right-[4%] w-[36vw] md:bottom-[5%] md:right-[3%] md:w-[17vw]",
     rotate: -2, delay: 0.75, float: 9.5, mobile: true,
   },
   // ⑥ 실내 공정 — 빛이 드는 돌출부
   {
-    src: `${P1}/process/ing-11.jpg`, ratio: "4/3", position: "center",
+    src: imageSrc("ing-11"), ratio: "4/3", position: "center",
     className: "hidden md:block md:bottom-[4%] md:left-[26%] md:w-[13vw]",
     rotate: 2.5, delay: 0.9, float: 10.5, mobile: false,
   },
   // ⑦ 완성 분위기 — 거실 (렌더)
   {
-    src: `${P1}/interior/in-07.jpg`, ratio: "3/2", position: "center",
+    src: imageSrc("in-07"), ratio: "3/2", position: "center",
     className: "bottom-2 left-[4%] w-[36vw] md:bottom-[14%] md:left-[3%] md:w-[17vw]",
     rotate: 1.5, delay: 1.05, float: 11.5, mobile: true,
   },
   // ⑧ 완성 분위기 — 주방 (렌더, 창밖 제외 크롭)
   {
-    src: `${P1}/interior/in-09.jpg`, ratio: "3/4", position: "right",
+    src: imageSrc("in-09"), ratio: "3/4", position: "right",
     className: "hidden md:block md:top-[30%] md:left-[3%] md:w-[10vw]",
     rotate: -1.5, delay: 1.2, float: 12.5, mobile: false,
   },

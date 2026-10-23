@@ -30,7 +30,7 @@ export const annotations: Record<string, Annotation[]> = {
   "ing-03": [
     a(12, 59, "강재 섀시 레일", "Steel chassis rail"),
     a(41.5, 53, "적색 도장 강재 받침", "Red-painted steel support"),
-    a(33, 57, "장착 전 타이어", "Tyre not yet fitted"),
+    a(33, 57, "벽에 기대 놓은 타이어", "Tyre leaning against the wall"),
     a(84, 61, "콘크리트 블록 받침", "Concrete block support"),
     a(66, 23, "벽 패널의 연필 표기 (의미 [확인 필요])", "Pencil marks on the panel (meaning [To be confirmed])"),
   ],
@@ -46,7 +46,7 @@ export const annotations: Record<string, Annotation[]> = {
   "ing-24": [
     a(45, 31, "골조 위에 얹은 지붕 패널", "Roof panels on the frame"),
     a(10, 63, "노란색 심재의 샌드위치 패널 자재", "Sandwich panels with a yellow core"),
-    a(52, 52, "벽 패널을 달기 전의 골조", "Frame before wall panels"),
+    a(52, 52, "벽 패널이 없는 골조", "Frame without wall panels"),
     a(32, 73, "견인용 A형 프레임", "A-frame towing drawbar"),
     a(70, 70, "적색 도장 섀시 받침", "Red-painted chassis support"),
   ],
