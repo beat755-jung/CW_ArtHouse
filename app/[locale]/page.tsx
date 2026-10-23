@@ -26,7 +26,15 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     <>
       <Hero locale={locale} home={dict.home} />
       <KeyFacts locale={locale} home={dict.home} />
-      <ProcessTimeline locale={locale} home={dict.home} />
+      <ProcessTimeline
+        locale={locale}
+        labels={{
+          eyebrow: dict.home.processEyebrow,
+          heading: dict.home.processHeading,
+          all: dict.home.processAll,
+          scrollLabel: dict.home.processScrollLabel,
+        }}
+      />
       <FeaturedProjects locale={locale} dict={dict} />
       <ContactCta locale={locale} home={dict.home} />
 

@@ -101,6 +101,10 @@ export interface ProjectSpecs {
   foundation: I18nText | null;
   /** 외장재 */
   exteriorCladding: I18nText | null;
+  /** 지붕재 */
+  roofing: I18nText | null;
+  /** 난방 */
+  heating: I18nText | null;
   /** 단열 사양 */
   insulation: I18nText | null;
   /** 창호 사양 */
@@ -114,6 +118,8 @@ export interface Project {
   name: I18nText | null;
   type: ProjectType | null;
   location: I18nText | null;
+  /** 완공 연도 */
+  completionYear: number | null;
   specs: ProjectSpecs;
   /** 대표 이미지 (카드·목록 썸네일). null 이면 getCoverImage() 의 대체 규칙 사용 */
   cover: ProjectImage | null;
@@ -122,7 +128,7 @@ export interface Project {
     process: ProjectImage[];
     interior: ProjectImage[];
   };
-  /** 평면도 경로 */
+  /** 평면도 경로 (.svg 개념 평면도 또는 이미지). null 이면 상세 페이지에 "평면도 준비 중" 자리 */
   floorPlan: string | null;
   featured: boolean;
 }
@@ -361,11 +367,14 @@ export const projects: Project[] = [
     name: null,
     type: null,
     location: null,
+    completionYear: null,
     specs: {
       grossFloorAreaM2: null,
       structure: null,
       foundation: null,
       exteriorCladding: null,
+      roofing: null,
+      heating: null,
       insulation: null,
       windows: null,
       constructionPeriod: null,
@@ -625,12 +634,19 @@ export function getFeaturedProjects(): Project[] {
   return projects.filter((p) => p.featured);
 }
 
-/** 홈 공정 요약용: 대표 사진과 한 줄 요약이 모두 있는 단계 (순서 유지) */
-export function getProcessHighlights(): (ProcessStep & { image: ProjectImage; summary: I18nText })[] {
-  return processSteps.filter(
-    (s): s is ProcessStep & { image: ProjectImage; summary: I18nText } =>
-      s.image !== null && s.summary !== null,
-  );
+/**
+ * 공정 요약용: 대표 사진과 한 줄 요약이 모두 있는 단계 (순서 유지)
+ * - project 를 주면 그 프로젝트의 사진만 사용 (단계 대표 사진이 그 프로젝트 것이 아니면 그 단계 첫 사진, 없으면 제외)
+ */
+export function getProcessHighlights(project?: Project): (ProcessStep & { image: ProjectImage; summary: I18nText })[] {
+  return processSteps
+    .map((s) => {
+      if (!project || s.summary === null) return s;
+      const own = project.images.process.filter((img) => img.step === s.code);
+      const image = s.image && own.includes(s.image) ? s.image : null;
+      return { ...s, image: image ?? (s.image ? own[0] ?? null : null) };
+    })
+    .filter((s): s is ProcessStep & { image: ProjectImage; summary: I18nText } => s.image !== null && s.summary !== null);
 }
 
 /** 공정 단계에 속한 제작 과정 실사 (사진 기록일 → ID 순) */
@@ -650,6 +666,22 @@ export function getDateRange(images: ProjectImage[]): { from: string; to: string
 /** "2026-08-11" → "2026.08.11" */
 export function formatShotDate(date: string): string {
   return date.replaceAll("-", ".");
+}
+
+/** 데이터에 실제로 있는 프로젝트 유형 (목록 필터 탭용, PROJECT_TYPE_LABEL 순서) */
+export function getProjectTypesInUse(): ProjectType[] {
+  const used = new Set(projects.map((p) => p.type).filter((t): t is ProjectType => t !== null));
+  return (Object.keys(PROJECT_TYPE_LABEL) as ProjectType[]).filter((t) => used.has(t));
+}
+
+/** 완공 연도 표시 (null 이면 UNCONFIRMED) */
+export function formatYear(year: number | null, locale: Locale = "ko"): string {
+  return year === null ? UNCONFIRMED[locale] : String(year);
+}
+
+/** 대표 이미지가 제작 과정 사진인지 — 카드·상세에 "제작 중" 표시 */
+export function isInProgressImage(img: ProjectImage | null): boolean {
+  return !!img && img.src.includes("/process/");
 }
 
 /** 제작 과정 실사 중 특정 시점(외부/내부)만 */

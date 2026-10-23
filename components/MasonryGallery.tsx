@@ -13,17 +13,27 @@
 import Image from "next/image";
 import { useState } from "react";
 import Lightbox from "@/components/Lightbox";
-import { RENDER_LABEL, type Locale, type ProjectImage } from "@/lib/projects";
+import type { Locale, ProjectImage } from "@/lib/projects";
+
+// lib/projects 의 값(데이터 배열)을 클라이언트 번들에 넣지 않도록 표기만 여기 둔다 (RENDER_LABEL 과 같은 값)
+const RENDER_LABEL = { ko: "렌더", en: "Render" } as const;
 
 interface Props {
   images: ProjectImage[];
   locale?: Locale;
+  /** 한 번에 보여줄 장수. 넘치면 "더 보기" 버튼 (미지정 시 전부) */
+  pageSize?: number;
+  /** "사진 {n}장 더 보기" 형식 */
+  showMoreLabel?: string;
 }
 
-export default function MasonryGallery({ images, locale = "ko" }: Props) {
+export default function MasonryGallery({ images, locale = "ko", pageSize, showMoreLabel = "+{n}" }: Props) {
   const [index, setIndex] = useState<number | null>(null);
+  const [shown, setShown] = useState(pageSize ?? images.length);
 
   if (images.length === 0) return null;
+  const visible = images.slice(0, shown);
+  const remaining = images.length - visible.length;
 
   const captionOf = (img: ProjectImage) =>
     img.kind === "render" ? `${img.alt[locale]} · ${RENDER_LABEL[locale]}` : img.alt[locale];
@@ -31,7 +41,7 @@ export default function MasonryGallery({ images, locale = "ko" }: Props) {
   return (
     <>
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-        {images.map((img, i) => (
+        {visible.map((img, i) => (
           <button
             key={img.src}
             className="artwork-card group w-full block break-inside-avoid cursor-pointer text-left"
@@ -47,7 +57,6 @@ export default function MasonryGallery({ images, locale = "ko" }: Props) {
                 className="w-full h-auto transition-transform duration-700 motion-safe:group-hover:scale-105 select-none"
                 draggable={false}
                 onContextMenu={(e) => e.preventDefault()}
-                quality={70}
                 loading="lazy"
               />
               <div
@@ -64,6 +73,19 @@ export default function MasonryGallery({ images, locale = "ko" }: Props) {
           </button>
         ))}
       </div>
+
+      {remaining > 0 && pageSize && (
+        <div className="mt-8 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShown((n) => n + pageSize)}
+            className="h-11 px-6 border border-[var(--text)]/30 text-sm text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] motion-safe:transition-colors"
+          >
+            {showMoreLabel.replace("{n}", String(Math.min(pageSize, remaining)))}
+            <span className="ml-2 text-[var(--text-muted)]">({visible.length} / {images.length})</span>
+          </button>
+        </div>
+      )}
 
       {index !== null && (
         <Lightbox

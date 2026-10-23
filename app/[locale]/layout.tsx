@@ -56,6 +56,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   const dict = await getDictionary(locale);
 
   return {
+    // OG 이미지 등 상대 경로 URL 의 기준. 사이트 도메인 [확인 필요] → 확정되면 NEXT_PUBLIC_SITE_URL 에 설정
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
     title: {
       default: dict.meta.siteName,
       template: `%s | ${dict.meta.siteName}`,
