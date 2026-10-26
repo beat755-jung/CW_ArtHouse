@@ -17,9 +17,10 @@ import { notFound } from "next/navigation";
 import PageHeader from "@/components/PageHeader";
 import ProcessProgress from "@/components/process/ProcessProgress";
 import ProcessStepSection from "@/components/process/ProcessStepSection";
+import ProjectDrawings from "@/components/projects/ProjectDrawings";
 import { hasLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { formatShotDate, getDateRange, getStepImages, processSteps, UNCONFIRMED } from "@/lib/projects";
+import { formatShotDate, getDateRange, getStepImages, processSteps, projects, UNCONFIRMED } from "@/lib/projects";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/process">): Promise<Metadata> {
   const { locale } = await params;
@@ -74,7 +75,11 @@ export default async function ProcessPage({ params }: PageProps<"/[locale]/proce
         />
         <div className="min-w-0 max-w-6xl">
           {processSteps.map((step, i) => (
-            <ProcessStepSection key={step.code} step={step} locale={locale} labels={labels} preloadLead={i === 0} />
+            <ProcessStepSection key={step.code} step={step} locale={locale} labels={labels} preloadLead={i === 0}>
+              {step.code === "insulation-waterproofing" && projects.filter(p => p.drawings?.["detail-wall"]).map(project => (
+                <ProjectDrawings key={project.slug} project={project} locale={locale} only="detail-wall" />
+              ))}
+            </ProcessStepSection>
           ))}
         </div>
       </div>

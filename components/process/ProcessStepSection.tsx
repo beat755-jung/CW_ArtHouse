@@ -35,6 +35,7 @@ interface Props {
   locale: Locale;
   labels: Dictionary["process"];
   preloadLead?: boolean;
+  children?: React.ReactNode;
 }
 
 function toMediaItem(img: ProjectImage, locale: Locale): MediaItem {
@@ -98,7 +99,7 @@ function SubHeading({ children }: { children: React.ReactNode }) {
   return <h3 className="text-[11px] tracking-[0.2em] uppercase text-[var(--text-muted)] mb-3">{children}</h3>;
 }
 
-export default function ProcessStepSection({ step, locale, labels, preloadLead }: Props) {
+export default function ProcessStepSection({ step, locale, labels, preloadLead, children }: Props) {
   const stepImages = getStepImages(step.code);
   const lead = step.image ?? stepImages[0] ?? null;
   const rest = stepImages.filter((img) => img.src !== lead?.src);
@@ -164,6 +165,7 @@ export default function ProcessStepSection({ step, locale, labels, preloadLead }
         </div>
       </div>
 
+      {children && <div className="mt-14">{children}</div>}
       {step.comparison && (
         <div className="mt-14">
           <SubHeading>{labels.compareHeading}</SubHeading>

@@ -19,11 +19,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CtaLink from "@/components/CtaLink";
 import ProcessTimeline from "@/components/home/ProcessTimeline";
-import DrawingViewer from "@/components/projects/DrawingViewer";
+import ProjectDrawings from "@/components/projects/ProjectDrawings";
 import ConceptHouseViewer from "@/components/projects/ConceptHouseViewer";
 import ProjectGallery from "@/components/projects/ProjectGallery";
 import { hasLocale, localePath } from "@/lib/i18n/config";
-import { getDrawings } from "@/lib/drawings";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import {
   formatArea,
@@ -173,23 +172,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/[locale]
           {/* 3. 도면 */}
           <section aria-labelledby="plan-heading" className="mb-20">
             <SectionHeading id="plan-heading">{d.drawingsHeading}</SectionHeading>
-            <DrawingViewer
-              title={name}
-              drawings={getDrawings(project.slug)}
-              labels={{
-                tabs: d.drawingTabs,
-                tabsLabel: d.drawingsTabsLabel,
-                pending: d.drawingPending,
-                note: d.drawingNote,
-                zoomIn: d.drawingZoomIn,
-                zoomOut: d.drawingZoomOut,
-                reset: d.drawingReset,
-                hint: d.drawingHint,
-                reading: d.drawingReading,
-                overview: d.drawingOverview,
-                readingHint: d.drawingReadingHint,
-              }}
-            />
+            <ProjectDrawings project={project} locale={locale} />
             {project.slug === "prototype-01" && <ConceptHouseViewer labels={d.concept3d} />}
           </section>
 

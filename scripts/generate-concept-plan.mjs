@@ -46,7 +46,11 @@ function furnishing(f) {
   if (f.kind === "bed") inside = rect(.12, .12, .42, .62, "fine") + rect(.12, 1.05, .42, .62, "fine") + line(.65, 0, .65, f.d);
   return `<g id="furniture-${f.id}" transform="translate(${f.x} ${f.z})">${rect(0, 0, f.w, f.d, "guess")}${inside}</g>`;
 }
-const roomLabels = rooms.map(r => `<g id="room-${r.id}"><title>${r.ko} ${r.en} — 용도·배치 추정 / proposed use</title><rect class="room-hit" x="${r.x - .8}" y="${r.z - .32}" width="1.6" height=".6" rx=".08"/><text class="room" x="${r.x}" y="${r.z}">${r.ko}</text><text class="english" x="${r.x}" y="${r.z + .24}">${r.en}</text></g>`).join("");
+const roomAreas = { living: [-2.73,.45,4.46,2.08], kitchen: [-2.73,-2.53,4.46,2.4], flex: [-4.93,-1.43,2.06,2.86], bathroom: [2.84,-1.43,2.09,1.79], entry: [2.84,.47,2.09,.96] };
+const roomLabels = rooms.map(r => {
+  const [x,y,w,h] = roomAreas[r.id];
+  return `<g id="room-${r.id}"><title>${r.ko} ${r.en} — 용도·배치 추정 / proposed use</title><rect class="room-hit" x="${x}" y="${y}" width="${w}" height="${h}" pointer-events="none"/><text class="room" x="${r.x}" y="${r.z}">${r.ko}</text><text class="english" x="${r.x}" y="${r.z + .24}">${r.en}</text></g>`;
+}).join("");
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1080" role="img" aria-labelledby="title desc">
 <title id="title">CW_ArtHouse — 미니하우스 개념 평면도 / Concept floor plan</title>
 <desc id="desc">제작 사진에 근거한 양측 확장형 미니하우스의 1층과 다락 배치 제안. 거실, 주방·식사, 다목적 공간, 욕실·수납, 출입구와 다락. 치수와 축척 없음. 실의 용도, 가구, 비례 및 가려진 부분은 추정. 북쪽 미정. Ground floor and loft concept, not to scale. Room uses, furniture and proportions are provisional.</desc>
@@ -97,6 +101,7 @@ text{font-family:Arial,'Malgun Gothic',sans-serif;fill:#ede8e0}
   </g>
 </g>
 <g id="room-loft"><title>다락 Loft — 취침 용도 추정 / proposed sleeping area</title>
+<rect class="room-hit" x="71" y="803" width="137" height="186" pointer-events="none"/>
 <text x="285" y="835" class="small">다락 Loft · 출입문 쪽 끝의 상부 공간</text>
 <text x="285" y="862" class="meta">Loft above the entrance end</text></g>
 <text x="285" y="903" class="small">침구·접근 방식은 배치 제안</text>

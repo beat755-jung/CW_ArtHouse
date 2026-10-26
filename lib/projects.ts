@@ -30,6 +30,7 @@
 
 import type { Locale } from "@/lib/i18n/config";
 import imageMap from "@/lib/image-map.json";
+import type { DrawingKind } from "@/lib/drawing-types";
 
 export type { Locale };
 
@@ -135,6 +136,8 @@ export interface Project {
     interior: ProjectImage[];
   };
   featured: boolean;
+  drawings?: Partial<Record<DrawingKind, string>>;
+  drawingRooms?: { id: string; name: I18nText; imageIds: string[] }[];
 }
 
 /**
@@ -377,6 +380,22 @@ const findImage = (src: string): ProjectImage | null =>
 export const projects: Project[] = [
   {
     slug: "prototype-01",
+    drawings: {
+      plan: "/drawings/prototype-01/plan-prototype-01.svg",
+      "elevation-front": "/drawings/prototype-01/elevation-front-prototype-01.svg",
+      "elevation-side": "/drawings/prototype-01/elevation-side-prototype-01.svg",
+      section: "/drawings/prototype-01/section-prototype-01.svg",
+      "detail-wall": "/drawings/prototype-01/detail-wall-prototype-01.svg",
+    },
+    // Proposed room uses; photographs show the corresponding area during construction.
+    drawingRooms: [
+      { id: "room-living", name: { ko: "거실", en: "Living" }, imageIds: ["ing-11", "ing-16"] },
+      { id: "room-kitchen", name: { ko: "주방·식사", en: "Kitchen / Dining" }, imageIds: ["ing-10", "ing-15"] },
+      { id: "room-flex", name: { ko: "다목적·수납", en: "Flex / Storage" }, imageIds: [] },
+      { id: "room-bathroom", name: { ko: "욕실·수납", en: "Bath / Storage" }, imageIds: [] },
+      { id: "room-entry", name: { ko: "출입구", en: "Entry" }, imageIds: ["ing-12"] },
+      { id: "room-loft", name: { ko: "다락", en: "Loft" }, imageIds: ["ing-18", "ing-14"] },
+    ],
     name: null,
     type: null,
     location: null,
