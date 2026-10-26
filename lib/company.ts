@@ -37,7 +37,7 @@ export const keyFacts: CompanyKeyFacts = {
 export interface CompanyInfo {
   /** 상호 (사업자등록상) */
   legalName: I18nText | null;
-  /** 대표자 (사업자등록상) — 브랜드 대표 정창원과 다를 수 있어 별도 확인 */
+  /** 대표자 (사업자등록상) — 확인 후 입력 */
   representative: I18nText | null;
   /** 사업자등록번호 */
   businessNumber: string | null;

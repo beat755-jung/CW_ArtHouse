@@ -1,6 +1,6 @@
 # CW_ArtHouse
 
-미니하우스를 설계·제작·판매하는 회사 **CW_ArtHouse**(대표 정창원, Jung Chang-Won)의 홈페이지입니다.
+미니하우스를 설계·제작·판매하는 회사 **CW_ArtHouse**의 홈페이지입니다.
 `Next.js 16` (App Router) · `React 19` · `Tailwind CSS 4` · `TypeScript`로 만들었고, 모든 페이지를 빌드 시 정적으로 생성합니다.
 
 - 작업·콘텐츠 규칙: [CLAUDE.md](CLAUDE.md) — 사양 수치·회사 정보는 확인된 값만, 모르면 `[확인 필요]`

@@ -44,7 +44,7 @@
 | 제작 과정 | 제작 과정 / Process | 기초부터 준공·검수까지 9단계 공정과 단계별 확인 항목을 제작 현장 사진으로 보여드립니다. | Nine build steps from foundation to inspection, shown with photos from the build site. |
 | 프로젝트 | 프로젝트 / Projects | CW_ArtHouse가 설계·제작한 미니하우스 프로젝트. | Mini house projects designed and built by CW_ArtHouse. |
 | 프로젝트 상세 | {프로젝트명} / {name} | {프로젝트명} — 유형·연면적 등 확인된 사양만 자동 조합 | same |
-| 회사 소개 | 회사 소개 / About | 미니하우스 설계·제작·판매 회사 CW_ArtHouse(대표 정창원)의 제작 방식과 진행 절차. | How CW_ArtHouse (founder Jung Chang-Won) builds mini houses and runs a project. |
+| 회사 소개 | 회사 소개 / About | 미니하우스 설계·제작·판매 회사 CW_ArtHouse의 제작 방식과 진행 절차. | How CW_ArtHouse builds mini houses and runs a project. |
 | 상담·견적 | 상담·견적 문의 / Consultation & Quote | 설치 예정 지역과 용도를 알려 주시면 상담해 드립니다. | Tell us the site and intended use, and we will get in touch. |
 
 ### 2-3. canonical · hreflang
@@ -95,7 +95,6 @@ Disallow: /
 | `@type` | `HomeAndConstructionBusiness` | 넣음 |
 | `name` | CW_ArtHouse (확정) | 넣음 |
 | `url` | `NEXT_PUBLIC_SITE_URL` | 도메인 설정 후 |
-| `founder` | `{ "@type": "Person", "name": "정창원 (Jung Chang-Won)" }` (확정) | 넣음 |
 | `description` | 홈 description | 넣음 |
 | `image` | ING-05 | 넣음 |
 | `legalName` | `companyInfo.legalName` | **생략** (null) |

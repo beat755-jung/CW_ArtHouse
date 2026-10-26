@@ -18,7 +18,7 @@
 | 항목 | 필드 | 화면 | 입력 형식 | 완료 |
 |---|---|---|---|---|
 | 상호 (사업자등록상) | `companyInfo.legalName` | 회사 소개 › 회사 정보 | `{ ko: "…", en: "…" }` | ☐ |
-| 대표자 (사업자등록상) | `companyInfo.representative` | 회사 소개 › 회사 정보 | `{ ko, en }` — 브랜드 대표 정창원과 다를 수 있음 | ☐ |
+| 대표자 (사업자등록상) | `companyInfo.representative` | 회사 소개 › 회사 정보 | `{ ko, en }` — 사이트에 이름을 표시할지 함께 결정 (사업자 정보 표시 의무 확인) | ☐ |
 | 사업자등록번호 | `companyInfo.businessNumber` | 회사 소개 › 회사 정보 | `"000-00-00000"` | ☐ |
 | 건설업 등록 여부 | `companyInfo.constructionLicense` | 회사 소개 › 회사 정보 | `{ ko, en }` (예: 등록 종류·번호 또는 "해당 없음") | ☐ |
 | 주소 | `companyInfo.address` | 회사 소개 › 회사 정보 | `{ ko, en }` | ☐ |

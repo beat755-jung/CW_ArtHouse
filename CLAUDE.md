@@ -5,8 +5,8 @@
 ## 프로젝트 목적
 
 - 미니하우스를 설계·제작·판매하는 회사 **CW_ArtHouse**의 공식 홈페이지
-- 중심 인물: **정창원 (Jung Chang-Won, JCW)** — 회사명 "CW"의 유래
-- 핵심 콘텐츠: (1) 회사·대표 소개 (2) 제품(미니하우스) 소개
+- 핵심 콘텐츠: (1) 회사 소개 (2) 제품(미니하우스) 소개
+- **대표 개인 이름은 사이트·문서·코드 주석 어디에도 쓰지 않는다** (개인정보). 사업자등록상 대표자는 확인 후 `lib/company.ts` `companyInfo.representative`에만
 - 출발점: 작가 포트폴리오(Lilly_ArtWorld) 코드를 복사함. 작가 관련 콘텐츠는 단계적으로 교체·제거 중
 
 ## 기술 스택
@@ -60,7 +60,7 @@
 ## 언어
 
 - 한국어/영어 이중 언어. 사용자에게 보이는 모든 텍스트는 ko/en을 함께 작성한다.
-- 표기: 회사 `CW_ArtHouse`(밑줄 포함, 확정), 대표 `Jung Chang-Won`
+- 표기: 회사 `CW_ArtHouse`(밑줄 포함, 확정)
 - 구현 방식: `app/[locale]/` 경로 분리 (`/ko` 기본, `/en`), 외부 i18n 라이브러리 없음. `/` → `/ko` 는 `next.config.ts` redirects
   - 화면 고정 문구(메뉴·버튼·제목): `lib/i18n/dictionaries/ko.ts`·`en.ts` (en 은 `Dictionary` 타입 → 키 누락 시 빌드 오류)
   - 프로젝트·공정 데이터: `lib/projects.ts` 의 `I18nText`

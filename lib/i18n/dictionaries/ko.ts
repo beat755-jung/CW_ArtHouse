@@ -173,8 +173,6 @@ export const ko = {
     title: "회사 소개",
     subtitle: "미니하우스 설계 · 제작 · 판매",
     coverCaption: "제작 중인 외관 (실사)",
-    founderLabel: "대표",
-    founder: "정창원 (Jung Chang-Won, JCW)",
     philosophyHeading: "작은 집에 대한 생각",
     philosophy: "작은 집은 큰 집을 줄인 것이 아니라, 머무는 목적에 맞춰 필요한 만큼 짓는 집이라고 생각합니다. 주택 마당의 별채, 농장의 쉼터처럼 쉬고 머무는 시간을 위한 공간을 만듭니다.",
     draftNote: "회사 확인 전 초안 문구입니다",

@@ -2,6 +2,7 @@
 
 | 문서 | 내용 | 상태 |
 |---|---|---|
+| [00-to-confirm.md](00-to-confirm.md) | **확인해 주셔야 할 것** 한 장 요약 (배포 필수 · 내용 채우기 · 사진 권리 · 결정 · 직접 확인) | **확인 필요** |
 | [01-content-checklist.md](01-content-checklist.md) | 채워 주셔야 할 `[확인 필요]` 항목표 (회사·연락처·사양·공정 31건·준비 중 사진 12컷·동의 문구) | **입력 필요** |
 | [02-seo.md](02-seo.md) | title·description·canonical·hreflang·sitemap·robots·OG·JSON-LD 현황과 적용 계획 | 계획 (미반영) — 도메인 확정 필요 |
 | [03-accessibility.md](03-accessibility.md) | WCAG AA 점검, 라이트박스 대화상자·대비·본문 바로가기 | 반영 완료 + 사람 확인 4건 |

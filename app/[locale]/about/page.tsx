@@ -2,7 +2,7 @@
  * app/[locale]/about/page.tsx — 회사 소개 (서버 컴포넌트)
  *
  * [구성 — 기존 About 톤: 왼쪽 텍스트 / 오른쪽 실사, 작은 대문자 라벨, 얇은 구분선]
- * 1. 머리말 + 대표 + 제작 현장 실사
+ * 1. 머리말 + 제작 현장 실사
  * 2. 작은 집에 대한 생각 (철학) — 회사 확인 전 초안 표시
  * 3. 제작 방식 3가지 — 사진 근거(ING ID) + /process 연결
  * 4. 진행 절차 7단계 — components/about/ProcedureSteps (lib/company.ts)
@@ -10,7 +10,8 @@
  * 6. 상담 CTA
  *
  * [콘텐츠 규칙 — CLAUDE.md]
- * - 확인된 사실: 대표 정창원 (JCW), 미니하우스 설계·제작·판매, 대상 고객(주택 마당 별채·농장 휴게 공간)
+ * - 대표 개인 이름은 쓰지 않는다 (개인정보). 사업자등록상 대표자는 회사 정보 표에만 (확인 후)
+ * - 확인된 사실: 미니하우스 설계·제작·판매, 대상 고객(주택 마당 별채·농장 휴게 공간)
  * - 사진으로 확인되지 않은 장점(성능·내구성 등)·인허가 확정 표현은 쓰지 않는다
  */
 import type { Metadata } from "next";
@@ -65,9 +66,6 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         <div className="flex flex-col gap-10">
           <div>
             <p className="font-korean text-lg text-[var(--text)]">{a.subtitle}</p>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">
-              {a.founderLabel} · {a.founder}
-            </p>
           </div>
           <section aria-labelledby="philosophy-heading">
             <Label id="philosophy-heading">{a.philosophyHeading}</Label>

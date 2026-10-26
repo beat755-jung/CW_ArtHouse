@@ -167,8 +167,6 @@ export const en: Dictionary = {
     title: "About",
     subtitle: "Mini house design, build & sales",
     coverCaption: "Exterior under construction (photo)",
-    founderLabel: "Founder",
-    founder: "Jung Chang-Won (JCW)",
     philosophyHeading: "How we think about small houses",
     philosophy: "A small house is not a large house made smaller. We see it as a house built to the size its purpose needs — a garden annex or a farm retreat, made for time spent resting and staying.",
     draftNote: "Draft text, not yet confirmed by the company",
