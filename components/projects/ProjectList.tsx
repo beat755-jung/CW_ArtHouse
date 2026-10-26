@@ -64,7 +64,7 @@ export default function ProjectList({ cards, types, labels }: Props) {
                 />
               )}
               {c.inProgress && (
-                <span className="absolute top-3 left-3 px-2 py-0.5 bg-[var(--bg)]/80 text-[10px] tracking-[0.15em] text-[var(--accent)]">
+                <span className="absolute top-3 left-3 px-2 py-0.5 bg-[var(--bg)]/90 text-[10px] tracking-[0.15em] text-[var(--accent)]">
                   {labels.inProgress}
                 </span>
               )}

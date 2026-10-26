@@ -124,7 +124,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/[locale]
               draggable={false}
             />
             {isInProgressImage(cover) && (
-              <span className="absolute top-4 left-4 md:top-6 md:left-8 px-2.5 py-1 bg-[var(--bg)]/80 text-[11px] tracking-[0.15em] text-[var(--accent)]">
+              <span className="absolute top-4 left-4 md:top-6 md:left-8 px-2.5 py-1 bg-[var(--bg)]/90 text-[11px] tracking-[0.15em] text-[var(--accent)]">
                 {d.coverInProgress}
               </span>
             )}

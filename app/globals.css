@@ -11,10 +11,10 @@
  * --border      : #1c1c1c  — 구분선
  * --nav-width   : 220px    — 데스크톱 좌측 네비게이션 너비
  *
- * [이미지 보호]
- * - img 태그 전역: user-drag:none / user-select:none / pointer-events:none
- * - .img-protected::after : 이미지 위 투명 오버레이 (클릭 흡수)
- * - GlobalProtection.tsx와 함께 3중 보호 구조 형성
+ * [이미지]
+ * - img 전역: 드래그·선택만 막는다 (user-drag / user-select). 우클릭·링크 메뉴·복사는 막지 않는다
+ *   (작가 사이트의 전역 우클릭 차단·투명 덮개는 사용성·접근성 문제로 제거, 2026-10-26)
+ * - 출처 표시는 실사 사진의 워터마크로 한다 (scripts/process-images.mjs)
  *
  * [애니메이션]
  * - fadeUp  : 아래에서 위로 fade (카드, 텍스트 등장)
@@ -68,28 +68,28 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Image Protection ───────────────────────────────── */
+/* ── Images ───────────────────────────────────────── */
 img {
   -webkit-user-drag: none;
   user-drag: none;
   -webkit-user-select: none;
   user-select: none;
-  pointer-events: none;
 }
 
-.img-protected {
-  position: relative;
-  display: block;
-  overflow: hidden;
-}
-
-.img-protected::after {
-  content: '';
+/* ── Skip link (본문 바로가기) ─────────────────────── */
+.skip-link {
   position: absolute;
-  inset: 0;
-  z-index: 10;
-  cursor: default;
-  pointer-events: all;
+  left: 1rem;
+  top: -4rem;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.875rem;
+}
+
+.skip-link:focus {
+  top: 1rem;
 }
 
 /* ── Scrollbar ───────────────────────────────────────── */

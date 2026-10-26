@@ -14,6 +14,8 @@
  * 1. 방향: EXIF Orientation 을 픽셀에 반영 (rotate())
  * 2. 메타데이터: EXIF·GPS·ICC·XMP 를 쓰지 않음 → 결과를 다시 읽어 남은 메타데이터가 없는지 검증
  * 3. 크기: 긴 변 2400px 이하로 축소, 작은 원본은 확대하지 않음. JPEG 품질 82 (mozjpeg)
+ * 5. 워터마크 (실사만): 오른쪽 아래 작은 "CW_ArtHouse" (반투명). 렌더(out-*·in-*)는 회사 제작물이 아니거나 샘플이라 넣지 않음
+ *    끄기: npm run images -- --no-watermark
  * 4. 톤 (실사만, 렌더 제외): 약하게만
  *    - 화이트밸런스: 무채색에 가까운 중간 밝기 화소의 R·G·B 평균을 맞추는 계수, ±6% 로 제한. 근거 화소가 2% 미만이면 생략
  *    - 노출: 밝기 중앙값을 목표(0.45)로 옮기는 양, ±0.25EV 로 제한. 0.05EV 미만이면 생략
@@ -39,6 +41,19 @@ const TARGET_LUMA = 0.45;
 const args = new Set(process.argv.slice(2));
 const doCompare = args.has("--compare");
 const doAdjust = !args.has("--no-adjust");
+const doWatermark = !args.has("--no-watermark");
+const WATERMARK = "CW_ArtHouse";
+
+/** 워터마크 SVG — 짧은 변의 2.6% 크기, 오른쪽 아래 여백 2.2%, 흰색 55% + 옅은 그림자 */
+function watermarkSvg(w, h) {
+  const size = Math.max(14, Math.round(Math.min(w, h) * 0.026));
+  const pad = Math.round(Math.min(w, h) * 0.022);
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">` +
+      `<text x="${w - pad}" y="${h - pad}" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="${size}" letter-spacing="${(size * 0.06).toFixed(1)}" ` +
+      `fill="#ffffff" fill-opacity="0.55" stroke="#000000" stroke-opacity="0.25" stroke-width="${Math.max(1, size * 0.05).toFixed(1)}" paint-order="stroke">${WATERMARK}</text></svg>`,
+  );
+}
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const kb = (bytes) => Math.round(bytes / 1024);
@@ -122,7 +137,17 @@ async function main() {
     }
 
     // 2. 메타데이터 없이 저장 (withMetadata 를 호출하지 않으면 EXIF·GPS·ICC 를 쓰지 않음)
-    await pipeline.jpeg({ quality: QUALITY, mozjpeg: true }).toFile(outPath);
+    const marked = doWatermark && img.kind === "photo";
+    if (marked) {
+      // 축소·보정까지 끝낸 화소 위에 워터마크를 합성 (크기를 알아야 위치를 정할 수 있음)
+      const { data, info } = await pipeline.raw().toBuffer({ resolveWithObject: true });
+      await sharp(data, { raw: info })
+        .composite([{ input: watermarkSvg(info.width, info.height), left: 0, top: 0 }])
+        .jpeg({ quality: QUALITY, mozjpeg: true })
+        .toFile(outPath);
+    } else {
+      await pipeline.jpeg({ quality: QUALITY, mozjpeg: true }).toFile(outPath);
+    }
 
     const outMeta = await sharp(outPath).metadata();
     const hasMeta = Boolean(outMeta.exif || outMeta.xmp || outMeta.iptc || outMeta.icc);
@@ -154,6 +179,7 @@ async function main() {
       gains: tone.applied ? tone.gains.map((x) => x.toFixed(2)).join("/") : "—",
       ev: tone.ev ? `${tone.ev > 0 ? "+" : ""}${tone.ev.toFixed(2)}` : "—",
       adjusted: img.kind === "render" ? "렌더 제외" : !doAdjust ? "보정 끔" : tone.applied ? "✓" : "변화 없음",
+      watermark: marked ? "✓" : "—",
       meta: hasMeta ? "남음 ⚠" : "없음",
     });
     process.stdout.write(".");
@@ -163,15 +189,15 @@ async function main() {
   // 3. 리포트
   const sum = (k) => rows.reduce((a, r) => a + r[k], 0);
   const adjusted = rows.filter((r) => r.adjusted === "✓").length;
-  const header = "| ID | 결과 파일 | 구분 | 원본 해상도 | 결과 해상도 | 원본 KB | 결과 KB | WB 계수 (R/G/B) | 노출 EV | 보정 | 메타데이터 |";
-  const line = "|---|---|---|---|---|---:|---:|---|---|---|---|";
-  const body = rows.map((r) => `| ${r.id.toUpperCase()} | \`${r.output}\` | ${r.kind === "render" ? "렌더" : "실사"} | ${r.src} | ${r.out} | ${r.srcKB.toLocaleString()} | ${r.outKB.toLocaleString()} | ${r.gains} | ${r.ev} | ${r.adjusted} | ${r.meta} |`);
+  const header = "| ID | 결과 파일 | 구분 | 원본 해상도 | 결과 해상도 | 원본 KB | 결과 KB | WB 계수 (R/G/B) | 노출 EV | 보정 | 워터마크 | 메타데이터 |";
+  const line = "|---|---|---|---|---|---:|---:|---|---|---|---|---|";
+  const body = rows.map((r) => `| ${r.id.toUpperCase()} | \`${r.output}\` | ${r.kind === "render" ? "렌더" : "실사"} | ${r.src} | ${r.out} | ${r.srcKB.toLocaleString()} | ${r.outKB.toLocaleString()} | ${r.gains} | ${r.ev} | ${r.adjusted} | ${r.watermark} | ${r.meta} |`);
   const summary = [
     `- 처리: ${rows.length}장 (실사 ${rows.filter((r) => r.kind === "photo").length} · 렌더 ${rows.filter((r) => r.kind === "render").length})`,
     `- 용량: 원본 ${(sum("srcKB") / 1024).toFixed(1)} MB → 결과 ${(sum("outKB") / 1024).toFixed(1)} MB`,
     `- 톤 보정 적용: ${adjusted}장 (화이트밸런스 ±${WB_LIMIT * 100}% · 노출 ±${EV_LIMIT}EV 이내, 렌더 제외)`,
     `- 메타데이터(EXIF·GPS·ICC·XMP)가 남은 결과 파일: ${metaLeft}장`,
-    `- 설정: 긴 변 ${MAX_EDGE}px 이하(확대 없음) · JPEG 품질 ${QUALITY} · 보정 ${doAdjust ? "켬" : "끔"}`,
+    `- 설정: 긴 변 ${MAX_EDGE}px 이하(확대 없음) · JPEG 품질 ${QUALITY} · 보정 ${doAdjust ? "켬" : "끔"} · 워터마크 ${doWatermark ? `실사 ${rows.filter((r) => r.watermark === "✓").length}장` : "끔"}`,
   ];
   const md = [
     "# 이미지 처리 리포트",
@@ -189,7 +215,7 @@ async function main() {
   ].join("\n");
   await fs.writeFile(REPORT, md, "utf8");
 
-  console.table(rows.map(({ id, output, src, out, srcKB, outKB, gains, ev, adjusted, meta }) => ({ id, output, src, out, srcKB, outKB, gains, ev, adjusted, meta })));
+  console.table(rows.map(({ id, output, src, out, srcKB, outKB, gains, ev, adjusted, watermark, meta }) => ({ id, output, src, out, srcKB, outKB, gains, ev, adjusted, watermark, meta })));
   console.log(summary.join("\n"));
   console.log(`[images] 리포트: ${path.relative(ROOT, REPORT)}`);
   if (metaLeft > 0) {

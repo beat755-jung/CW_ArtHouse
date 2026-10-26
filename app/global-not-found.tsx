@@ -3,16 +3,18 @@
  *
  * - 루트 레이아웃이 동적 세그먼트(app/[locale]/layout.tsx)라 일반 app/not-found 대신 사용
  *   (Next 16 문서 권장, next.config.ts experimental.globalNotFound 필요)
- * - 레이아웃을 거치지 않으므로 html/body·전역 스타일·폰트를 직접 지정
- * - 폰트는 한글(lib/fonts.ts)만 사용, 영문은 Georgia/sans-serif 대체 (문서 권장: 404는 가벼운 폰트 구성)
- * - 언어를 알 수 없으므로 한국어·영어를 함께 표시
+ * - 레이아웃을 거치지 않으므로 html/body·전역 스타일·폰트를 직접 지정 (영문 Cormorant·Inter + 한글)
+ * - 본문: components/NotFoundContent (ko/en 병기). 404 응답에는 Next 가 noindex 를 자동으로 붙인다
  */
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Cormorant_Garamond, Inter } from "next/font/google";
+import NotFoundContent from "@/components/NotFoundContent";
 import { koreanFontVariables } from "@/lib/fonts";
 import { ko } from "@/lib/i18n/dictionaries/ko";
-import { en } from "@/lib/i18n/dictionaries/en";
 import "./globals.css";
+
+const cormorant = Cormorant_Garamond({ variable: "--font-cormorant", subsets: ["latin"], weight: ["300", "400"], display: "swap" });
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: `404 — ${ko.notFound.title} | CW_ArtHouse`,
@@ -20,21 +22,9 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="ko" className={koreanFontVariables}>
-      <body className="bg-[var(--bg)] text-[var(--text)] min-h-screen flex items-center justify-center px-8">
-        <div>
-          <p className="font-display text-7xl text-[var(--accent)] opacity-60 leading-none mb-6">404</p>
-          <h1 className="font-korean text-2xl text-[var(--text)] mb-1">{ko.notFound.title}</h1>
-          <p className="font-display text-lg text-[var(--text-muted)] mb-10">{en.notFound.title}</p>
-          <div className="flex gap-6 text-xs tracking-[0.2em] uppercase">
-            <Link href="/ko" className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
-              {ko.notFound.backHome}
-            </Link>
-            <Link href="/en" className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
-              {en.notFound.backHome}
-            </Link>
-          </div>
-        </div>
+    <html lang="ko" className={`${cormorant.variable} ${inter.variable} ${koreanFontVariables}`}>
+      <body className="bg-[var(--bg)] text-[var(--text)] min-h-screen">
+        <NotFoundContent />
       </body>
     </html>
   );

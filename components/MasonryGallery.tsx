@@ -56,16 +56,10 @@ export default function MasonryGallery({ images, locale = "ko", pageSize, showMo
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="w-full h-auto transition-transform duration-700 motion-safe:group-hover:scale-105 select-none"
                 draggable={false}
-                onContextMenu={(e) => e.preventDefault()}
                 loading="lazy"
               />
-              <div
-                className="absolute inset-0 z-10"
-                onContextMenu={(e) => e.preventDefault()}
-                aria-hidden
-              />
               {img.kind === "render" && (
-                <span className="absolute top-2 left-2 z-20 text-[10px] tracking-[0.2em] uppercase px-2 py-0.5 bg-[var(--bg)]/70 text-[var(--accent)]">
+                <span className="absolute top-2 left-2 z-20 text-[10px] tracking-[0.2em] uppercase px-2 py-0.5 bg-[var(--bg)]/90 text-[var(--accent)]">
                   {RENDER_LABEL[locale]}
                 </span>
               )}

@@ -138,7 +138,7 @@ export default function ContactForm({ delivery, labels, models }: Props) {
   const errorList = Object.entries(errors);
   const inputCls = (f: Field) =>
     [
-      "w-full h-11 px-3 bg-[var(--bg-surface)] border text-sm text-[var(--text)] placeholder:text-[var(--text-muted)]/70",
+      "w-full h-11 px-3 bg-[var(--bg-surface)] border text-sm text-[var(--text)] placeholder:text-[var(--text-muted)]",
       "focus:outline-none focus-visible:border-[var(--accent)]",
       errors[f] ? "border-[var(--accent)]" : "border-[var(--border)]",
     ].join(" ");

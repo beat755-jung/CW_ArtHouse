@@ -12,6 +12,7 @@ export const ko = {
   },
   nav: {
     label: "주 메뉴",
+    skipToContent: "본문 바로가기",
     tagline: "미니하우스 설계 · 제작",
     process: "제작 과정",
     projects: "프로젝트",
@@ -31,6 +32,7 @@ export const ko = {
   },
   notFound: {
     title: "페이지를 찾을 수 없습니다",
+    body: "주소가 바뀌었거나 없는 페이지입니다. 아래에서 이어서 둘러보세요.",
     backHome: "홈으로",
   },
   home: {

@@ -12,6 +12,7 @@ export const en: Dictionary = {
   },
   nav: {
     label: "Main navigation",
+    skipToContent: "Skip to content",
     tagline: "Mini House Design & Build",
     process: "Process",
     projects: "Projects",
@@ -31,6 +32,7 @@ export const en: Dictionary = {
   },
   notFound: {
     title: "Page not found",
+    body: "The address may have changed, or the page does not exist. Continue from one of the links below.",
     backHome: "Home",
   },
   home: {

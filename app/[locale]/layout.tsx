@@ -4,9 +4,9 @@
  * [역할]
  * - 모든 페이지에 공통 적용되는 최상위 레이아웃. <html lang={locale}> 을 언어별로 지정
  * - 폰트: Cormorant Garamond · Inter (여기서 호출 → 전 경로 preload) + Noto Serif KR · Noto Sans KR (lib/fonts.ts)
- * - GlobalProtection : 전역 우클릭·드래그 차단 클라이언트 컴포넌트 마운트
  * - Navigation       : 좌측 고정 사이드바 (데스크톱) / 상단 햄버거 (모바일), 사전 문구 전달
  * - .page-content    : 사이드바 너비만큼 좌측 여백 확보 (globals.css 참고)
+ * - 본문 바로가기     : 첫 Tab 에 나타나는 .skip-link → <main id="main">
  *
  * [다국어]
  * - generateStaticParams: ko, en 두 언어를 빌드 시 정적 생성
@@ -24,7 +24,6 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import Navigation from "@/components/Navigation";
-import GlobalProtection from "@/components/GlobalProtection";
 import { koreanFontVariables } from "@/lib/fonts";
 import { hasLocale, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -83,9 +82,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   return (
     <html lang={locale} className={`${cormorant.variable} ${inter.variable} ${koreanFontVariables}`}>
       <body className="bg-[var(--bg)] text-[var(--text)] min-h-screen">
-        <GlobalProtection />
+        <a href="#main" className="skip-link">
+          {dict.nav.skipToContent}
+        </a>
         <Navigation locale={locale} nav={dict.nav} languageLabel={dict.language.label} />
-        <main className="page-content">{children}</main>
+        <main id="main" tabIndex={-1} className="page-content focus:outline-none">
+          {children}
+        </main>
       </body>
     </html>
   );

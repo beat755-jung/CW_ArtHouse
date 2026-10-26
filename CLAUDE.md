@@ -46,6 +46,7 @@
 - 렌더링 이미지와 실제 제작 사진을 구분해 표기한다. 렌더링을 실물처럼 소개하지 않는다.
 - 인허가·신고 관련 확정 표현("신고 없이 설치 가능", "허가 불필요" 등)은 쓰지 않는다. 필요하면 "지역·용도에 따라 다를 수 있으며 관할 지자체 확인 필요" 수준의 안내만 둔다.
 - 회사 정보(상호·대표자·사업자등록번호·건설업 등록·주소)와 연락처(전화·이메일·카카오톡 채널)는 `lib/company.ts` — 모르면 `null`
+- 채워야 할 `[확인 필요]` 목록·배포 전 점검(SEO·접근성·성능)은 `docs/prelaunch/` — 값을 채우면 목록도 갱신한다
 
 ## 상담 폼 (`/contact`)
 
@@ -72,7 +73,9 @@
 - 결과물 `public/images/{exterior|process|interior}/{구분}-{공정·공간}-{번호}.jpg` — `npm run images`로만 만든다 (`scripts/process-images.mjs`)
   - EXIF 회전 반영 · EXIF/GPS/ICC 제거 · 긴 변 2400px 이하(확대 없음) · JPEG 82
   - 톤 보정은 실사만, 화이트밸런스 ±6% · 노출 ±0.25EV 이내. 렌더는 보정 안 함. 결과는 `docs/image-report.md`
+  - 워터마크 "CW_ArtHouse"(오른쪽 아래)는 실사(`ing-*`)에만 넣는다. 렌더(`out-*`·`in-*`)에는 넣지 않는다 (회사 제작물처럼 보이지 않게). 끄기 `--no-watermark`
   - 전후 비교: `npm run images -- --compare` → `scripts/out/compare/` (git 제외)
+- 화면 쪽 이미지 보호는 드래그·선택 방지만 둔다. 전역 우클릭 차단·투명 덮개는 쓰지 않는다 (사용성·접근성, `docs/prelaunch/05-image-protection.md`)
 - **데이터 키는 인벤토리 ID** (`ing-23` 등). 대응표 `lib/image-map.json` — 코드에서는 `imageSrc("ing-23")`, 역방향은 `imageId(src)`
   - **폴더는 사이트에서의 용도 기준** (찍힌 대상 기준 아님)
     - `exterior/`: 완성(준공) 외관 사진 + 외관 콘셉트 렌더(`out-*`)
