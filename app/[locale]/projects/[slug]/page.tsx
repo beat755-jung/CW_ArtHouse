@@ -20,6 +20,7 @@ import { notFound } from "next/navigation";
 import CtaLink from "@/components/CtaLink";
 import ProcessTimeline from "@/components/home/ProcessTimeline";
 import DrawingViewer from "@/components/projects/DrawingViewer";
+import ConceptHouseViewer from "@/components/projects/ConceptHouseViewer";
 import ProjectGallery from "@/components/projects/ProjectGallery";
 import { hasLocale, localePath } from "@/lib/i18n/config";
 import { getDrawings } from "@/lib/drawings";
@@ -186,6 +187,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/[locale]
                 hint: d.drawingHint,
               }}
             />
+            {project.slug === "prototype-01" && <ConceptHouseViewer labels={d.concept3d} />}
           </section>
 
           {/* 4. 갤러리 */}

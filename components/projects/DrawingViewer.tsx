@@ -163,7 +163,8 @@ export default function DrawingViewer({ drawings, labels, title }: Props) {
               onPointerCancel={onPointerUp}
               onKeyDown={onKeyDown}
               className={[
-                "relative aspect-[16/9] overflow-hidden bg-[var(--bg-surface)] border border-[var(--border)] touch-none select-none",
+                "relative overflow-hidden bg-[var(--bg-surface)] border border-[var(--border)] touch-none select-none",
+                kind === "plan" ? "aspect-[4/3]" : "aspect-[16/9]",
                 view.scale > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]",
               ].join(" ")}

@@ -7,19 +7,22 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "images": "node scripts/process-images.mjs"
+    "images": "node scripts/process-images.mjs",
+    "drawings": "node scripts/generate-concept-plan.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
     "next": "16.2.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.186.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "sharp": "^0.35.5",
