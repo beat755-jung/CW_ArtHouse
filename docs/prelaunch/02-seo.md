@@ -41,7 +41,7 @@
 | 페이지 | title (ko / en) | description 초안 (ko) | description 초안 (en) |
 |---|---|---|---|
 | 홈 | CW_ArtHouse — 미니하우스 설계·제작·판매 / Mini house design, build & sales | 주택 마당의 별채부터 농장의 휴게 공간까지, 미니하우스를 설계·제작해 판매합니다. 제작 과정을 사진으로 공개합니다. | We design, build and sell mini houses — from garden annexes to farm rest spaces — and publish each build step in photos. |
-| 제작 과정 | 제작 과정 / Process | 기초부터 준공·검수까지 9단계 공정과 단계별 확인 항목을 제작 현장 사진으로 보여드립니다. | Nine build steps from foundation to inspection, shown with photos from the build site. |
+| 제작 과정 | 제작 과정 / Process | 기초부터 준공·검수, 운송까지 10단계 공정과 단계별 확인 항목을 제작 현장 사진으로 보여드립니다. | Ten build steps from foundation and inspection to transport, shown with photos from the build site. |
 | 프로젝트 | 프로젝트 / Projects | CW_ArtHouse가 설계·제작한 미니하우스 프로젝트. | Mini house projects designed and built by CW_ArtHouse. |
 | 프로젝트 상세 | {프로젝트명} / {name} | {프로젝트명} — 유형·연면적 등 확인된 사양만 자동 조합 | same |
 | 회사 소개 | 회사 소개 / About | 미니하우스 설계·제작·판매 회사 CW_ArtHouse의 제작 방식과 진행 절차. | How CW_ArtHouse builds mini houses and runs a project. |

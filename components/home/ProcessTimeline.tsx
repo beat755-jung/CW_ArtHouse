@@ -5,7 +5,7 @@
  * - xl(1280px+) 한 줄 7열 가로 타임라인, 그 이하는 가로 스크롤(scroll-snap)
  * - 이미지 lazy 로딩 (기본값)
  * - project 를 주면 그 프로젝트 사진으로 구성 (프로젝트 상세 페이지 재사용)
- * - 전체 9단계는 /[locale]/process — 각 카드는 해당 단계 섹션(#코드)으로 연결
+ * - 전체 10단계는 /[locale]/process — 각 카드는 해당 단계 섹션(#코드)으로 연결
  */
 import Image from "next/image";
 import Link from "next/link";

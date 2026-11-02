@@ -439,6 +439,15 @@ ING 문서에서 쓰는 방향 기준은 다음과 같습니다.
 | ING-82 | 2026-10-06 | process · 외부 | 외관 — 견인부 쪽 끝 정면 | 외장 | `1791274389592` |
 | ING-83 | 2026-10-06 | process · 외부 | 외관 — 견인부 쪽 끝과 B측, 돌출부 접힌 상태 | 외장 | `1791274389533` |
 | ING-84 | 2026-10-06 | process · 외부 | 외관 — 출입문 쪽과 출입문 | 외장 | `1791274389192` |
+| ING-85 | 2026-11-02 | process · 외부 | 도로 위 — 견인차에 이어진 집, 옆면 돌출부와 바퀴 세 개 (돌출부 접은 상태, 좌측) | 운송 | `1793598375403` |
+| ING-86 | 2026-11-02 | process · 외부 | 도로 위 — 뒤에서 본 집, 끝벽 창 두 개와 돌출부 (돌출부 접은 상태, 우측) | 운송 | `1793598375527` |
+| ING-87 | 2026-11-02 | process · 외부 | 도로 위 — 가로수길, 뒤에서 본 모습 | 운송 | `1793598375594` |
+| ING-88 | 2026-11-02 | process · 외부 | 도로 위 — 견인차 뒤를 따라가는 집, 도심 도로 | 운송 | `1793598375660` |
+| ING-89 | 2026-11-02 | process · 외부 | 도로 위 — 교차로를 지나는 집 | 운송 | `1793598375780` |
+| ING-90 | 2026-11-02 | process · 외부 | 도로 위 — 견인차와 집의 옆면, 바퀴 세 개 | 운송 | `1793598375842` |
+| ING-91 | 2026-11-02 | process · 외부 | 야적장 — 옆면 전경, 바퀴와 견인 연결부, 받침대 (돌출부 접은 상태, 우측) | 기초 | `1793598375906` |
+| ING-92 | 2026-11-02 | process · 외부 | 야적장 — 끝벽 정면, 견인 연결부와 받침대 | 기초 | `1793598375966` |
+| ING-93 | 2026-11-02 | process · 외부 | 야적장 — 옆면 사선, 돌출부와 바퀴 세 개 (돌출부 접은 상태, 좌측) | 기초 | `1793598376076` |
 | IN-11 | — (렌더) | interior | 인테리어 분위기 예시 — 안방 | — (렌더) | `IMG_20260913_093759_447` |
 | IN-12 | — (렌더) | interior | 인테리어 분위기 예시 — 세탁 공간 | — (렌더) | `IMG_20260913_093806_072` |
 | IN-13 | — (렌더) | interior | 인테리어 분위기 예시 — 발코니 복도 | — (렌더) | `IMG_20260913_093809_231` |
@@ -579,9 +588,27 @@ ING 문서에서 쓰는 방향 기준은 다음과 같습니다.
 | ING-82 | `process/process-exterior-33.jpg` | `house_ing/ing-82.jpg` | 실사 |
 | ING-83 | `process/process-exterior-34.jpg` | `house_ing/ing-83.jpg` | 실사 |
 | ING-84 | `process/process-exterior-35.jpg` | `house_ing/ing-84.jpg` | 실사 |
+| ING-85 | `process/process-transport-01.jpg` | `house_moving/ing-85.jpg` | 실사 |
+| ING-86 | `process/process-transport-02.jpg` | `house_moving/ing-86.jpg` | 실사 |
+| ING-87 | `process/process-transport-03.jpg` | `house_moving/ing-87.jpg` | 실사 |
+| ING-88 | `process/process-transport-04.jpg` | `house_moving/ing-88.jpg` | 실사 |
+| ING-89 | `process/process-transport-05.jpg` | `house_moving/ing-89.jpg` | 실사 |
+| ING-90 | `process/process-transport-06.jpg` | `house_moving/ing-90.jpg` | 실사 |
+| ING-91 | `process/process-transport-07.jpg` | `house_moving/ing-91.jpg` | 실사 |
+| ING-92 | `process/process-transport-08.jpg` | `house_moving/ing-92.jpg` | 실사 |
+| ING-93 | `process/process-transport-09.jpg` | `house_moving/ing-93.jpg` | 실사 |
 | OUT-01 | `exterior/exterior-top-01.jpg` | `house_out/out-01-top-roof-view.jpg` | 렌더 |
 | OUT-02 | `exterior/exterior-front-01.jpg` | `house_out/out-02-front-view.jpg` | 렌더 |
 | OUT-03 | `exterior/exterior-left-01.jpg` | `house_out/out-03-leftside-view.jpg` | 렌더 |
 | OUT-04 | `exterior/exterior-back-01.jpg` | `house_out/out-04-back-view.jpg` | 렌더 |
 | OUT-05 | `exterior/exterior-perspective-01.jpg` | `house_out/out-05-perspective-view.jpg` | 렌더 |
 | OUT-08 | `exterior/exterior-night-01.jpg` | `house_out/out-08-render-view.jpg` | 렌더 |
+
+### 7-7. 운송 사진 추가 (2026-11-02)
+
+- 사용자가 `public/images/moving/` 에 넣은 10장 중 9장을 ING-85~93 으로 등록. 촬영 시각 순서 = ID 순서, 원본 EXIF 촬영일은 모두 2026-11-02 [확인]
+- 원본은 `assets-src/house_moving/ing-NN.jpg` 로 옮김 (git 제외). `public/` 의 사본(EXIF 포함)은 제거
+- **게시 제외 1장**: 고가도로 아래 통과 컷 (원본 `1793598375726`) — 타인 차량 번호판과 보행자가 식별됨 → 비공개. git 제외 폴더 `assets-src/_unpublished/` 에 보관 (`_archive/` 는 git 추적 대상이라 쓰지 않음)
+- 사용자 지정: 돌출부 접은 상태 — 왼쪽 화면 ING-85·93 / 오른쪽 화면 ING-86·91. 좌·우가 A측·B측과 같은지 [확인 필요]
+- ING-91~93 은 바퀴·견인 연결부가 보이는 야적장 컷 → 기초 단계에 표시. ING-85~90 은 새 단계 "운송"
+- 이 PC 에는 기존 `assets-src/` 원본이 없어 `npm run images -- --only=ing-85,…,ing-93` 으로 새 9장만 변환 (리포트는 기존 행 유지)

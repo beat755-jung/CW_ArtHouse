@@ -5,6 +5,7 @@
  * 사용: npm run images               — assets-src/ 원본 → public/images/ 결과물 + docs/image-report.md
  *       npm run images -- --compare  — scripts/out/compare/ 에 전후 비교 이미지도 생성 (git 제외)
  *       npm run images -- --no-adjust — 톤 보정 없이 방향·메타데이터·크기만 처리
+ *       npm run images -- --only=ing-85,ing-86 — 지정한 ID 만 처리 (원본이 일부만 있을 때). 리포트는 기존 행을 유지하고 해당 행만 갱신
  *
  * [원칙]
  * - 원본(assets-src/)은 읽기만 한다. 절대 덮어쓰지 않는다.
@@ -42,6 +43,8 @@ const args = new Set(process.argv.slice(2));
 const doCompare = args.has("--compare");
 const doAdjust = !args.has("--no-adjust");
 const doWatermark = !args.has("--no-watermark");
+const onlyArg = process.argv.find((a) => a.startsWith("--only="));
+const only = onlyArg ? new Set(onlyArg.slice("--only=".length).split(",").map((s) => s.trim()).filter(Boolean)) : null;
 const WATERMARK = "CW_ArtHouse";
 
 /** 워터마크 SVG — 짧은 변의 2.6% 크기, 오른쪽 아래 여백 2.2%, 흰색 55% + 옅은 그림자 */
@@ -101,9 +104,36 @@ async function exists(p) {
   }
 }
 
+/** --only 일 때: 기존 리포트의 표 행을 읽어 새로 처리한 행으로 덮어쓰거나 덧붙인다 */
+async function mergeReportRows(fresh) {
+  let old = [];
+  try {
+    old = (await fs.readFile(REPORT, "utf8"))
+      .split("\n")
+      .filter((l) => /^\| (ING|OUT|IN)-\d+ \|/.test(l))
+      .map((l) => {
+        const c = l.split("|").slice(1, -1).map((x) => x.trim());
+        const num = (v) => Number(v.replaceAll(",", ""));
+        return {
+          id: c[0].toLowerCase(),
+          output: c[1].replaceAll("`", ""),
+          kind: c[2] === "렌더" ? "render" : "photo",
+          src: c[3], out: c[4], srcKB: num(c[5]), outKB: num(c[6]),
+          gains: c[7], ev: c[8], adjusted: c[9], watermark: c[10], meta: c[11],
+        };
+      });
+  } catch {}
+  const ids = new Set(fresh.map((r) => r.id));
+  return [...old.filter((r) => !ids.has(r.id)), ...fresh];
+}
+
 async function main() {
   const map = JSON.parse(await fs.readFile(path.join(ROOT, "lib", "image-map.json"), "utf8"));
-  const images = map.images;
+  const images = only ? map.images.filter((i) => only.has(i.id)) : map.images;
+  if (only && images.length !== only.size) {
+    console.error(`[images] 대응표에 없는 ID: ${[...only].filter((id) => !images.some((i) => i.id === id)).join(", ")}`);
+    process.exit(1);
+  }
   const missing = [];
   for (const img of images) if (!(await exists(path.join(SRC, img.source)))) missing.push(img.source);
   if (missing.length) {
@@ -115,7 +145,7 @@ async function main() {
   for (const dir of ["exterior", "process", "interior"]) await fs.mkdir(path.join(OUT, dir), { recursive: true });
   if (doCompare) await fs.mkdir(COMPARE, { recursive: true });
 
-  const rows = [];
+  const fresh = [];
   let metaLeft = 0;
   for (const img of images) {
     const srcPath = path.join(SRC, img.source);
@@ -168,7 +198,7 @@ async function main() {
         .toFile(path.join(COMPARE, path.basename(img.output)));
     }
 
-    rows.push({
+    fresh.push({
       id: img.id,
       output: img.output,
       kind: img.kind,
@@ -187,6 +217,7 @@ async function main() {
   process.stdout.write("\n");
 
   // 3. 리포트
+  const rows = only ? await mergeReportRows(fresh) : fresh;
   const sum = (k) => rows.reduce((a, r) => a + r[k], 0);
   const adjusted = rows.filter((r) => r.adjusted === "✓").length;
   const header = "| ID | 결과 파일 | 구분 | 원본 해상도 | 결과 해상도 | 원본 KB | 결과 KB | WB 계수 (R/G/B) | 노출 EV | 보정 | 워터마크 | 메타데이터 |";
@@ -196,7 +227,7 @@ async function main() {
     `- 처리: ${rows.length}장 (실사 ${rows.filter((r) => r.kind === "photo").length} · 렌더 ${rows.filter((r) => r.kind === "render").length})`,
     `- 용량: 원본 ${(sum("srcKB") / 1024).toFixed(1)} MB → 결과 ${(sum("outKB") / 1024).toFixed(1)} MB`,
     `- 톤 보정 적용: ${adjusted}장 (화이트밸런스 ±${WB_LIMIT * 100}% · 노출 ±${EV_LIMIT}EV 이내, 렌더 제외)`,
-    `- 메타데이터(EXIF·GPS·ICC·XMP)가 남은 결과 파일: ${metaLeft}장`,
+    `- 메타데이터(EXIF·GPS·ICC·XMP)가 남은 결과 파일: ${rows.filter((r) => r.meta !== "없음").length}장`,
     `- 설정: 긴 변 ${MAX_EDGE}px 이하(확대 없음) · JPEG 품질 ${QUALITY} · 보정 ${doAdjust ? "켬" : "끔"} · 워터마크 ${doWatermark ? `실사 ${rows.filter((r) => r.watermark === "✓").length}장` : "끔"}`,
   ];
   const md = [
@@ -215,7 +246,7 @@ async function main() {
   ].join("\n");
   await fs.writeFile(REPORT, md, "utf8");
 
-  console.table(rows.map(({ id, output, src, out, srcKB, outKB, gains, ev, adjusted, watermark, meta }) => ({ id, output, src, out, srcKB, outKB, gains, ev, adjusted, watermark, meta })));
+  console.table(fresh.map(({ id, output, src, out, srcKB, outKB, gains, ev, adjusted, watermark, meta }) => ({ id, output, src, out, srcKB, outKB, gains, ev, adjusted, watermark, meta })));
   console.log(summary.join("\n"));
   console.log(`[images] 리포트: ${path.relative(ROOT, REPORT)}`);
   if (metaLeft > 0) {

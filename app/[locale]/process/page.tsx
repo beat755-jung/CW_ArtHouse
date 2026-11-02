@@ -6,7 +6,7 @@
  * [구성]
  * - 머리말 + 표기 안내(사진 확인 / [확인 필요]) + 전체 사진 기록 범위
  * - 왼쪽 sticky 진행 표시줄 (모바일은 상단 칩) — components/process/ProcessProgress
- * - 9단계 섹션 — components/process/ProcessStepSection (사진 없는 단계도 "사진 준비 중"으로 표시)
+ * - 10단계 섹션 — components/process/ProcessStepSection (사진 없는 단계도 "사진 준비 중"으로 표시)
  *
  * [데이터]
  * - lib/projects.ts processSteps (설명·자재·품질관리·준비 중 사진) / lib/annotations.ts (사진 주석)

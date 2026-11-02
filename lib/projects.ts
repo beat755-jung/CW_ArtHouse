@@ -81,7 +81,8 @@ export type ProcessStepCode =
   | "exterior"
   | "mep"
   | "interior"
-  | "completion";
+  | "completion"
+  | "transport";
 
 /** 촬영 시점 — 건물 바깥에서 찍었는지(exterior), 안에서 찍었는지(interior) */
 export type ImageView = "exterior" | "interior";
@@ -211,6 +212,7 @@ const SHOT_DATES: Record<string, string> = Object.fromEntries(
       ["2026-09-12", ingRange(35, 53)],
       ["2026-10-02", [...ingRange(9, 18), ...ingRange(54, 81)]],
       ["2026-10-06", [...ingRange(1, 8), ...ingRange(82, 84)]],
+      ["2026-11-02", ingRange(85, 93)],
     ] as [string, string[]][]
   ).flatMap(([date, ids]) => ids.map((id) => [id, date])),
 );
@@ -353,6 +355,17 @@ const p1Process: ProjectImage[] = [
   outside(imageSrc("ing-82"), "외관 — 견인부 쪽 끝 정면", "Exterior — towing end, frontal", "exterior"),
   outside(imageSrc("ing-83"), "외관 — 견인부 쪽 끝과 B측, 돌출부 접힌 상태", "Exterior — towing end and side B, bump-out retracted", "exterior"),
   outside(imageSrc("ing-84"), "외관 — 출입문 쪽과 출입문", "Exterior — entrance side and door", "exterior"),
+  // 2026-11-02 — 운송 (도로 주행·야적장). 도로 사진은 번호판·보행자가 나오지 않는 컷만 사용 (번호판이 보인 1장은 비공개)
+  outside(imageSrc("ing-85"), "도로 위 — 견인차에 이어진 집, 옆면 돌출부와 바퀴 세 개", "On the road — the house hitched to a tow truck, side bump-out and three wheels", "transport"),
+  outside(imageSrc("ing-86"), "도로 위 — 뒤에서 본 집, 끝벽 창 두 개와 돌출부", "On the road — rear view, two end-wall windows and the bump-out", "transport"),
+  outside(imageSrc("ing-87"), "도로 위 — 가로수길을 가는 집, 뒤에서 본 모습", "On the road — the house on a tree-lined road, seen from behind", "transport"),
+  outside(imageSrc("ing-88"), "도로 위 — 견인차 뒤를 따라가는 집, 도심 도로", "On the road — following the tow truck on a city road", "transport"),
+  outside(imageSrc("ing-89"), "도로 위 — 교차로를 지나는 집, 끝벽 창 두 개와 옆면 창", "On the road — passing a junction, two end-wall windows and side windows", "transport"),
+  outside(imageSrc("ing-90"), "도로 위 — 견인차와 집의 옆면, 바퀴 세 개", "On the road — side of the house behind the tow truck, three wheels", "transport"),
+  // 야적장 — 바퀴가 보이는 컷은 기초(섀시) 단계에도 표시
+  outside(imageSrc("ing-91"), "야적장 — 옆면 전경, 바퀴와 견인 연결부, 받침대", "Yard — side view with wheels, the towing coupling and supports", "foundation"),
+  outside(imageSrc("ing-92"), "야적장 — 끝벽 정면, 견인 연결부와 받침대", "Yard — end wall, towing coupling and supports", "foundation"),
+  outside(imageSrc("ing-93"), "야적장 — 옆면 사선, 돌출부와 바퀴 세 개, 견인 연결부", "Yard — oblique side view, bump-out, three wheels and the towing coupling", "foundation"),
 ];
 
 // house_in 분위기 샘플 — 실제 제품과 구성이 다르며 추후 교체 예정
@@ -439,7 +452,7 @@ const tbc = (ko: string, en: string): EvidenceItem => ({ text: { ko, en }, statu
 const shot = (ko: string, en: string): I18nText => ({ ko, en });
 
 /**
- * 공정 9단계 — /process 페이지와 홈 공정 요약의 단일 출처
+ * 공정 10단계 — /process 페이지와 홈 공정 요약의 단일 출처
  * - summary    : 홈 카드용 한 줄 (2026-10-19·20 사용자 승인 초안)
  * - description: /process 설명. 사진에 보이는 작업만, 과장 표현 없이 행동으로 서술 (2026-10-21 초안)
  * - materials/qcPoints: seen() = 사진 근거 있음, tbc() = [확인 필요]. 회사가 확인하면 status 를 바꾼다
@@ -458,6 +471,7 @@ export const processSteps: ProcessStep[] = [
     materials: [
       seen("강재 섀시 레일", "Steel chassis rails", ["ing-03"]),
       seen("적색 도장 강재 받침", "Red-painted steel supports", ["ing-03", "ing-23"]),
+      seen("견인 연결부와 바퀴 세 개", "Towing coupling and three wheels", ["ing-91", "ing-93"]),
       tbc("도장 종류와 방청 사양", "Paint type and anti-corrosion specification"),
     ],
     qcPoints: [
@@ -642,6 +656,39 @@ export const processSteps: ProcessStep[] = [
       shot("완성 실내", "Finished interior"),
       shot("검수 기록", "Inspection record"),
     ],
+  },
+  {
+    code: "transport", order: 10, name: { ko: "운송", en: "Transport" },
+    summary: null,
+    description: {
+      ko: "완성한 집을 바퀴가 달린 그대로 견인차에 연결해 도로로 옮긴 사진입니다. 옆면 돌출부를 접은 상태의 사진을 좌측·우측으로 함께 실었습니다. 견인 방법, 운행 경로, 필요한 허가는 [확인 필요]이며 지역과 구간에 따라 다를 수 있습니다.",
+      en: "Photos of the finished house, still on its wheels, hitched to a tow truck and moved by road. Photos with the side bump-out retracted are included for both the left and right sides. The towing method, route and any permits required are [To be confirmed] and may vary by region and route.",
+    },
+    image: null,
+    materials: [
+      seen("견인 연결부와 바퀴 세 개", "Towing coupling and three wheels", ["ing-90", "ing-92", "ing-93"]),
+      tbc("타이어·차축 사양", "Tyre and axle specification"),
+    ],
+    qcPoints: [
+      tbc("이동 전에 돌출부를 접어 고정했는지 확인합니다", "Confirm the bump-out is retracted and secured before moving"),
+      tbc("견인 연결부와 바퀴를 점검합니다", "Inspect the towing coupling and wheels"),
+      tbc("현장에 도착한 뒤 받침으로 수평을 맞춥니다", "Level the house on its supports after arriving on site"),
+    ],
+    pendingShots: [
+      shot("현장 도착·설치", "Arrival and set-up on site"),
+    ],
+    comparison: {
+      items: [
+        { image: mustImage("ing-85"), label: { ko: "돌출부 접은 상태 — 좌측", en: "Bump-out retracted — left" } },
+        { image: mustImage("ing-86"), label: { ko: "돌출부 접은 상태 — 우측", en: "Bump-out retracted — right" } },
+        { image: mustImage("ing-93"), label: { ko: "돌출부 접은 상태 — 좌측 (야적장)", en: "Bump-out retracted — left (yard)" } },
+        { image: mustImage("ing-91"), label: { ko: "돌출부 접은 상태 — 우측 (야적장)", en: "Bump-out retracted — right (yard)" } },
+      ],
+      note: {
+        ko: "좌측·우측은 사진을 제공한 분의 구분을 따랐으며, 다른 사진에서 쓰는 A측·B측과 같은지는 [확인 필요]입니다.",
+        en: "Left and right follow the supplier's labelling; whether they match sides A and B used in other photos is [To be confirmed].",
+      },
+    },
   },
 ];
 
